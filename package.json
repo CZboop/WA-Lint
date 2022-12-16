@@ -1,0 +1,24 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "Static tests for validating Watson Assistant JSON against itself",
+  "main": "testFuncs.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CZboop/Static-Test-Prototype.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CZboop/Static-Test-Prototype/issues"
+  },
+  "homepage": "https://github.com/CZboop/Static-Test-Prototype#readme",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
+}

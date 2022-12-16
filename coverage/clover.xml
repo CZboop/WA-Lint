@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1671209804606" clover="3.2.0">
+  <project timestamp="1671209804606" name="All files">
+    <metrics statements="10" coveredstatements="6" conditionals="4" coveredconditionals="0" methods="12" coveredmethods="1" elements="26" coveredelements="7" complexity="0" loc="10" ncloc="10" packages="1" files="1" classes="1"/>
+    <file name="testFuncs.js" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\testFuncs.js">
+      <metrics statements="10" coveredstatements="6" conditionals="4" coveredconditionals="0" methods="12" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="0" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="7" count="0" type="stmt"/>
+      <line num="13" count="1" type="stmt"/>
+      <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
