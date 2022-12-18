@@ -1,25 +1,19 @@
 // testing that the functions to be used in tests works as expected X)
-const sampleSkill = require('./dataToTest/data.json')
-const {getListOfIntents, checkKeyValuesAlign, retrieveNamedContextVariable} = require('./testFuncs.js');
+const sampleSkill = require('./dataToTest/data.json');
 
-test('can retrieve list of intents', (sampleSkill) => {
-    // const testSkill = {
-    //     "name" : "test skill",
-    //     "intents" : [
-    //         {"intent": "not_a_real_intent",
-    //             "examples": [{"text": "Example intent"}]},
-    //         {"intent": "another_intent",
-    //             "examples": [{"text": "An example"}]},
-    //         {"intent": "something_else",
-    //             "examples": [{"text": "Another example"}]}],
-    //     "description": "A test skill",
-    //     "dialog_nodes": [
-    //         {}]};
+let functions = require('./testFuncs.js')
+
+test('can retrieve list of intents', () => {
     expect(
-        getListOfIntents(sampleSkill)
-    ).toBe(["not_a_real_intent", "another_intent", "something_else"]);
+        functions.getListOfIntents(sampleSkill)
+    ).toEqual(["Customer_Care_Store_Hours", "Thanks", "Customer_Care_Appointments", "Customer_Care_Store_Location", "Cancel", "General_Connect_to_Agent", "Goodbye", "General_Greetings", "Help"]
+    );
 })
 
 test('can tell that keys and values are reversed', () => {
-    expect(checkKeyValuesAlign(sampleSkill)).toBe(true);
+    let mapOne = functions.retrieveNamedContextVariable(sampleSkill, 'intent_descriptions');
+    let reverseMap = functions.retrieveNamedContextVariable(sampleSkill, 'intent_descriptions_reverse');
+    console.log(mapOne);
+    console.log(reverseMap);
+    expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toEqual(true);
 })
