@@ -17,3 +17,12 @@ test('can tell that keys and values are reversed', () => {
     console.log(reverseMap);
     expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toEqual(true);
 })
+
+test('can get context variable present if present once', () => {
+    const testSkill = []
+    expect().toEqual();
+})
+
+test('can get all instances of context variable if present multiple times', () => {
+    expect().toEqual();
+})

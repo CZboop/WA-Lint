@@ -9,7 +9,7 @@ FN:8,(anonymous_5)
 FN:14,checkKeyValuesAlign
 FN:15,(anonymous_7)
 FN:15,(anonymous_8)
-FN:19,checkAllTextAreSequentialOrMultiline
+FN:21,checkAllTextAreSequentialOrMultiline
 FNF:10
 FNH:8
 FNDA:1,getListOfIntents
@@ -27,7 +27,7 @@ DA:3,1
 DA:7,104
 DA:8,34
 DA:15,1
-DA:23,1
+DA:25,1
 LF:6
 LH:6
 BRDA:7,0,0,104
