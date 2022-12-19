@@ -19,7 +19,12 @@ test('can tell that keys and values are reversed', () => {
 })
 
 test('can get context variable present if present once', () => {
-    const testSkill = []
+    const testSkill = {"name": "test skill", "intents": [], "dialog_nodes": [
+        {
+
+        },
+        
+    ]}
     expect().toEqual();
 })
 

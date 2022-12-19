@@ -1,3 +1,8 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+// const data = require("./data.json");
+const sampleSkill = require('./dataToTest/data.json');
+
 function getListOfIntents(skill) {
     const intentList = skill['intents'].map(intent => {return intent.intent});
     return intentList;
@@ -35,26 +40,50 @@ function checkAllIntentsUsedInAnEntryCondition(skill, intentVar = null){
     const skillIntents = getListOfIntents(skill);
     const dialogNodes = skill['dialog_nodes'];
     const intentsUsedInConditions = [];
-    for (intent of skillIntents){
+    for (let intent of skillIntents){
         // looking for the raw intent name if no intentVar variable, else using that with syntax for context variable
         let intentFormatted = intentVar == null ? `#${intent}`: `$${intentVar}`;
-        let nodesUsingSkill = dialogNodes.filter(node => skillIntents.includes(intentFormatted));
+        let nodesUsingSkill = dialogNodes.filter(node => node['conditions'] == intentFormatted);
         if (nodesUsingSkill.length > 0){
             intentsUsedInConditions.push(intent);
         }
         // potentially check for intents used in more than one node too
     }
-    return intentsUsedInConditions == skillIntents;
+    return checkArrayEquality(intentsUsedInConditions, skillIntents);
 }
 
-module.exports = {
-    getListOfIntents,
-    retrieveNamedContextVariable,
-    checkKeyValuesAlign,
-    checkAllIntentsUsedInAnEntryCondition,
-    checkAllNodesWithOneResponseSequential,
-    checkAllNodesWithMultipleResponsesMultiline
- }
+function checkArrayEquality(array1, array2) {
+    // either null
+    if (!array1 || !array2) {
+        return false;
+    }
+    // length doesn't match
+    if (array1.length != array2.length) {
+        return false;
+    }
+    // sort both
+    array1 = array1.sort();
+    array2 = array2.sort();
+    // loop through and check each index matches
+    for (let i=0; i < array1.length; i++) {
+        // note want to check for type as well here
+        if (array1[i] !== array2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// module.exports = {
+//     getListOfIntents,
+//     retrieveNamedContextVariable,
+//     checkKeyValuesAlign,
+//     checkAllIntentsUsedInAnEntryCondition,
+//     checkAllNodesWithOneResponseSequential,
+//     checkAllNodesWithMultipleResponsesMultiline
+//  }
+
+ console.log(checkAllIntentsUsedInAnEntryCondition(sampleSkill));
 
 // console.log(getListOfIntents(skill));
 // console.log(retrieveNamedContextVariable(skill, 'intent_descriptions'))
