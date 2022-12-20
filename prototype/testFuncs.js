@@ -1,7 +1,7 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-// const data = require("./data.json");
-const sampleSkill = require('./dataToTest/data.json');
+// import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
+// // const data = require("./data.json");
+// const sampleSkill = require('./dataToTest/data.json');
 
 function getListOfIntents(skill) {
     const intentList = skill['intents'].map(intent => {return intent.intent});
@@ -26,8 +26,16 @@ function checkKeyValuesAlign(initialObj, reverseObj) {
 // note, this will fail initially for sample skill
 function checkAllNodesWithOneResponseSequential(skill) {
     // handle not having the keys getting below
-    let nodesWithOneResponse = skill['dialog_nodes'].filter(node => node['output']['text']['values'].length == 1);
-    return all(nodesWithOneResponse['output']['text']['selection_policy'] == 'sequential') ;
+    let nodesWithSingleResponse = skill['dialog_nodes'].filter(node => {
+        if (Object.keys(node).includes('output') && Object.keys(node['output']).includes('text') && Object.keys(node['output']['text']).includes('values')){
+            return node['output']['text']['values'].length === 1; 
+        } 
+        else {
+            return false;
+        }
+    });
+    let selectionPolicyMapped = nodesWithSingleResponse.map(node => node['output']['text']['selection_policy']);
+    return selectionPolicyMapped.every(element => element === 'sequential');
 }
 
 function checkAllNodesWithMultipleResponsesMultiline(skill) {
@@ -82,17 +90,19 @@ function checkArrayEquality(array1, array2) {
     return true;
 }
 
-// module.exports = {
-//     getListOfIntents,
-//     retrieveNamedContextVariable,
-//     checkKeyValuesAlign,
-//     checkAllIntentsUsedInAnEntryCondition,
-//     checkAllNodesWithOneResponseSequential,
-//     checkAllNodesWithMultipleResponsesMultiline
-//  }
+module.exports = {
+    getListOfIntents,
+    retrieveNamedContextVariable,
+    checkKeyValuesAlign,
+    checkAllIntentsUsedInAnEntryCondition,
+    checkAllNodesWithOneResponseSequential,
+    checkAllNodesWithMultipleResponsesMultiline,
+    checkArrayEquality
+ }
 
- console.log(checkAllIntentsUsedInAnEntryCondition(sampleSkill));
- console.log(checkAllNodesWithMultipleResponsesMultiline(sampleSkill));
+//  console.log(checkAllIntentsUsedInAnEntryCondition(sampleSkill));
+//  console.log(checkAllNodesWithMultipleResponsesMultiline(sampleSkill));
+//  console.log(checkAllNodesWithOneResponseSequential(sampleSkill));
 
 // console.log(getListOfIntents(skill));
 // console.log(retrieveNamedContextVariable(skill, 'intent_descriptions'))
