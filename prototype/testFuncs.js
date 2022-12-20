@@ -32,8 +32,16 @@ function checkAllNodesWithOneResponseSequential(skill) {
 
 function checkAllNodesWithMultipleResponsesMultiline(skill) {
     // handle not having the keys getting below
-    let nodesWithMultiResponse = skill['dialog_nodes'].filter(node => node['output']['text']['values'].length > 1);
-    return all(nodesWithMultiResponse['output']['text']['selection_policy'] == 'multiline') ;
+    let nodesWithMultiResponse = skill['dialog_nodes'].filter(node => {
+        if (Object.keys(node).includes('output') && Object.keys(node['output']).includes('text') && Object.keys(node['output']['text']).includes('values')){
+            return node['output']['text']['values'].length > 1; 
+        } 
+        else {
+            return false;
+        }
+    });
+    let selectionPolicyMapped = nodesWithMultiResponse.map(node => node['output']['text']['selection_policy']);
+    return selectionPolicyMapped.every(element => element === 'multiline');
 }
 
 function checkAllIntentsUsedInAnEntryCondition(skill, intentVar = null){
@@ -84,6 +92,7 @@ function checkArrayEquality(array1, array2) {
 //  }
 
  console.log(checkAllIntentsUsedInAnEntryCondition(sampleSkill));
+ console.log(checkAllNodesWithMultipleResponsesMultiline(sampleSkill));
 
 // console.log(getListOfIntents(skill));
 // console.log(retrieveNamedContextVariable(skill, 'intent_descriptions'))
