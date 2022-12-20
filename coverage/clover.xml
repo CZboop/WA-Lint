@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1671565523498" clover="3.2.0">
-  <project timestamp="1671565523499" name="All files">
-    <metrics statements="37" coveredstatements="15" conditionals="27" coveredconditionals="11" methods="20" coveredmethods="10" elements="84" coveredelements="36" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
+<coverage generated="1671567785670" clover="3.2.0">
+  <project timestamp="1671567785670" name="All files">
+    <metrics statements="37" coveredstatements="24" conditionals="27" coveredconditionals="16" methods="20" coveredmethods="12" elements="84" coveredelements="52" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
     <file name="testFuncs.js" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\testFuncs.js">
-      <metrics statements="37" coveredstatements="15" conditionals="27" coveredconditionals="11" methods="20" coveredmethods="10"/>
-      <line num="7" count="9" type="stmt"/>
-      <line num="8" count="1" type="stmt"/>
+      <metrics statements="37" coveredstatements="24" conditionals="27" coveredconditionals="16" methods="20" coveredmethods="12"/>
+      <line num="7" count="48" type="stmt"/>
+      <line num="8" count="11" type="stmt"/>
       <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
       <line num="13" count="6" type="stmt"/>
       <line num="20" count="14" type="cond" truecount="2" falsecount="0"/>
@@ -21,25 +21,25 @@
       <line num="48" count="0" type="stmt"/>
       <line num="51" count="0" type="stmt"/>
       <line num="52" count="0" type="stmt"/>
-      <line num="56" count="0" type="stmt"/>
-      <line num="57" count="0" type="stmt"/>
-      <line num="58" count="0" type="stmt"/>
-      <line num="59" count="0" type="stmt"/>
-      <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="62" count="0" type="stmt"/>
-      <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="64" count="0" type="stmt"/>
-      <line num="68" count="0" type="stmt"/>
-      <line num="73" count="8" type="cond" truecount="3" falsecount="1"/>
+      <line num="56" count="10" type="stmt"/>
+      <line num="57" count="10" type="stmt"/>
+      <line num="58" count="10" type="stmt"/>
+      <line num="59" count="10" type="stmt"/>
+      <line num="61" count="39" type="cond" truecount="2" falsecount="0"/>
+      <line num="62" count="177" type="stmt"/>
+      <line num="63" count="39" type="cond" truecount="2" falsecount="0"/>
+      <line num="64" count="30" type="stmt"/>
+      <line num="68" count="10" type="stmt"/>
+      <line num="73" count="18" type="cond" truecount="3" falsecount="1"/>
       <line num="74" count="0" type="stmt"/>
-      <line num="77" count="8" type="cond" truecount="2" falsecount="0"/>
-      <line num="78" count="1" type="stmt"/>
-      <line num="81" count="7" type="stmt"/>
-      <line num="82" count="7" type="stmt"/>
-      <line num="84" count="7" type="stmt"/>
-      <line num="86" count="26" type="cond" truecount="2" falsecount="0"/>
+      <line num="77" count="18" type="cond" truecount="2" falsecount="0"/>
+      <line num="78" count="6" type="stmt"/>
+      <line num="81" count="12" type="stmt"/>
+      <line num="82" count="12" type="stmt"/>
+      <line num="84" count="12" type="stmt"/>
+      <line num="86" count="44" type="cond" truecount="2" falsecount="0"/>
       <line num="87" count="3" type="stmt"/>
-      <line num="90" count="4" type="stmt"/>
+      <line num="90" count="9" type="stmt"/>
       <line num="93" count="1" type="stmt"/>
     </file>
   </project>

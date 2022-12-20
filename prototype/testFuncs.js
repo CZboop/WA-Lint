@@ -58,7 +58,7 @@ function checkAllIntentsUsedInAnEntryCondition(skill, intentVar = null){
     const intentsUsedInConditions = [];
     for (let intent of skillIntents){
         // looking for the raw intent name if no intentVar variable, else using that with syntax for context variable
-        let intentFormatted = intentVar == null ? `#${intent}`: `$${intentVar}`;
+        let intentFormatted = intentVar == null ? `#${intent}`: `$${intentVar}=="${intent}"`;
         let nodesUsingSkill = dialogNodes.filter(node => node['conditions'] == intentFormatted);
         if (nodesUsingSkill.length > 0){
             intentsUsedInConditions.push(intent);
