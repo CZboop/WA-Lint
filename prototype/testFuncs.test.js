@@ -102,20 +102,92 @@ test('can tell that two short objects are the reverse of each other', () => {
     expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toEqual(true);
 })
 
+test('says two objects that almost match reversed, with one difference, are not the reverse of each other', () => {
+    let mapOne = {
+        'key1' : 'some value',
+        'key2' : 'another value',
+        'key3' : 'value three',
+        'key4' : 'fourth value',
+        'key5' : 'penultimate value',
+        'key6' : 'last value'
+    };
+    let reverseMap = {
+        'some value' : 'key0',
+        'another value' : 'key2',
+        'value three' : 'key3',
+        'fourth value' : 'key4',
+        'penultimate value' : 'key5',
+        'last value' : 'key6'
+    };
+    expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toBe(false)
+})
+
+test('can tell objects with same elements reversed, in different order, are the reverse of each other', () => {
+    let mapOne = {
+        'key6' : 'last value',
+        'key2' : 'another value',
+        'key1' : 'some value',
+        'key4' : 'fourth value',
+        'key3' : 'value three',
+        'key5' : 'penultimate value'
+    };
+    let reverseMap = {
+        'some value' : 'key1',
+        'another value' : 'key2',
+        'value three' : 'key3',
+        'fourth value' : 'key4',
+        'penultimate value' : 'key5',
+        'last value' : 'key6'
+    };
+    expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toBe(true);
+})
+
 // // // TESTING CAN GET CONTEXT VARIABLE VALUE BASED ON NAME // // //
 
 test('can get context variable present if present once', () => {
     const testSkill = {"name": "test skill", "intents": [], "dialog_nodes": [
         {
-
-        },
-
-    ]}
-    expect().toEqual();
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "another_var": "another value"}},
+        {
+        "type": "standard",
+        "title": "The node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "needle": "search complete"}},
+        {
+        "type": "standard",
+        "title": "Node",
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "context": {"placeholder" : null,
+            "stored": "value"}}]};
+    expect(functions.retrieveNamedContextVariable(testSkill, "needle")).toEqual(["search complete"]);
 })
 
 test('can get all instances of context variable if present multiple times', () => {
-    expect().toEqual();
+    const testSkill = {"name": "test skill", "intents": [], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"}},
+        {
+        "type": "standard",
+        "title": "The node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"}},
+        {
+        "type": "standard",
+        "title": "Node",
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "context": {"placeholder" : null,
+            "test_var": "another value"}}]};
+    expect(functions.retrieveNamedContextVariable(testSkill, "test_var").sort()).toEqual(["value if from this node", "value if from another node", "another value"].sort());
 })
 
 // // // TESTING CAN CHECK ALL INTENTS ARE USED IN AT LEAST ONE ENTRY CONDITION // // //
