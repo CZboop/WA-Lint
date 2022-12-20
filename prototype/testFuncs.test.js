@@ -56,11 +56,49 @@ test('can retrieve list of intents', () => {
 
 // // // TESTING FUNCTION TO CHECK KEYS AND VALUES ARE REVERSED // // //
 
-test('can tell that keys and values are reversed', () => {
-    let mapOne = functions.retrieveNamedContextVariable(sampleSkill, 'intent_descriptions');
-    let reverseMap = functions.retrieveNamedContextVariable(sampleSkill, 'intent_descriptions_reverse');
-    console.log(mapOne);
-    console.log(reverseMap);
+test('can say that two empty objects reversed', () => {
+    let mapOne = {};
+    let reverseMap = {};
+    expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toEqual(true);
+})
+
+test('can say that two objects that match exactly are not the reverse of each other', () => {
+    let mapOne = {
+        'key1' : 'some value',
+        'key2' : 'another value',
+        'key3' : 'value three',
+        'key4' : 'fourth value',
+        'key5' : 'penultimate value',
+        'key6' : 'last value'
+    };
+    let reverseMap = {
+        'key1' : 'some value',
+        'key2' : 'another value',
+        'key3' : 'value three',
+        'key4' : 'fourth value',
+        'key5' : 'penultimate value',
+        'key6' : 'last value'
+    };
+    expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toEqual(false);
+})
+
+test('can tell that two short objects are the reverse of each other', () => {
+    let mapOne = {
+        'key1' : 'some value',
+        'key2' : 'another value',
+        'key3' : 'value three',
+        'key4' : 'fourth value',
+        'key5' : 'penultimate value',
+        'key6' : 'last value'
+    };
+    let reverseMap = {
+        'some value' : 'key1',
+        'another value' : 'key2',
+        'value three' : 'key3',
+        'fourth value' : 'key4',
+        'penultimate value' : 'key5',
+        'last value' : 'key6'
+    };
     expect(functions.checkKeyValuesAlign(mapOne, reverseMap)).toEqual(true);
 })
 
