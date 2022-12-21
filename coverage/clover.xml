@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1671608530423" clover="3.2.0">
-  <project timestamp="1671608530424" name="All files">
-    <metrics statements="37" coveredstatements="29" conditionals="27" coveredconditionals="20" methods="20" coveredmethods="16" elements="84" coveredelements="65" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
+<coverage generated="1671608947634" clover="3.2.0">
+  <project timestamp="1671608947634" name="All files">
+    <metrics statements="37" coveredstatements="34" conditionals="27" coveredconditionals="24" methods="20" coveredmethods="20" elements="84" coveredelements="78" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
     <file name="testFuncs.js" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\testFuncs.js">
-      <metrics statements="37" coveredstatements="29" conditionals="27" coveredconditionals="20" methods="20" coveredmethods="16"/>
+      <metrics statements="37" coveredstatements="34" conditionals="27" coveredconditionals="24" methods="20" coveredmethods="20"/>
       <line num="7" count="56" type="stmt"/>
       <line num="8" count="13" type="stmt"/>
       <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
       <line num="13" count="6" type="stmt"/>
       <line num="20" count="14" type="cond" truecount="2" falsecount="0"/>
-      <line num="29" count="0" type="stmt"/>
-      <line num="30" count="0" type="cond" truecount="0" falsecount="5"/>
-      <line num="31" count="0" type="stmt"/>
+      <line num="29" count="3" type="stmt"/>
+      <line num="30" count="15" type="cond" truecount="4" falsecount="1"/>
+      <line num="31" count="15" type="stmt"/>
       <line num="34" count="0" type="stmt"/>
-      <line num="37" count="0" type="stmt"/>
-      <line num="38" count="0" type="stmt"/>
+      <line num="37" count="9" type="stmt"/>
+      <line num="38" count="6" type="stmt"/>
       <line num="43" count="3" type="stmt"/>
       <line num="44" count="15" type="cond" truecount="4" falsecount="1"/>
       <line num="45" count="15" type="stmt"/>
