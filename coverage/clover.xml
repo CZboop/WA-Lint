@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1671608947634" clover="3.2.0">
-  <project timestamp="1671608947634" name="All files">
-    <metrics statements="37" coveredstatements="34" conditionals="27" coveredconditionals="24" methods="20" coveredmethods="20" elements="84" coveredelements="78" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
+<coverage generated="1671609186923" clover="3.2.0">
+  <project timestamp="1671609186923" name="All files">
+    <metrics statements="37" coveredstatements="35" conditionals="27" coveredconditionals="25" methods="20" coveredmethods="20" elements="84" coveredelements="80" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
     <file name="testFuncs.js" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\testFuncs.js">
-      <metrics statements="37" coveredstatements="34" conditionals="27" coveredconditionals="24" methods="20" coveredmethods="20"/>
+      <metrics statements="37" coveredstatements="35" conditionals="27" coveredconditionals="25" methods="20" coveredmethods="20"/>
       <line num="7" count="56" type="stmt"/>
       <line num="8" count="13" type="stmt"/>
       <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
@@ -30,8 +30,8 @@
       <line num="63" count="47" type="cond" truecount="2" falsecount="0"/>
       <line num="64" count="34" type="stmt"/>
       <line num="68" count="12" type="stmt"/>
-      <line num="73" count="20" type="cond" truecount="3" falsecount="1"/>
-      <line num="74" count="0" type="stmt"/>
+      <line num="73" count="21" type="cond" truecount="4" falsecount="0"/>
+      <line num="74" count="1" type="stmt"/>
       <line num="77" count="20" type="cond" truecount="2" falsecount="0"/>
       <line num="78" count="8" type="stmt"/>
       <line num="81" count="12" type="stmt"/>

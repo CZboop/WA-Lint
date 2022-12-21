@@ -9,6 +9,10 @@ test('can tell empty arrays are equal', () => {
     expect(functions.checkArrayEquality([], [])).toBe(true);
 })
 
+test('can return false if one of the arrays is falsey', () => {
+    expect(functions.checkArrayEquality(null, [])).toBe(false);
+})
+
 test('can tell unequal arrays with one element each are unequal', () => {
     expect(functions.checkArrayEquality(['element'], ['alement'])).toBe(false);
 })

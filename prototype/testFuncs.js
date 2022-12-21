@@ -90,6 +90,8 @@ function checkArrayEquality(array1, array2) {
     return true;
 }
 
+// TODO: add func to check all intents in the mapping/reverse mapping
+
 module.exports = {
     getListOfIntents,
     retrieveNamedContextVariable,
