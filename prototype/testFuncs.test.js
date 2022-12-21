@@ -1029,3 +1029,44 @@ test('returns false if all nodes with single response are multiline', () => {
         "dialog_node": "Opening"}]};
     expect(functions.checkAllNodesWithOneResponseSequential(testSkill)).toBe(false);
 })
+
+// // // TESTING CAN CHECK IF ALL INTENTS ARE IN MAPPING // // // 
+test('returns false if not all used without reverse flag', () => {
+    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let mapping = {
+        'an_intent': 'An intent',
+        'other_intent': 'Other intent',
+        'an_old_intent': 'How did this get in here?'
+    }
+    expect(functions.checkAllIntentsInMapping(intentArray, mapping)).toBe(false);
+})
+
+test('returns true if all used without reverse flag', () => {
+    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let mapping = {
+        'an_intent': 'An intent',
+        'other_intent': 'Other intent',
+        'intent': 'Intent'
+    }
+    expect(functions.checkAllIntentsInMapping(intentArray, mapping)).toBe(true);
+})
+
+test('returns false if not all used with reverse flag', () => {
+    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let mapping = {
+        'An intent': 'an_intent',
+        'Other intent': 'other_intent',
+        'How did this get in here?': 'an_old_intent'
+    }
+    expect(functions.checkAllIntentsInMapping(intentArray, mapping, reverse = true)).toBe(false);
+})
+
+test('returns true if all used with reverse flag', () => {
+    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let mapping = {
+        'An intent': 'an_intent',
+        'Other intent': 'other_intent',
+        'Intent': 'intent'
+    }
+    expect(functions.checkAllIntentsInMapping(intentArray, mapping, reverse = true)).toBe(true);
+})

@@ -91,6 +91,12 @@ function checkArrayEquality(array1, array2) {
 }
 
 // TODO: add func to check all intents in the mapping/reverse mapping
+function checkAllIntentsInMapping(intentArray, mapping, reverse = false) {
+    let mappingArray = reverse == false ? Object.keys(mapping) : Object.values(mapping);
+    mappingArray.sort();
+    intentArray.sort();
+    return checkArrayEquality(mappingArray, intentArray);
+}
 
 module.exports = {
     getListOfIntents,
@@ -99,7 +105,8 @@ module.exports = {
     checkAllIntentsUsedInAnEntryCondition,
     checkAllNodesWithOneResponseSequential,
     checkAllNodesWithMultipleResponsesMultiline,
-    checkArrayEquality
+    checkArrayEquality,
+    checkAllIntentsInMapping
  }
 
 //  console.log(checkAllIntentsUsedInAnEntryCondition(sampleSkill));
