@@ -58,6 +58,7 @@ function checkAllIntentsUsedInAnEntryCondition(skill, intentVar = null){
     const intentsUsedInConditions = [];
     for (let intent of skillIntents){
         // looking for the raw intent name if no intentVar variable, else using that with syntax for context variable
+        // potential regex something like new RegExp(`($$${intentVar})[\s]*(==)[\s]*(\"${intent}\")`, "g") for matching with spaces where won't cause an issue
         let intentFormatted = intentVar == null ? `#${intent}`: `$${intentVar}=="${intent}"`;
         let nodesUsingSkill = dialogNodes.filter(node => node['conditions'] == intentFormatted);
         if (nodesUsingSkill.length > 0){
@@ -90,7 +91,6 @@ function checkArrayEquality(array1, array2) {
     return true;
 }
 
-// TODO: add func to check all intents in the mapping/reverse mapping
 function checkAllIntentsInMapping(intentArray, mapping, reverse = false) {
     let mappingArray = reverse == false ? Object.keys(mapping) : Object.values(mapping);
     mappingArray.sort();
@@ -108,14 +108,3 @@ module.exports = {
     checkArrayEquality,
     checkAllIntentsInMapping
  }
-
-//  console.log(checkAllIntentsUsedInAnEntryCondition(sampleSkill));
-//  console.log(checkAllNodesWithMultipleResponsesMultiline(sampleSkill));
-//  console.log(checkAllNodesWithOneResponseSequential(sampleSkill));
-
-// console.log(getListOfIntents(skill));
-// console.log(retrieveNamedContextVariable(skill, 'intent_descriptions'))
-// console.log(retrieveNamedContextVariable(skill, 'intent_descriptions_reverse'))
-// let mapping = retrieveNamedContextVariable(skill, 'intent_descriptions')[0];
-// let reverseMapping = retrieveNamedContextVariable(skill, 'intent_descriptions_reverse')[0];
-// console.log(checkKeyValuesAlign(mapping, reverseMapping));

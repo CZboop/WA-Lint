@@ -1,7 +1,7 @@
 // testing that the functions to be used in tests works as expected X)
 const sampleSkill = require('./dataToTest/data.json');
 
-let functions = require('./testFuncs.js')
+let functions = require('./testFuncs.cjs')
 
 // // // TESTING FUNCTION FOR GETTING BOOLEAN ARRAY EQUALITY // // //
 
