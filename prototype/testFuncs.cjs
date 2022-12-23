@@ -58,9 +58,16 @@ function checkAllIntentsUsedInAnEntryCondition(skill, intentVar = null){
     const intentsUsedInConditions = [];
     for (let intent of skillIntents){
         // looking for the raw intent name if no intentVar variable, else using that with syntax for context variable
-        // potential regex something like new RegExp(`($$${intentVar})[\s]*(==)[\s]*(\"${intent}\")`, "g") for matching with spaces where won't cause an issue
-        let intentFormatted = intentVar == null ? `#${intent}`: `$${intentVar}=="${intent}"`;
-        let nodesUsingSkill = dialogNodes.filter(node => node['conditions'] == intentFormatted);
+        let nodesUsingSkill = null;
+        if (intentVar == null) {
+            let intentFormatted = `#${intent}`;
+            nodesUsingSkill = dialogNodes.filter(node => node['conditions'] == intentFormatted);
+        } else {
+            let intentFormattedRegex = new RegExp(`(\\$${intentVar})[\\s]*(==)[\\s]*(\"${intent}\")`, "g");
+            console.log(intentFormattedRegex);
+            nodesUsingSkill = dialogNodes.filter(node => intentFormattedRegex.test(node['conditions']));
+        }
+        
         if (nodesUsingSkill.length > 0){
             intentsUsedInConditions.push(intent);
         }
