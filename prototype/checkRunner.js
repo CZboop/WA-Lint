@@ -36,10 +36,26 @@ class StaticCheckRunner {
                 'all_sequential_where_one_response' : allSequentialWhereNeeded,
                 'all_mappings_match_reverse' : intentMappingsAllMatchReverse
             };
+            // logging in colour depending on whether tests failed or passed (blanket fail if failed anywhere for that skill)
+            resultsMap[skillName]["intents_all_used_in_entry_conditions"] == true ?
+            console.log("\x1b[32m%s\x1b[0m", `${skillName}: All intents have been used in entry conditions`) :
+            console.log("\x1b[31m%s\x1b[0m", `${skillName}: Not all intents have been used in entry conditions`);
+            // currently the two below are yellow if failed, others red as bigger issues
+            resultsMap[skillName]["all_multiline_where_multiple_responses"] == true ?
+            console.log("\x1b[32m%s\x1b[0m", `${skillName}: All nodes with multiple responses are multiline`) :
+            console.log("\x1b[33m%s\x1b[0m", `${skillName}: Not all nodes with multiple responses are multiline`);
+
+            resultsMap[skillName]["all_sequential_where_one_response"] == true ?
+            console.log("\x1b[32m%s\x1b[0m", `${skillName}: All nodes with one response are sequential`) :
+            console.log("\x1b[33m%s\x1b[0m", `${skillName}: Not all nodes with one response are sequential`);
+
+            resultsMap[skillName]["all_mappings_match_reverse"] == true ?
+            console.log("\x1b[32m%s\x1b[0m", `${skillName}: All mappings match the reverse mapping`) :
+            console.log("\x1b[31m%s\x1b[0m", `${skillName}: Not all mappings match the reverse mapping`); 
         }
         return resultsMap;
     }
 }
 
 const testCheckRunner = new StaticCheckRunner([skill]);
-console.log(testCheckRunner.runAllChecks())
+testCheckRunner.runAllChecks();
