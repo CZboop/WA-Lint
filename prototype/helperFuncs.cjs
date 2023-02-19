@@ -36,3 +36,7 @@ class Helper {
         return true;
     }
 }
+
+module.exports = {
+    Helper
+}
