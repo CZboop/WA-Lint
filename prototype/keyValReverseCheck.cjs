@@ -4,24 +4,33 @@ class KeyValReverseCheck {
         this.reverseObj = reverseObj;
     }
     check() {
-        // TODO: have it check key value pairs against each other to prevent edge cases where they match but not aligned on key values
-        // sorting here but for finding the differences later
-        const initialKeys = Object.keys(this.initialObj).sort();
-        const initialVals = Object.values(this.initialObj).sort();
-        const reverseKeys = Object.keys(this.reverseObj).sort();
-        const reverseVals = Object.values(this.reverseObj).sort();
+        // now checking key value pairs against each other to prevent edge cases where they match across different key/val pairs
+        const keyValPairsInitial = Object.entries(this.initialObj);
+        const keyValPairsReverse = Object.entries(this.reverseObj);
 
-        const matches  = initialKeys.every(item => reverseVals.includes(item)) && reverseKeys.every(item => initialVals.includes(item));
+        let matches = true;
+        for (let [key, val] of keyValPairsInitial){
+            if (keyValPairsReverse.filter(item => item[0] == val && item[1] == key).length != 1) {
+                matches = false;
+                break;
+            }
+        }
+        for (let [key, val] of keyValPairsReverse){
+            if (keyValPairsInitial.filter(item => item[0] == val && item[1] == key).length != 1) {
+                matches = false;
+                break;
+            }
+        }
         return matches;
-        // const matches  = Object.keys(initialObj).every(item => Object.values(reverseObj).includes(item)) && Object.keys(reverseObj).every(item => Object.values(initialObj).includes(item));
-        // TODO: return which ones don't match
+        // TODO: return which ones don't match/diff
         // if (matches) {
         //     return {'allMatch': true, 'mismatches' : null};
         // }
         // else {
+        //     const diffArray = [];
         //     // const inInitialNotReverse = ;
         //     // const inReverseNotInitial = ;
-        //     // do initial, reverse + and i
+        //     // do initial, reverse + and -
         //     return {'allMatch': false, 'mismatches' : []};
         // }
     }
