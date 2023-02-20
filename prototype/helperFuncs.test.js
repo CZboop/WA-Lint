@@ -103,3 +103,5 @@ test('can get all instances of context variable if present multiple times', () =
             "test_var": "another value"}}]};
     expect(new Helper(testSkill).retrieveNamedContextVariable("test_var").sort()).toEqual(["value if from this node", "value if from another node", "another value"].sort());
 })
+
+// // // TESTING FIDING DIFFERENCES BETWEEN ARRAYS // // //

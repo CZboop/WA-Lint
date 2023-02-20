@@ -35,6 +35,34 @@ class Helper {
         }
         return true;
     }
+
+    returnArrayDiff(array1, array2){
+        // combine arrays
+        const combinedArray = [...array1, ...array2];
+
+        // loop through and check each index matches
+        const inBoth = combinedArray.filter(elem => { 
+            if (array1.includes(elem) && array2.includes(elem)){
+                return true;
+            }
+            return false;
+        });
+        const inOneNotTwo = combinedArray.filter(elem => { 
+            if (array1.includes(elem) && !array2.includes(elem)){
+                return true;
+            }
+            return false;
+        });
+        const inTwoNotOne = combinedArray.filter(elem => { 
+            if (array2.includes(elem) && !array1.includes(elem)){
+                return true;
+            }
+            return false;
+        });
+        const diffs = [...inBoth.map(item => {return {'same': item}}), ...inOneNotTwo.map(item => {return {'minus': item}}), 
+        ...inTwoNotOne.map(item => {return {'plus': item}})];
+        return diffs;
+    }
 }
 
 module.exports = {
