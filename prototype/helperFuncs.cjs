@@ -37,11 +37,13 @@ class Helper {
     }
 
     returnArrayDiff(array1, array2){
+        // TODO: handle multiples of the same item in array - i.e. are there the same number in each
         // combine arrays
         const combinedArray = [...array1, ...array2];
 
         // loop through and check each index matches
-        const inBoth = combinedArray.filter(elem => { 
+        // for ones in both, using one array so they don't get duplicated
+        const inBoth = array1.filter(elem => { 
             if (array1.includes(elem) && array2.includes(elem)){
                 return true;
             }

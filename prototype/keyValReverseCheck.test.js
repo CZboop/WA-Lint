@@ -90,13 +90,13 @@ test('can tell objects with same elements reversed, in different order, are the 
 
 // // // TESTING DIFF OF WHICH KEYS AND VALUES ARE REVERSED // // //
 
-test('can say that two empty objects reversed', () => {
+test('returns empty difference object for two empty objects', () => {
     let mapOne = {};
     let reverseMap = {};
     expect(new KeyValReverseCheck(mapOne, reverseMap).check().matches).toEqual([]);
 })
 
-test('can say that two objects that match exactly are not the reverse of each other', () => {
+test('can return correct difference object for two objects that match exactly', () => {
     let mapOne = {
         'key1' : 'some value',
         'key2' : 'another value',
@@ -121,7 +121,7 @@ test('can say that two objects that match exactly are not the reverse of each ot
     );
 })
 
-test('can tell that two short objects are the reverse of each other', () => {
+test('can return correct difference object for two short objects that are the reverse of each other', () => {
     let mapOne = {
         'key1' : 'some value',
         'key2' : 'another value',
@@ -146,7 +146,7 @@ test('can tell that two short objects are the reverse of each other', () => {
     );
 })
 
-test('says two objects that almost match reversed, with one difference, are not the reverse of each other', () => {
+test('can return correct difference object for two objects that almost match reversed, with one difference', () => {
     let mapOne = {
         'key1' : 'some value',
         'key2' : 'another value',
@@ -171,7 +171,7 @@ test('says two objects that almost match reversed, with one difference, are not 
     )
 })
 
-test('can tell objects with same elements reversed, in different order, are the reverse of each other', () => {
+test('can return correct difference object for two objects with same elements reversed, in different order', () => {
     let mapOne = {
         'key6' : 'last value',
         'key2' : 'another value',

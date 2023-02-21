@@ -104,4 +104,40 @@ test('can get all instances of context variable if present multiple times', () =
     expect(new Helper(testSkill).retrieveNamedContextVariable("test_var").sort()).toEqual(["value if from this node", "value if from another node", "another value"].sort());
 })
 
-// // // TESTING FIDING DIFFERENCES BETWEEN ARRAYS // // //
+// // // TESTING FINDING DIFFERENCES BETWEEN ARRAYS // // //
+
+test('returns empty difference array for two empty arrays', () => {
+    expect(new Helper(null).returnArrayDiff([], [])).toEqual([]);
+})
+
+test('returns difference for arrays that are the same but with extra in first array', () => {
+    expect(new Helper(null).returnArrayDiff(['items', 'in', 'an', 'array'], 
+    ['items', 'in', 'an']))
+    .toEqual([{"same": "items"}, {"same": "in"}, {"same": "an"}, {"minus": "array"}]);
+})
+
+test('returns difference for arrays that are the same but with extra in second array', () => {
+    expect(new Helper(null).returnArrayDiff(['an', 'array', 'of', 'different', 'words'], 
+    ['an', 'array', 'of', 'lots', 'and', 'lots of', 'different', 'words']))
+    .toEqual([{"same": "an"}, {"same": "array"}, {"same": "of"}, {"same": "different"}, 
+    {"same": "words"}, {"plus": "lots"}, {"plus": "and"}, {"plus": "lots of"}]);
+})
+
+test('returns difference for arrays that are the same size but have different elements', () => {
+    expect(new Helper(null).returnArrayDiff(['element 1', 'element 2', 'element 3', 'element 400'], 
+    ['element 1', 'element 2', 'element 3', 'element 4']))
+    .toEqual([{"same": "element 1"}, {"same": "element 2"}, {"same": "element 3"}, {"minus": "element 400"}, {"plus": "element 4"}]);
+})
+
+test('returns difference for arrays that are the same in the same order', () => {
+    expect(new Helper(null).returnArrayDiff(['one', 'array', 'that', 'is', 'like', 'another'], 
+    ['one', 'array', 'that', 'is', 'like', 'another']))
+    .toEqual([{"same": "one"}, {"same": "array"}, {"same": "that"}, {"same": "is"}, {"same": "like"}, {"same": "another"}]);
+})
+
+test('returns difference for arrays that are the same in a different order', () => {
+    expect(new Helper(null).returnArrayDiff(['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog'], 
+    ['the', 'lazy', 'dog', 'jumps', 'over', 'the', 'quick', 'brown', 'fox']))
+    .toEqual([{"same": "the"}, {"same": "quick"}, {"same": "brown"}, {"same": "fox"}, {"same": "jumps"}, {"same": "over"}, {"same": "the"}, {"same": "lazy"}, {"same": 
+    "dog"}]);
+})
