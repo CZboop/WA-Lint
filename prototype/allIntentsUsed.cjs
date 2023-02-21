@@ -27,13 +27,18 @@ class AllIntentsUsed{
             }
             // potentially check for intents used in more than one node too
         }
-        return this.helper.checkArrayEquality(intentsUsedInConditions, skillIntents);
+        const allUsed = this.helper.checkArrayEquality(intentsUsedInConditions, skillIntents);
+        const unused = this.helper.returnArrayDiff(skillIntents, intentsUsedInConditions).filter(elem => elem.hasOwnProperty('minus')).map(elem => elem.minus);
+        return {'bool' : allUsed, 'unused' : unused};
     }
-    inMapping(intentArray, mapping, reverse = false) {
+    inMapping(mapping, reverse = false) {
+        let intentArray = this.helper.getListOfIntents();
         let mappingArray = reverse == false ? Object.keys(mapping) : Object.values(mapping);
         mappingArray.sort();
         intentArray.sort();
-        return this.helper.checkArrayEquality(mappingArray, intentArray);
+        const allUsed = this.helper.checkArrayEquality(mappingArray, intentArray);
+        const unused = this.helper.returnArrayDiff(intentArray, mappingArray).filter(elem => elem.hasOwnProperty('minus')).map(elem => elem.minus);
+        return {'bool' : allUsed, 'unused' : unused};
     }
 }
 

@@ -31,7 +31,7 @@ test('returns false if no intents used in entry conditions', () => {
         "metadata": {},
         "conditions": "$maybe == true",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(false);
 })
 
 test('returns false if not all intents used in entry conditions', () => {
@@ -63,7 +63,7 @@ test('returns false if not all intents used in entry conditions', () => {
         "metadata": {},
         "conditions": "#second_intent",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(false);
 })
 
 test('returns true if no intents in the skill and none in entry conditions', () =>{
@@ -95,7 +95,7 @@ test('returns true if no intents in the skill and none in entry conditions', () 
         "metadata": {},
         "conditions": "$maybe == true",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(true);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(true);
 })
 
 test('returns false if intents in entry conditions that aren\'t in intent list', () => {
@@ -127,7 +127,7 @@ test('returns false if intents in entry conditions that aren\'t in intent list',
         "metadata": {},
         "conditions": "$maybe == true",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(false);
 })
 
 test('returns true if all intents used in hashtag format', () => {
@@ -177,7 +177,7 @@ test('returns true if all intents used in hashtag format', () => {
         "metadata": {},
         "conditions": "#true_intent",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(true);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(true);
 })
 
 test('returns true if all intents used in variable format', () => {
@@ -227,7 +227,7 @@ test('returns true if all intents used in variable format', () => {
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition()).toBe(true);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().bool).toBe(true);
 })
 
 test('returns false if not all intents used in hashtag format', () => {
@@ -277,7 +277,7 @@ test('returns false if not all intents used in hashtag format', () => {
         "metadata": {},
         "conditions": "#true_intent",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(false);
 })
 
 test('returns false if not all intents used in variable format', () => {
@@ -327,7 +327,7 @@ test('returns false if not all intents used in variable format', () => {
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().bool).toBe(false);
 })
 
 test('returns true if all intents used in hashtag format, plus some other entry conditions', () => {
@@ -377,7 +377,7 @@ test('returns true if all intents used in hashtag format, plus some other entry 
         "metadata": {},
         "conditions": "#true_intent",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(true);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(true);
 })
 
 test('returns true if all intents used in variable format, plus some other entry conditions', () => {
@@ -427,7 +427,7 @@ test('returns true if all intents used in variable format, plus some other entry
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition()).toBe(true);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().bool).toBe(true);
 })
 
 test('right intents in hashtag format with whitespace around in entry conditions returns false', () => {
@@ -477,7 +477,7 @@ test('right intents in hashtag format with whitespace around in entry conditions
         "metadata": {},
         "conditions": "#true_intent",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(false);
 })
 // TODO: check if above will actually fail in practice?
 
@@ -528,7 +528,7 @@ test('test intents in variable format with whitespace around returns true', () =
         "metadata": {},
         "conditions": "$intent_name==\"true_intent  \"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().bool).toBe(false);
 })
 
 test('returns true if a variable format with spaces between var and equals or equals and value', () => {
@@ -578,7 +578,7 @@ test('returns true if a variable format with spaces between var and equals or eq
         "metadata": {},
         "conditions": "$intent_name == \"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition()).toBe(true);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().bool).toBe(true);
 })
 
 test('returns false if a variable format with spaces between the two equals', () => {
@@ -628,48 +628,107 @@ test('returns false if a variable format with spaces between the two equals', ()
         "metadata": {},
         "conditions": "$intent_name = = \"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition()).toBe(false);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().bool).toBe(false);
 })
 // maybe look at making the main func for above smarter, try and find attempts at using intent with syntax issues?
 
 // // // TESTING CAN CHECK IF ALL INTENTS ARE IN MAPPING // // // 
 test('returns false if not all used without reverse flag', () => {
-    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let testSkill = {
+        "name": "Test Skill",
+        "intents": [
+          {
+            "intent": "an_intent",
+            "examples": []
+          },
+          {
+            "intent": "other_intent",
+            "examples": []
+          },
+          {
+            "intent": "intent",
+            "examples": []
+          }
+        ]}
     let mapping = {
         'an_intent': 'An intent',
         'other_intent': 'Other intent',
         'an_old_intent': 'How did this get in here?'
     }
-    expect(new AllIntentsUsed(null).inMapping(intentArray, mapping)).toBe(false);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping).bool).toBe(false);
 })
 
 test('returns true if all used without reverse flag', () => {
-    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let testSkill = {
+        "name": "Test Skill",
+        "intents": [
+          {
+            "intent": "an_intent",
+            "examples": []
+          },
+          {
+            "intent": "other_intent",
+            "examples": []
+          },
+          {
+            "intent": "intent",
+            "examples": []
+          }
+        ]}
     let mapping = {
         'an_intent': 'An intent',
         'other_intent': 'Other intent',
         'intent': 'Intent'
     }
-    expect(new AllIntentsUsed(null).inMapping(intentArray, mapping)).toBe(true);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping).bool).toBe(true);
 })
 
 test('returns false if not all used with reverse flag', () => {
-    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let testSkill = {
+        "name": "Test Skill",
+        "intents": [
+          {
+            "intent": "an_intent",
+            "examples": []
+          },
+          {
+            "intent": "other_intent",
+            "examples": []
+          },
+          {
+            "intent": "intent",
+            "examples": []
+          }
+        ]}
     let mapping = {
         'An intent': 'an_intent',
         'Other intent': 'other_intent',
         'How did this get in here?': 'an_old_intent'
     }
-    expect(new AllIntentsUsed(null).inMapping(intentArray, mapping, reverse = true)).toBe(false);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping, reverse = true).bool).toBe(false);
 })
 
 test('returns true if all used with reverse flag', () => {
-    let intentArray = ['an_intent', 'other_intent', 'intent'];
+    let testSkill = {
+        "name": "Test Skill",
+        "intents": [
+          {
+            "intent": "an_intent",
+            "examples": []
+          },
+          {
+            "intent": "other_intent",
+            "examples": []
+          },
+          {
+            "intent": "intent",
+            "examples": []
+          }
+        ]}
     let mapping = {
         'An intent': 'an_intent',
         'Other intent': 'other_intent',
         'Intent': 'intent'
     }
-    expect(new AllIntentsUsed(null).inMapping(intentArray, mapping, reverse = true)).toBe(true);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping, reverse = true).bool).toBe(true);
 })
-// TODO: get the intentArray directly from skill?
