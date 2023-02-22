@@ -13,7 +13,11 @@ class AllMultiline {
             }
         });
         let selectionPolicyMapped = nodesWithMultiResponse.map(node => node['output']['text']['selection_policy']);
-        return selectionPolicyMapped.every(element => element === 'multiline');
+        let nodesWithMultipleResponsesButSequential = nodesWithMultiResponse.filter(node => node['output']['text']['selection_policy'] != 'multiline');
+        let problemNodeNames = nodesWithMultipleResponsesButSequential.map(node => node.hasOwnProperty('dialog_node') ? node['dialog_node']: node['title']);
+        const booleanAllMultiline = selectionPolicyMapped.every(element => element === 'multiline');
+        // returning boolean if all multiple responses have mutliline selection, nodes is those that have multiple responses but aren't multiline selection
+        return {'bool': booleanAllMultiline, 'nodes': problemNodeNames};
     }
 }
 

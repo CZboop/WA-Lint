@@ -48,7 +48,7 @@ test('returns true if all nodes with multiple responses are set as multiline', (
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check()).toBe(true);
+    expect(new AllMultiline(testSkill).check().bool).toBe(true);
 })
 
 test('returns false if not all nodes with multiple responses are multiline', () => {
@@ -98,7 +98,7 @@ test('returns false if not all nodes with multiple responses are multiline', () 
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check()).toBe(false);
+    expect(new AllMultiline(testSkill).check().bool).toBe(false);
 })
 
 test('returns false if all nodes with multiple responses are sequential', () => {
@@ -148,5 +148,5 @@ test('returns false if all nodes with multiple responses are sequential', () => 
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check()).toBe(false);
+    expect(new AllMultiline(testSkill).check().bool).toBe(false);
 })
