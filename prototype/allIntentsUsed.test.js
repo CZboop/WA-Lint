@@ -1816,8 +1816,8 @@ test('returns extra intent array if some invalid intents used in entry condition
         "dialog_node": "Opening"}]};
     expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().extra.sort()).toEqual(["fake_intent", "rogue_intent"].sort());
 })
-// TODO: update tests from here on
-test('returns empty unused array if all intents used in hashtag format, plus some other entry conditions', () => {
+
+test('returns empty extra intents array if no extra intents used in hashtag format, plus some other non-intent entry conditions', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -1864,10 +1864,10 @@ test('returns empty unused array if all intents used in hashtag format, plus som
         "metadata": {},
         "conditions": "#true_intent",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition().unused).toEqual([]);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().extra).toEqual([]);
 })
 
-test('returns empty unused array if all intents used in variable format, plus some other entry conditions', () => {
+test('returns empty extra array if no extra intents used in variable format, plus some other non-intent entry conditions', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -1914,11 +1914,10 @@ test('returns empty unused array if all intents used in variable format, plus so
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().unused).toEqual([]);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().extra).toEqual([]);
 })
 
-// TODO: check if this test and one below is giving what want - which ones fail in practice?
-test('returns unused intent array if intent in hashtag format with whitespace around in entry conditions', () => {
+test('returns extra intent array if intent in invalid hashtag format with whitespace around in entry conditions', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, 
     {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
@@ -1966,10 +1965,10 @@ test('returns unused intent array if intent in hashtag format with whitespace ar
         "metadata": {},
         "conditions": "#true_intent",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill).inEntryCondition().unused).toEqual(["third_intent"]);
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().extra).toEqual(["third_intent "]);
 })
 
-test('returns unused intents if variable format with wrong syntax whitespace', () => {
+test('returns extra intents if variable format with wrong syntax whitespace', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, 
     {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
@@ -2017,10 +2016,10 @@ test('returns unused intents if variable format with wrong syntax whitespace', (
         "metadata": {},
         "conditions": "$intent_name==\"true_intent  \"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().unused.sort()).toEqual(["true_intent", "third_intent"].sort());
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().extra.sort()).toEqual(["true_intent  ", "third_intent "].sort());
 })
 
-test('returns empty array of unused intents when all used with valid variable syntax, including variation of spaces', () => {
+test('returns empty array of extra intents when all used with valid variable syntax, including variation of spaces', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -2067,10 +2066,10 @@ test('returns empty array of unused intents when all used with valid variable sy
         "metadata": {},
         "conditions": "$intent_name == \"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().unused).toEqual([]);
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().extra).toEqual([]);
 })
 
-test('returns intents as unused if they are in entry condition with invalid variable syntax, space between equals', () => {
+test('returns intents as extra if they are in entry condition with invalid variable syntax, space between equals', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -2088,7 +2087,7 @@ test('returns intents as unused if they are in entry condition with invalid vari
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
-        "conditions": "$intent_name= =\"second_intent\"",
+        "conditions": "$intent_name= =\"fake_intent\"",
         "dialog_node": "Opening"},
         {
         "type": "standard",
@@ -2115,15 +2114,14 @@ test('returns intents as unused if they are in entry condition with invalid vari
         "context": {"placeholder" : null,
             "test_var": "another value"},
         "metadata": {},
-        "conditions": "$intent_name = = \"true_intent\"",
+        "conditions": "$intent_name = = \"made_up_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().unused.sort()).toEqual(["true_intent", "second_intent"].sort());
+    expect(new AllIntentsUsed(testSkill, intentVar = "intent_name").inEntryCondition().extra.sort()).toEqual(["fake_intent", "made_up_intent"].sort());
 })
-// maybe look at making the main func for above smarter, try and find attempts at using intent with syntax issues?
 
-// // // TESTING CAN CHECK IF ALL INTENTS ARE IN MAPPING  - UNUSED // // // 
+// // // TESTING CAN CHECK IF ALL INTENTS ARE IN MAPPING  - EXTRA // // // 
 
-test('returns intent in skill but not mapping as unused, running without reverse flag', () => {
+test('returns intent in mapping but not skill as extra, running without reverse flag', () => {
     let testSkill = {
         "name": "Test Skill",
         "intents": [
@@ -2145,10 +2143,10 @@ test('returns intent in skill but not mapping as unused, running without reverse
         'other_intent': 'Other intent',
         'an_old_intent': 'How did this get in here?'
     }
-    expect(new AllIntentsUsed(testSkill).inMapping(mapping).unused).toEqual(["intent"]);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping).extra).toEqual(["an_old_intent"]);
 })
 
-test('returns empty unused array if all used, running without reverse flag', () => {
+test('returns empty extra array if all used, running without reverse flag', () => {
     let testSkill = {
         "name": "Test Skill",
         "intents": [
@@ -2170,10 +2168,10 @@ test('returns empty unused array if all used, running without reverse flag', () 
         'other_intent': 'Other intent',
         'intent': 'Intent'
     }
-    expect(new AllIntentsUsed(testSkill).inMapping(mapping).unused).toEqual([]);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping).extra).toEqual([]);
 })
 
-test('returns intent in skill but not mapping as unused, if not all used running with reverse flag', () => {
+test('returns intent in mapping but not skill as extra, if some extra used running with reverse flag', () => {
     let testSkill = {
         "name": "Test Skill",
         "intents": [
@@ -2195,10 +2193,10 @@ test('returns intent in skill but not mapping as unused, if not all used running
         'Other intent': 'other_intent',
         'How did this get in here?': 'an_old_intent'
     }
-    expect(new AllIntentsUsed(testSkill).inMapping(mapping, reverse = true).unused).toEqual(["intent"]);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping, reverse = true).extra).toEqual(["an_old_intent"]);
 })
 
-test('returns empty unused array if all used intents from skill used in mapping, running with reverse flag', () => {
+test('returns empty extra array if all intents from mapping in skill, running with reverse flag', () => {
     let testSkill = {
         "name": "Test Skill",
         "intents": [
@@ -2220,5 +2218,5 @@ test('returns empty unused array if all used intents from skill used in mapping,
         'Other intent': 'other_intent',
         'Intent': 'intent'
     }
-    expect(new AllIntentsUsed(testSkill).inMapping(mapping, reverse = true).unused).toEqual([]);
+    expect(new AllIntentsUsed(testSkill).inMapping(mapping, reverse = true).extra).toEqual([]);
 })

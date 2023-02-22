@@ -33,10 +33,8 @@ class AllIntentsUsed{
         if (this.intentVar == null) {
             allIntentsUsedInEntryConditions = dialogNodes.filter(node => node['conditions'].startsWith('#')).map(node => node['conditions'].slice(1));
         } else {
-            allIntentsUsedInEntryConditions = dialogNodes.filter(node => node['conditions'].startsWith(`\$${this.intentVar}`)).map(node => node['conditions'].split('=')[node['conditions'].split('=').length - 1].replace(/[\W]+/g,""));
-            console.log(allIntentsUsedInEntryConditions)
+            allIntentsUsedInEntryConditions = dialogNodes.filter(node => node['conditions'].startsWith(`\$${this.intentVar}`)).map(node => node['conditions'].split('=')[node['conditions'].split('=').length - 1].trim().replace('\\', '').replace(/\"/g, ''));
         }
-        // Note: think no validation of valid syntax if the intent isn't in the skill but fine and can be checked if added to intents in skill
 
         const allUsed = this.helper.checkArrayEquality(intentsUsedInConditions, skillIntents);
         const unused = this.helper.returnArrayDiff(skillIntents, intentsUsedInConditions).filter(elem => elem.hasOwnProperty('minus')).map(elem => elem.minus);
@@ -58,7 +56,8 @@ class AllIntentsUsed{
         return {'bool' : allUsed, 'unused' : unused, 'extra': extra};
     }
 }
-
+// TODO: potentially have a check later between unused and extra, if using wrong syntax e.g. invalid whitespace
+// Note: within main checker might be important to show extras as well as just the boolean?
 module.exports = {
     AllIntentsUsed
  }
