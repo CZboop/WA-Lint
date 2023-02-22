@@ -13,7 +13,11 @@ class AllSequential{
             }
         });
         let selectionPolicyMapped = nodesWithSingleResponse.map(node => node['output']['text']['selection_policy']);
-        return selectionPolicyMapped.every(element => element === 'sequential');
+        let nodesWithOneResponseButMultiline = nodesWithSingleResponse.filter(node => node['output']['text']['selection_policy'] != 'sequential');
+        let problemNodeNames = nodesWithOneResponseButMultiline.map(node => node.hasOwnProperty('dialog_node') ? node['dialog_node']: node['title']);
+        const booleanAllSequential = selectionPolicyMapped.every(element => element === 'sequential');
+        // returning boolean if all single responses have sequential selection, nodes is those that have single response but aren't sequential selection
+        return {'bool': booleanAllSequential, 'nodes': problemNodeNames};
     }
 }
 

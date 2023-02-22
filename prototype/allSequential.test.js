@@ -48,7 +48,7 @@ test('returns true if all nodes with single responses are set as sequential', ()
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllSequential(testSkill).check()).toBe(true);
+    expect(new AllSequential(testSkill).check().bool).toBe(true);
 })
 
 test('returns false if not all nodes with single responses are sequential', () => {
@@ -98,7 +98,7 @@ test('returns false if not all nodes with single responses are sequential', () =
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllSequential(testSkill).check()).toBe(false);
+    expect(new AllSequential(testSkill).check().bool).toBe(false);
 })
 
 test('returns false if all nodes with single response are multiline', () => {
@@ -148,5 +148,5 @@ test('returns false if all nodes with single response are multiline', () => {
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllSequential(testSkill).check()).toBe(false);
+    expect(new AllSequential(testSkill).check().bool).toBe(false);
 })
