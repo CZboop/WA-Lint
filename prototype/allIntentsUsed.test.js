@@ -2220,3 +2220,219 @@ test('returns empty extra array if all intents from mapping in skill, running wi
     }
     expect(new AllIntentsUsed(testSkill).inMapping(mapping, reverse = true).extra).toEqual([]);
 })
+
+// // TESTING EDGE CASES // //
+
+test('can return false if not all used in entry conditions using variable, where some nodes don\'t have any conditions', () => {
+    let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "$intent_name==\"first_intent\"",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "$intent_name==\"third_intent\"",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "The node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"},
+        "metadata": {},
+        "conditions": "true",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "Node",
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "context": {"placeholder" : null,
+            "test_var": "another value"},
+        "metadata": {},
+        "dialog_node": "Opening"}]};
+    expect(new AllIntentsUsed(testSkill, intentVar = 'intent_name').inEntryCondition().bool).toBe(false);
+})
+
+test('can return true if all used in entry conditions using variable, where some nodes don\'t have any conditions', () => {
+    let testSkill = {"name": "test skill", "intents": 
+    [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, 
+    {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "$intent_name==\"first_intent\"",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "$intent_name==\"third_intent\"",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "The node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"},
+        "metadata": {},
+        "conditions": "$intent_name==\"second_intent\"",
+        "dialog_node": "node_21"},
+        {
+        "type": "standard",
+        "title": "Some node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"},
+        "metadata": {},
+        "conditions": "$intent_name==\"true_intent\"",
+        "dialog_node": "node_12"},
+        {
+        "type": "standard",
+        "title": "Node",
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "context": {"placeholder" : null,
+            "test_var": "another value"},
+        "metadata": {},
+        "dialog_node": "Opening"}]};
+    expect(new AllIntentsUsed(testSkill, intentVar = 'intent_name').inEntryCondition().bool).toBe(true);
+})
+
+test('can return false if not all used in entry conditions with no variable, where some nodes don\'t have any conditions', () => {
+    let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "#first_intent",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "#third_intent",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "The node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"},
+        "metadata": {},
+        "conditions": "true",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "Node",
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "context": {"placeholder" : null,
+            "test_var": "another value"},
+        "metadata": {},
+        "dialog_node": "Opening"}]};
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(false);
+})
+
+test('can return true if all used in entry conditions with no variable, where some nodes don\'t have any conditions', () => {
+    let testSkill = {"name": "test skill", "intents": 
+    [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, 
+    {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "#first_intent",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "#third_intent",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "The node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"},
+        "metadata": {},
+        "conditions": "#second_intent",
+        "dialog_node": "node_21"},
+        {
+        "type": "standard",
+        "title": "Some node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"},
+        "metadata": {},
+        "conditions": "#true_intent",
+        "dialog_node": "node_12"},
+        {
+        "type": "standard",
+        "title": "Node",
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "context": {"placeholder" : null,
+            "test_var": "another value"},
+        "metadata": {},
+        "dialog_node": "Opening"}]};
+    expect(new AllIntentsUsed(testSkill).inEntryCondition().bool).toBe(true);
+})
