@@ -31,9 +31,9 @@ class AllIntentsUsed{
         // below gets all intents from conditions so will catch invalid intent names trying to be used in entry condition
         let allIntentsUsedInEntryConditions = [];
         if (this.intentVar == null) {
-            allIntentsUsedInEntryConditions = dialogNodes.filter(node => node['conditions'].startsWith('#')).map(node => node['conditions'].slice(1));
+            allIntentsUsedInEntryConditions = dialogNodes.filter(node => node.hasOwnProperty('conditions') ? node['conditions'].startsWith('#') : false).map(node => node['conditions'].slice(1));
         } else {
-            allIntentsUsedInEntryConditions = dialogNodes.filter(node => node['conditions'].startsWith(`\$${this.intentVar}`)).map(node => node['conditions'].split('=')[node['conditions'].split('=').length - 1].trim().replace('\\', '').replace(/\"/g, ''));
+            allIntentsUsedInEntryConditions = dialogNodes.filter(node => node.hasOwnProperty('conditions') ? node['conditions'].startsWith(`\$${this.intentVar}`): false).map(node => node['conditions'].split('=')[node['conditions'].split('=').length - 1].trim().replace('\\', '').replace(/\"/g, ''));
         }
 
         const allUsed = this.helper.checkArrayEquality(intentsUsedInConditions, skillIntents);
