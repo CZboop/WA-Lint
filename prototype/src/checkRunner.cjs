@@ -28,8 +28,30 @@ class StaticCheckRunner {
         // TODO:
     }
 
-    checkMappingsAllMatchReverse() {
-        // TODO: refactor into different methods to call in different combinations
+    checkMappingsAllMatchReverse(intentMappings, reverseMapping) {
+        // here accounting for multiple intent mappings to check against a single reverse mapping
+        // TODO: check if multiples of one or the other and check multiple reverse if needed?
+        // rather than just checking if all match, adding to array
+        // so will check if all match in each of potentially multiple mappings
+        let intentMappingsMatchArray = [];
+        for (let mappingVar of intentMappings) {
+            // boolean logic should return true only if all match else false
+            let currentMappingMatches = new KeyValReverseCheck(mappingVar, reverseMapping).check().allMatch; // getting just boolean part of return
+            intentMappingsMatchArray.push(currentMappingMatches);
+        }
+        // TODO: get and give node id of where the mappings are coming from
+        if (intentMappingsMatchArray.length == 0){
+        console.log("\x1b[31m%s\x1b[0m", `${this.skillName}: No intent mappings found called ${this.intentMapping}`)
+        }
+        else {
+            for (let [index, checkResult] of intentMappingsMatchArray.entries()) {
+                checkResult == true ?
+                console.log("\x1b[32m%s\x1b[0m", `Mapping ${index + 1}: All intents have been used in mappings`)
+                :
+                console.log("\x1b[31m%s\x1b[0m", `Mapping ${index + 1}: Not all intents have been used in mappings`)
+            }
+        }
+        return intentMappingsMatchArray;
     }
 
     checkAllMultilineWhereExpected() {
@@ -40,30 +62,46 @@ class StaticCheckRunner {
         // TODO: refactor into different methods to call in different combinations
     }
 
-    checkAllIntentsUsed(skill, skillName, intentMappings) {
+    checkAllIntentsUsed(skill, intentMappings) {
         // TODO: refactor into different methods to call in different combinations
         let allIntentsUsed = new AllIntentsUsed(skill, this.intentVar ? this.intentVar : null);
         let allIntentsUsedInEntryCondition = allIntentsUsed.inEntryCondition();
         let allIntentsUsedInMappings = allIntentsUsed.inMapping(intentMappings);
 
         allIntentsUsedInEntryCondition.bool == true ?
-        console.log("\x1b[32m%s\x1b[0m", `${skillName}: All intents have been used in entry conditions`) :
-        console.log("\x1b[31m%s\x1b[0m", `${skillName}: Not all intents have been used in entry conditions`);
+        console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All intents have been used in entry conditions`) :
+        console.log("\x1b[31m%s\x1b[0m", `${this.skillName}: Not all intents have been used in entry conditions`);
 
         allIntentsUsedInMappings.bool == true ?
-        console.log("\x1b[32m%s\x1b[0m", `${skillName}: All intents have been used in mappings`) :
-        console.log("\x1b[31m%s\x1b[0m", `${skillName}: Not all intents have been used in mappings`);
+        console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All intents have been used in mappings`) :
+        console.log("\x1b[31m%s\x1b[0m", `${this.skillName}: Not all intents have been used in mappings`);
         // giving more details + / - diff of intents in skill vs conditions/mapping
         // TODO: add detail of where problems are, add unit tests for each aspect of this
-        if (this.advancedMode == true) {
+        if (this.advancedMode == true && allIntentsUsedInMappings.bool == false && allIntentsUsedInEntryCondition.bool == false) {
             let extraInConditions = allIntentsUsedInEntryCondition.extra;
             let unusedInConditions = allIntentsUsedInEntryCondition.unused;
+            console.log("\x1b[33m%s\x1b[0m", `${this.skillName} - Intent List vs Entry Condition Discrepancies:`);
+            for (let extra of extraInConditions){
+                console.log("\x1b[33m%s\x1b[0m", `+ ${extra}`);
+            }
+            for (let minus of unusedInConditions){
+                console.log("\x1b[31m%s\x1b[0m", `- ${minus}`);
+            }
 
             let extraInMappings = allIntentsUsedInMappings.extra;
             let unusedInMappings = allIntentsUsedInMappings.unused;
+            // TODO: check/fix if needed how this handles having multiple mappings
+            // missing in red, extra in yellow as bigger issues? missing from mapping or conditions but there in skill so can be classified into
+            console.log("\x1b[33m%s\x1b[0m", `${this.skillName} - Intent List vs Mappings Discrepancies:`);
+            for (let extra of extraInMappings){
+                console.log("\x1b[33m%s\x1b[0m", `+ ${extra}`);
+            }
+            for (let minus of unusedInMappings){
+                console.log("\x1b[31m%s\x1b[0m", `- ${minus}`);
+            }
         }
         
-        return { 'entryConditions': allIntentsUsedInEntryCondition, 'mapping' : allIntentsUsedInMappings };
+        return { 'entryConditionsBool': allIntentsUsedInEntryCondition.bool, 'mappingBool' : allIntentsUsedInMappings.bool,  'entryConditionDetails': allIntentsUsedInEntryCondition, 'mappingDetails': allIntentsUsedInMappings};
     }
 
     getSkillName(skill) {
@@ -73,7 +111,7 @@ class StaticCheckRunner {
     runAllChecks() {
         let resultsMap = [];
         for (let [index, skill] of this.skills.entries()){
-            let skillName = this.getSkillName(skill);
+            this.skillName = this.getSkillName(skill);
             // console.log(`::RESULTS FOR SKILL #${index + 1} - ${skillName}::`)
             // instantiating objects that take in skill as param
             let helperFuncs = new Helper(skill);
@@ -85,20 +123,13 @@ class StaticCheckRunner {
             let intentMappings = helperFuncs.retrieveNamedContextVariable(this.intentMapping);
             let reverseMapping = helperFuncs.retrieveNamedContextVariable(this.reverseMapping);
 
-            let allIntentsUsedInEntryCondition = this.checkAllIntentsUsed(skill, skillName, intentMappings);
-            let intentMappingsAllMatchReverse = true;
-            // here accounting for multiple intent mappings to check against a single reverse mapping
-            // TODO: check if multiples of one or the other and check multiple reverse if needed?
-            for (let mappingVar of intentMappings) {
-                // boolean logic should return true only if all match else false
-                let currentMappingMatches = new KeyValReverseCheck(mappingVar, reverseMapping).check().allMatch; // getting just boolean part of return
-                intentMappingsAllMatchReverse = intentMappingsAllMatchReverse && currentMappingMatches;
-            }
-            // let allIntentsUsedInEntryCondition = allIntentsUsed.inEntryCondition().bool;
+            let allIntentsUsedInEntryCondition = this.checkAllIntentsUsed(skill, intentMappings);
+            let intentMappingsAllMatchReverse = this.checkMappingsAllMatchReverse(intentMappings, reverseMapping)   
+
             let allMultilineWhereNeeded = allMultiline.check().bool;
             let allSequentialWhereNeeded = allSequential.check().bool;
             
-            resultsMap[skillName] = {
+            resultsMap[this.skillName] = {
                 'intents_all_used_in_entry_conditions' : allIntentsUsedInEntryCondition,
                 'all_multiline_where_multiple_responses' : allMultilineWhereNeeded,
                 'all_sequential_where_one_response' : allSequentialWhereNeeded,
@@ -107,17 +138,17 @@ class StaticCheckRunner {
             // logging in colour depending on whether tests failed or passed (blanket fail if failed anywhere for that skill)
             
             // currently the two below are yellow if failed, others red as bigger issues
-            resultsMap[skillName]["all_multiline_where_multiple_responses"] == true ?
-            console.log("\x1b[32m%s\x1b[0m", `${skillName}: All nodes with multiple responses are multiline`) :
-            console.log("\x1b[33m%s\x1b[0m", `${skillName}: Not all nodes with multiple responses are multiline`);
+            resultsMap[this.skillName]["all_multiline_where_multiple_responses"] == true ?
+            console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All nodes with multiple responses are multiline`) :
+            console.log("\x1b[33m%s\x1b[0m", `${this.skillName}: Not all nodes with multiple responses are multiline`);
 
-            resultsMap[skillName]["all_sequential_where_one_response"] == true ?
-            console.log("\x1b[32m%s\x1b[0m", `${skillName}: All nodes with one response are sequential`) :
-            console.log("\x1b[33m%s\x1b[0m", `${skillName}: Not all nodes with one response are sequential`);
+            resultsMap[this.skillName]["all_sequential_where_one_response"] == true ?
+            console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All nodes with one response are sequential`) :
+            console.log("\x1b[33m%s\x1b[0m", `${this.skillName}: Not all nodes with one response are sequential`);
 
-            resultsMap[skillName]["all_mappings_match_reverse"] == true ?
-            console.log("\x1b[32m%s\x1b[0m", `${skillName}: All mappings match the reverse mapping`) :
-            console.log("\x1b[31m%s\x1b[0m", `${skillName}: Not all mappings match the reverse mapping`); 
+            resultsMap[this.skillName]["all_mappings_match_reverse"] == true ?
+            console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All mappings match the reverse mapping`) :
+            console.log("\x1b[31m%s\x1b[0m", `${this.skillName}: Not all mappings match the reverse mapping`); 
         }
         return resultsMap;
     }
@@ -152,5 +183,5 @@ let fakeSkill = {"name": "Test Skill", "intents": [{"intent": "first_intent", "e
     "conditions": "$maybe == true",
     "dialog_node": "Opening"}]};
 
-const testCheckRunner = new StaticCheckRunner([fakeSkill], "test_string", advancedMode = true);
+const testCheckRunner = new StaticCheckRunner([fakeSkill], "test_string", "idk", "idk", advancedMode = true);
 testCheckRunner.runAllChecks();
