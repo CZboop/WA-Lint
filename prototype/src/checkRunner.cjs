@@ -21,7 +21,7 @@ class StaticCheckRunner {
     }
 
     help() {
-        console.log('TODO: add instructions and list of what this can do');
+        // TODO: add instructions and list of what this can do
     }
 
     runSomeChecks(toRun = ['some array of different check that can be run']) {
@@ -106,6 +106,7 @@ class StaticCheckRunner {
     }
 
     getSkillName(skill) {
+        // TODO: add numbers if already anonymous - need refactoring for that
         return skill.hasOwnProperty('name') ? skill['name'] : 'Anonymous skill';
     }
 
@@ -234,3 +235,7 @@ const testCheckRunner = new StaticCheckRunner([fakeSkill], "test_string", "testM
 testCheckRunner.runAllChecks();
 // TODO: write report of test results
 // TODO: look into feasibilty to connect direct with API key etc. 
+
+module.exports = {
+    StaticCheckRunner
+}
