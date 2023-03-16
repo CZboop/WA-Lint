@@ -1,7 +1,8 @@
-let {AllMultiline} = require('./allMultiline.cjs');
+let {AllSequential} = require('../src/allSequential.cjs');
 
-// // // TESTING CAN CHECK ALL RESPONSES WITH MULTIPLE RESPONSES ARE MULTILINE // // //
-test('returns true if all nodes with multiple responses are set as multiline', () => {
+// // // TESTING CAN CHECK ALL RESPONSES WITH ONE RESPONSE ARE SEQUENTIAL // // //
+// // TESTING THE BOOLEAN CHECK OF ALL FINE OR NOT // // 
+test('returns true if all nodes with single responses are set as sequential', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -48,10 +49,10 @@ test('returns true if all nodes with multiple responses are set as multiline', (
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check().bool).toBe(true);
+    expect(new AllSequential(testSkill).check().bool).toBe(true);
 })
 
-test('returns false if not all nodes with multiple responses are multiline', () => {
+test('returns false if not all nodes with single responses are sequential', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -65,7 +66,7 @@ test('returns false if not all nodes with multiple responses are multiline', () 
         {
         "type": "standard",
         "title": "A node",
-        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["Some text"], "selection_policy": "multiline"}},
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
@@ -92,16 +93,16 @@ test('returns false if not all nodes with multiple responses are multiline', () 
         {
         "type": "standard",
         "title": "Node",
-        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "multiline"}},
         "context": {"placeholder" : null,
             "test_var": "another value"},
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check().bool).toBe(false);
+    expect(new AllSequential(testSkill).check().bool).toBe(false);
 })
 
-test('returns false if all nodes with multiple responses are sequential', () => {
+test('returns false if all nodes with single response are multiline', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -124,7 +125,7 @@ test('returns false if all nodes with multiple responses are sequential', () => 
         {
         "type": "standard",
         "title": "A node",
-        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["Some text"], "selection_policy": "multiline"}},
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
@@ -142,18 +143,18 @@ test('returns false if all nodes with multiple responses are sequential', () => 
         {
         "type": "standard",
         "title": "Node",
-        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "multiline"}},
         "context": {"placeholder" : null,
             "test_var": "another value"},
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check().bool).toBe(false);
+    expect(new AllSequential(testSkill).check().bool).toBe(false);
 })
 
-// // // TESTING THE RETURNED NODES THAT SHOULD BE MULTILINE/HAS MULTIPLE TEXT RESPONSES BUT AREN'T // // // 
+// // TESTING THE RETURNED NODES OF WHICH NODES MIGHT HAVE PROBLEM // // 
 
-test('returns empty problem node array if all nodes with multiple responses are set as multiline', () => {
+test('returns empty node array if all nodes with single responses are set as sequential', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -200,10 +201,10 @@ test('returns empty problem node array if all nodes with multiple responses are 
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
         "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check().nodes).toEqual([]);
+    expect(new AllSequential(testSkill).check().nodes).toEqual([]);
 })
 
-test('returns correct problem node list if not all nodes with multiple responses are multiline', () => {
+test('returns correct array of node names / ids with potential issue if not all nodes with single responses are sequential', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -217,12 +218,12 @@ test('returns correct problem node list if not all nodes with multiple responses
         {
         "type": "standard",
         "title": "A node",
-        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["Some text"], "selection_policy": "multiline"}},
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
         "conditions": "$intent_name==\"second_intent\"",
-        "dialog_node": "Opening"},
+        "dialog_node": "Issue node 1"},
         {
         "type": "standard",
         "title": "A node",
@@ -244,16 +245,16 @@ test('returns correct problem node list if not all nodes with multiple responses
         {
         "type": "standard",
         "title": "Node",
-        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "multiline"}},
         "context": {"placeholder" : null,
             "test_var": "another value"},
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
-        "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check().nodes).toEqual(["Opening"]);
+        "dialog_node": "Issue node 2"}]};
+    expect(new AllSequential(testSkill).check().nodes.sort()).toEqual(["Issue node 1", "Issue node 2"].sort());
 })
 
-test('returns expected node array of nodes that should be multiline but aren\'t if all nodes with multiple responses are sequential', () => {
+test('returns correct array of problem nodes if all nodes with single response are multiline', () => {
     let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
         {
         "type": "standard",
@@ -263,25 +264,25 @@ test('returns expected node array of nodes that should be multiline but aren\'t 
             "test_var": "value if from another node"},
         "metadata": {},
         "conditions": "$intent_name==\"first_intent\"",
-        "dialog_node": "Opening 1"},
+        "dialog_node": "Opening"},
         {
         "type": "standard",
         "title": "A node",
-        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["Some text"], "selection_policy": "multiline"}},
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
         "conditions": "$intent_name==\"second_intent\"",
-        "dialog_node": "Opening"},
+        "dialog_node": "node_problem_123"},
         {
         "type": "standard",
         "title": "A node",
-        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["Some text"], "selection_policy": "multiline"}},
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
         "conditions": "$intent_name==\"third_intent \"",
-        "dialog_node": "Opening"},
+        "dialog_node": "node_problem_321"},
         {
         "type": "standard",
         "title": "The node",
@@ -290,15 +291,15 @@ test('returns expected node array of nodes that should be multiline but aren\'t 
             "needle": "search complete"},
         "metadata": {},
         "conditions": "true",
-        "dialog_node": "Opening 2"},
+        "dialog_node": "Opening"},
         {
         "type": "standard",
         "title": "Node",
-        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "multiline"}},
         "context": {"placeholder" : null,
             "test_var": "another value"},
         "metadata": {},
         "conditions": "$intent_name==\"true_intent\"",
-        "dialog_node": "Opening"}]};
-    expect(new AllMultiline(testSkill).check().nodes.sort()).toEqual(["Opening 1", "Opening 2"].sort());
+        "dialog_node": "node_problem_1234"}]};
+    expect(new AllSequential(testSkill).check().nodes.sort()).toEqual(["node_problem_1234", "node_problem_123", "node_problem_321"].sort());
 })

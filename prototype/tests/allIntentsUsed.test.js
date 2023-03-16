@@ -1,4 +1,4 @@
-let {AllIntentsUsed} = require('./allIntentsUsed.cjs');
+let {AllIntentsUsed} = require('../src/allIntentsUsed.cjs');
 
 // // // TESTING CAN CHECK ALL INTENTS ARE USED IN AT LEAST ONE ENTRY CONDITION // // //
 

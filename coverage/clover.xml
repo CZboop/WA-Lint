@@ -1,55 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1671784977284" clover="3.2.0">
-  <project timestamp="1671784977284" name="All files">
-    <metrics statements="46" coveredstatements="44" conditionals="30" coveredconditionals="28" methods="22" coveredmethods="22" elements="98" coveredelements="94" complexity="0" loc="46" ncloc="46" packages="1" files="1" classes="1"/>
-    <file name="testFuncs.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\testFuncs.cjs">
-      <metrics statements="46" coveredstatements="44" conditionals="30" coveredconditionals="28" methods="22" coveredmethods="22"/>
-      <line num="7" count="64" type="stmt"/>
-      <line num="8" count="15" type="stmt"/>
-      <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
-      <line num="13" count="6" type="stmt"/>
-      <line num="20" count="14" type="cond" truecount="2" falsecount="0"/>
-      <line num="29" count="3" type="stmt"/>
-      <line num="30" count="15" type="cond" truecount="4" falsecount="1"/>
-      <line num="31" count="15" type="stmt"/>
-      <line num="34" count="0" type="stmt"/>
-      <line num="37" count="9" type="stmt"/>
-      <line num="38" count="6" type="stmt"/>
-      <line num="43" count="3" type="stmt"/>
-      <line num="44" count="15" type="cond" truecount="4" falsecount="1"/>
-      <line num="45" count="15" type="stmt"/>
-      <line num="48" count="0" type="stmt"/>
-      <line num="51" count="6" type="stmt"/>
-      <line num="52" count="5" type="stmt"/>
-      <line num="56" count="14" type="stmt"/>
-      <line num="57" count="14" type="stmt"/>
-      <line num="58" count="14" type="stmt"/>
-      <line num="59" count="14" type="stmt"/>
-      <line num="62" count="55" type="stmt"/>
-      <line num="63" count="55" type="cond" truecount="2" falsecount="0"/>
-      <line num="64" count="28" type="stmt"/>
-      <line num="65" count="122" type="stmt"/>
-      <line num="68" count="27" type="stmt"/>
-      <line num="69" count="27" type="stmt"/>
-      <line num="70" count="135" type="stmt"/>
-      <line num="73" count="55" type="cond" truecount="2" falsecount="0"/>
-      <line num="74" count="41" type="stmt"/>
-      <line num="78" count="14" type="stmt"/>
-      <line num="83" count="27" type="cond" truecount="4" falsecount="0"/>
+<coverage generated="1678992145161" clover="3.2.0">
+  <project timestamp="1678992145162" name="All files">
+    <metrics statements="173" coveredstatements="163" conditionals="86" coveredconditionals="68" methods="59" coveredmethods="55" elements="318" coveredelements="286" complexity="0" loc="173" ncloc="173" packages="1" files="6" classes="6"/>
+    <file name="allIntentsUsed.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\allIntentsUsed.cjs">
+      <metrics statements="33" coveredstatements="33" conditionals="14" coveredconditionals="14" methods="17" coveredmethods="17"/>
+      <line num="1" count="2" type="stmt"/>
+      <line num="5" count="59" type="stmt"/>
+      <line num="6" count="59" type="stmt"/>
+      <line num="7" count="59" type="stmt"/>
+      <line num="10" count="47" type="stmt"/>
+      <line num="11" count="47" type="stmt"/>
+      <line num="12" count="47" type="stmt"/>
+      <line num="13" count="47" type="stmt"/>
+      <line num="15" count="184" type="stmt"/>
+      <line num="16" count="184" type="cond" truecount="2" falsecount="0"/>
+      <line num="17" count="92" type="stmt"/>
+      <line num="18" count="410" type="stmt"/>
+      <line num="20" count="92" type="stmt"/>
+      <line num="22" count="458" type="stmt"/>
+      <line num="25" count="184" type="cond" truecount="2" falsecount="0"/>
+      <line num="26" count="130" type="stmt"/>
+      <line num="32" count="47" type="stmt"/>
+      <line num="33" count="47" type="cond" truecount="2" falsecount="0"/>
+      <line num="34" count="107" type="cond" truecount="2" falsecount="0"/>
+      <line num="36" count="104" type="cond" truecount="2" falsecount="0"/>
+      <line num="39" count="47" type="stmt"/>
+      <line num="40" count="184" type="stmt"/>
+      <line num="41" count="206" type="stmt"/>
+      <line num="44" count="47" type="stmt"/>
+      <line num="47" count="13" type="stmt"/>
+      <line num="48" count="13" type="cond" truecount="2" falsecount="0"/>
+      <line num="49" count="13" type="stmt"/>
+      <line num="50" count="13" type="stmt"/>
+      <line num="51" count="13" type="stmt"/>
+      <line num="52" count="45" type="stmt"/>
+      <line num="53" count="45" type="stmt"/>
+      <line num="56" count="13" type="stmt"/>
+      <line num="61" count="2" type="stmt"/>
+    </file>
+    <file name="allMultiline.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\allMultiline.cjs">
+      <metrics statements="11" coveredstatements="10" conditionals="7" coveredconditionals="5" methods="7" coveredmethods="7"/>
+      <line num="3" count="7" type="stmt"/>
+      <line num="7" count="7" type="stmt"/>
+      <line num="8" count="33" type="cond" truecount="4" falsecount="1"/>
+      <line num="9" count="33" type="stmt"/>
+      <line num="12" count="0" type="stmt"/>
+      <line num="15" count="12" type="stmt"/>
+      <line num="16" count="12" type="stmt"/>
+      <line num="17" count="7" type="cond" truecount="1" falsecount="1"/>
+      <line num="18" count="10" type="stmt"/>
+      <line num="20" count="7" type="stmt"/>
+      <line num="24" count="2" type="stmt"/>
+    </file>
+    <file name="allSequential.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\allSequential.cjs">
+      <metrics statements="11" coveredstatements="10" conditionals="7" coveredconditionals="5" methods="7" coveredmethods="7"/>
+      <line num="3" count="7" type="stmt"/>
+      <line num="7" count="7" type="stmt"/>
+      <line num="8" count="33" type="cond" truecount="4" falsecount="1"/>
+      <line num="9" count="33" type="stmt"/>
+      <line num="12" count="0" type="stmt"/>
+      <line num="15" count="21" type="stmt"/>
+      <line num="16" count="21" type="stmt"/>
+      <line num="17" count="9" type="cond" truecount="1" falsecount="1"/>
+      <line num="18" count="14" type="stmt"/>
+      <line num="20" count="7" type="stmt"/>
+      <line num="24" count="2" type="stmt"/>
+    </file>
+    <file name="checkRunner.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\checkRunner.cjs">
+      <metrics statements="66" coveredstatements="58" conditionals="26" coveredconditionals="12" methods="9" coveredmethods="5"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="20" count="1" type="stmt"/>
+      <line num="24" count="0" type="stmt"/>
+      <line num="36" count="1" type="stmt"/>
+      <line num="37" count="1" type="stmt"/>
+      <line num="39" count="0" type="stmt"/>
+      <line num="40" count="0" type="stmt"/>
+      <line num="43" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="44" count="1" type="stmt"/>
+      <line num="47" count="0" type="stmt"/>
+      <line num="48" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="52" count="0" type="stmt"/>
+      <line num="55" count="1" type="stmt"/>
+      <line num="68" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="69" count="1" type="stmt"/>
+      <line num="70" count="1" type="stmt"/>
+      <line num="72" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="76" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="81" count="1" type="cond" truecount="4" falsecount="1"/>
+      <line num="82" count="1" type="stmt"/>
+      <line num="83" count="1" type="stmt"/>
       <line num="84" count="1" type="stmt"/>
-      <line num="87" count="26" type="cond" truecount="2" falsecount="0"/>
-      <line num="88" count="9" type="stmt"/>
-      <line num="91" count="17" type="stmt"/>
-      <line num="92" count="17" type="stmt"/>
-      <line num="94" count="17" type="stmt"/>
-      <line num="96" count="58" type="cond" truecount="2" falsecount="0"/>
-      <line num="97" count="5" type="stmt"/>
-      <line num="100" count="12" type="stmt"/>
-      <line num="104" count="4" type="cond" truecount="2" falsecount="0"/>
-      <line num="105" count="4" type="stmt"/>
-      <line num="106" count="4" type="stmt"/>
-      <line num="107" count="4" type="stmt"/>
-      <line num="110" count="1" type="stmt"/>
+      <line num="85" count="1" type="stmt"/>
+      <line num="86" count="0" type="stmt"/>
+      <line num="88" count="1" type="stmt"/>
+      <line num="89" count="3" type="stmt"/>
+      <line num="92" count="1" type="stmt"/>
+      <line num="93" count="1" type="stmt"/>
+      <line num="96" count="1" type="stmt"/>
+      <line num="97" count="1" type="stmt"/>
+      <line num="98" count="0" type="stmt"/>
+      <line num="100" count="1" type="stmt"/>
+      <line num="101" count="3" type="stmt"/>
+      <line num="105" count="1" type="stmt"/>
+      <line num="109" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="113" count="1" type="stmt"/>
+      <line num="114" count="1" type="stmt"/>
+      <line num="115" count="1" type="stmt"/>
+      <line num="118" count="1" type="stmt"/>
+      <line num="119" count="1" type="stmt"/>
+      <line num="120" count="1" type="stmt"/>
+      <line num="122" count="1" type="stmt"/>
+      <line num="124" count="1" type="stmt"/>
+      <line num="125" count="1" type="stmt"/>
+      <line num="127" count="1" type="stmt"/>
+      <line num="128" count="1" type="stmt"/>
+      <line num="130" count="1" type="stmt"/>
+      <line num="131" count="1" type="stmt"/>
+      <line num="133" count="1" type="stmt"/>
+      <line num="142" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="146" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="150" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="154" count="1" type="stmt"/>
+      <line num="158" count="1" type="stmt"/>
+      <line num="186" count="1" type="stmt"/>
+      <line num="233" count="1" type="stmt"/>
+      <line num="234" count="1" type="stmt"/>
+    </file>
+    <file name="helperFuncs.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\helperFuncs.cjs">
+      <metrics statements="32" coveredstatements="32" conditionals="22" coveredconditionals="22" methods="15" coveredmethods="15"/>
+      <line num="3" count="78" type="stmt"/>
+      <line num="7" count="235" type="stmt"/>
+      <line num="8" count="62" type="stmt"/>
+      <line num="12" count="12" type="cond" truecount="2" falsecount="0"/>
+      <line num="13" count="12" type="stmt"/>
+      <line num="19" count="69" type="cond" truecount="4" falsecount="0"/>
+      <line num="20" count="1" type="stmt"/>
+      <line num="23" count="68" type="cond" truecount="2" falsecount="0"/>
+      <line num="24" count="29" type="stmt"/>
+      <line num="27" count="39" type="stmt"/>
+      <line num="28" count="39" type="stmt"/>
+      <line num="30" count="39" type="stmt"/>
+      <line num="32" count="130" type="cond" truecount="2" falsecount="0"/>
+      <line num="33" count="9" type="stmt"/>
+      <line num="36" count="30" type="stmt"/>
+      <line num="42" count="126" type="stmt"/>
+      <line num="46" count="126" type="stmt"/>
+      <line num="47" count="474" type="cond" truecount="4" falsecount="0"/>
+      <line num="48" count="350" type="stmt"/>
+      <line num="50" count="124" type="stmt"/>
+      <line num="52" count="126" type="stmt"/>
+      <line num="53" count="862" type="cond" truecount="4" falsecount="0"/>
+      <line num="54" count="124" type="stmt"/>
+      <line num="56" count="738" type="stmt"/>
+      <line num="58" count="126" type="stmt"/>
+      <line num="59" count="862" type="cond" truecount="4" falsecount="0"/>
+      <line num="60" count="38" type="stmt"/>
+      <line num="62" count="824" type="stmt"/>
+      <line num="64" count="350" type="stmt"/>
+      <line num="65" count="38" type="stmt"/>
+      <line num="66" count="126" type="stmt"/>
+      <line num="70" count="3" type="stmt"/>
+    </file>
+    <file name="keyValReverseCheck.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\keyValReverseCheck.cjs">
+      <metrics statements="20" coveredstatements="20" conditionals="10" coveredconditionals="10" methods="4" coveredmethods="4"/>
+      <line num="3" count="10" type="stmt"/>
+      <line num="4" count="10" type="stmt"/>
+      <line num="8" count="10" type="stmt"/>
+      <line num="9" count="10" type="stmt"/>
+      <line num="11" count="10" type="stmt"/>
+      <line num="13" count="10" type="stmt"/>
+      <line num="14" count="10" type="stmt"/>
+      <line num="15" count="288" type="cond" truecount="4" falsecount="0"/>
+      <line num="16" count="14" type="stmt"/>
+      <line num="17" count="14" type="stmt"/>
+      <line num="21" count="34" type="stmt"/>
+      <line num="24" count="10" type="stmt"/>
+      <line num="25" count="288" type="cond" truecount="4" falsecount="0"/>
+      <line num="26" count="14" type="stmt"/>
+      <line num="27" count="14" type="stmt"/>
+      <line num="31" count="34" type="stmt"/>
+      <line num="36" count="10" type="cond" truecount="2" falsecount="0"/>
+      <line num="37" count="6" type="stmt"/>
+      <line num="40" count="4" type="stmt"/>
+      <line num="45" count="2" type="stmt"/>
     </file>
   </project>
 </coverage>

@@ -1,7 +1,7 @@
 // sample watson skill taken and adapted from https://github.com/watson-developer-cloud/assistant-skill-analysis/blob/master/tests/resources/test_workspaces/skill-Customer-Care-Sample.json
 // import { createRequire } from "module";
 // const require = createRequire(import.meta.url);
-const testSkill = require('../dataToTest/data.json');
+const importedTestSkill = require('../dataToTest/data.json');
 const { AllIntentsUsed } = require('./allIntentsUsed.cjs');
 const { AllMultiline } = require('./allMultiline.cjs');
 const { AllSequential } = require('./allSequential.cjs');
@@ -48,7 +48,8 @@ class StaticCheckRunner {
                 checkResult == true ?
                 console.log("\x1b[32m%s\x1b[0m", `Mapping ${index + 1}: All intents have been used in mappings`)
                 :
-                console.log("\x1b[31m%s\x1b[0m", `Mapping ${index + 1}: Not all intents have been used in mappings`)
+                console.log("\x1b[31m%s\x1b[0m", `Mapping ${index + 1}: Not all intents have been used in mappings`);
+                console.log()
             }
         }
         return intentMappingsMatchArray;
@@ -182,6 +183,54 @@ let fakeSkill = {"name": "Test Skill", "intents": [{"intent": "first_intent", "e
     "metadata": {},
     "conditions": "$maybe == true",
     "dialog_node": "Opening"}]};
-
-const testCheckRunner = new StaticCheckRunner([fakeSkill], "test_string", "idk", "idk", advancedMode = true);
+let testSkill = {
+        "name": "Test Skill",
+        "intents": [
+          {
+            "intent": "an_intent",
+            "examples": []
+          },
+          {
+            "intent": "other_intent",
+            "examples": []
+          },
+          {
+            "intent": "intent",
+            "examples": []
+          }
+        ],
+        "dialog_nodes" :
+        [
+            {
+                "type": "standard",
+                "title": "Provide location",
+                "output": {
+                  "text": {
+                    "values": [
+                      "We're located by Union Square on the corner of 13th and Broadway"
+                    ],
+                    "selection_policy": "sequential"
+                  }
+                },
+                "parent": "Directions",
+                "context" : {
+                    "testMapping" : {
+                        "first_intent" : "First Intent",
+                        "second_intent" : "Second Intent",
+                    },
+                    "testReverseMapping" : {
+                        "First Intent" : "first_intent",
+                        "Second Intent" : "second_intent",
+                        "Third Intent" : "third_intent"
+                    }
+                },
+                "metadata": {},
+                "conditions": "true",
+                "dialog_node": "node_3_1522439390442"
+              }
+        ]
+    }
+const testCheckRunner = new StaticCheckRunner([fakeSkill], "test_string", "testMapping", "testReverseMapping", advancedMode = true);
 testCheckRunner.runAllChecks();
+// TODO: write report of test results
+// TODO: look into feasibilty to connect direct with API key etc. 

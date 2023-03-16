@@ -2,7 +2,7 @@
   "name": "tests",
   "version": "1.0.0",
   "description": "Static tests for validating Watson Assistant JSON against itself",
-  "main": "testFuncs.js",
+  "main": "checkRunner.js",
   "type": "module",
   "scripts": {
     "test": "jest --coverage"

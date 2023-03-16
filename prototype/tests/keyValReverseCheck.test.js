@@ -1,4 +1,4 @@
-const {KeyValReverseCheck} = require('./keyValReverseCheck.cjs');
+const {KeyValReverseCheck} = require('../src/keyValReverseCheck.cjs');
 
 // // // TESTING BOOLEAN OF WHETHER KEYS AND VALUES ARE REVERSED // // //
 
