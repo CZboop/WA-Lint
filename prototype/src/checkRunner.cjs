@@ -25,6 +25,10 @@ class StaticCheckRunner {
     }
 
     runSomeChecks(toRun = ['some array of different check that can be run']) {
+        // TODO: actually change this to have a settings file and based on what in there the main run all function can run some things?
+    }
+
+    createReport(){
         // TODO:
     }
 
@@ -55,8 +59,21 @@ class StaticCheckRunner {
         return intentMappingsMatchArray;
     }
 
-    checkAllMultilineWhereExpected() {
+    checkAllMultilineWhereExpected(skill) {
         // TODO: refactor into different methods to call in different combinations
+        let skillName = this.getSkillName(skill);
+        let allMultiline = new AllMultiline(skill);
+        let multilineCheck = allMultiline.check();
+        let allMultilineWhereNeeded = multilineCheck.bool;
+        allMultilineWhereNeeded ?
+        console.log("\x1b[32m%s\x1b[0m", `${skillName}: All nodes with multiple responses are multiline`) :
+        console.log("\x1b[33m%s\x1b[0m", `${skillName}: Not all nodes with multiple responses are multiline`);
+
+        if (!allMultilineWhereNeeded){
+            let problemNodes = multilineCheck.nodes;
+            console.log("\x1b[33m%s\x1b[0m", `Nodes that should be multiline:\n - ${problemNodes.join("\n - ")}`);
+        }
+        return multilineCheck;
     }
 
     checkAllSequentialWhereExpected() {
@@ -113,11 +130,11 @@ class StaticCheckRunner {
     runAllChecks() {
         let resultsMap = [];
         for (let [index, skill] of this.skills.entries()){
+            // this will be updating as iterate through skills so can change but easy access in the other methods
             this.skillName = this.getSkillName(skill);
             // console.log(`::RESULTS FOR SKILL #${index + 1} - ${skillName}::`)
             // instantiating objects that take in skill as param
             let helperFuncs = new Helper(skill);
-            let allMultiline = new AllMultiline(skill);
             let allSequential = new AllSequential(skill);
 
             let intentList = helperFuncs.getListOfIntents();
@@ -128,21 +145,20 @@ class StaticCheckRunner {
             let allIntentsUsedInEntryCondition = this.checkAllIntentsUsed(skill, intentMappings);
             let intentMappingsAllMatchReverse = this.checkMappingsAllMatchReverse(intentMappings, reverseMapping)   
 
-            let allMultilineWhereNeeded = allMultiline.check().bool;
+            
             let allSequentialWhereNeeded = allSequential.check().bool;
+            let allMultilineWhereNeeded = this.checkAllMultilineWhereExpected(skill).bool;
             
             resultsMap[this.skillName] = {
                 'intents_all_used_in_entry_conditions' : allIntentsUsedInEntryCondition,
-                'all_multiline_where_multiple_responses' : allMultilineWhereNeeded,
+                // 'all_multiline_where_multiple_responses' : allMultilineWhereNeeded,
                 'all_sequential_where_one_response' : allSequentialWhereNeeded,
                 'all_mappings_match_reverse' : intentMappingsAllMatchReverse
             };
             // logging in colour depending on whether tests failed or passed (blanket fail if failed anywhere for that skill)
             
             // currently the two below are yellow if failed, others red as bigger issues
-            resultsMap[this.skillName]["all_multiline_where_multiple_responses"] == true ?
-            console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All nodes with multiple responses are multiline`) :
-            console.log("\x1b[33m%s\x1b[0m", `${this.skillName}: Not all nodes with multiple responses are multiline`);
+            
 
             resultsMap[this.skillName]["all_sequential_where_one_response"] == true ?
             console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All nodes with one response are sequential`) :
