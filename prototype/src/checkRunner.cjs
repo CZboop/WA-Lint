@@ -60,7 +60,6 @@ class StaticCheckRunner {
     }
 
     checkAllMultilineWhereExpected(skill) {
-        // TODO: refactor into different methods to call in different combinations
         let skillName = this.getSkillName(skill);
         let allMultiline = new AllMultiline(skill);
         let multilineCheck = allMultiline.check();
@@ -76,8 +75,22 @@ class StaticCheckRunner {
         return multilineCheck;
     }
 
-    checkAllSequentialWhereExpected() {
+    checkAllSequentialWhereExpected(skill) {
         // TODO: refactor into different methods to call in different combinations
+        // console.log('sequential called')
+        let skillName = this.getSkillName(skill);
+        let allSequential = new AllSequential(skill);
+        let sequentialCheck = allSequential.check();
+        let allSequentialWhereNeeded = sequentialCheck.bool;
+        allSequentialWhereNeeded ?
+        console.log("\x1b[32m%s\x1b[0m", `${skillName}: All nodes with single responses are sequential`) :
+        console.log("\x1b[33m%s\x1b[0m", `${skillName}: Not all nodes with single responses are sequential`);
+
+        if (!allSequentialWhereNeeded){
+            let problemNodes = sequentialCheck.nodes;
+            console.log("\x1b[33m%s\x1b[0m", `Nodes that should be sequential:\n - ${problemNodes.join("\n - ")}`);
+        }
+        return sequentialCheck;
     }
 
     checkAllIntentsUsed(skill, intentMappings) {
@@ -146,12 +159,12 @@ class StaticCheckRunner {
             let intentMappingsAllMatchReverse = this.checkMappingsAllMatchReverse(intentMappings, reverseMapping)   
 
             
-            let allSequentialWhereNeeded = allSequential.check().bool;
+            let allSequentialWhereNeeded = this.checkAllSequentialWhereExpected(skill).bool;
             let allMultilineWhereNeeded = this.checkAllMultilineWhereExpected(skill).bool;
             
             resultsMap[this.skillName] = {
                 'intents_all_used_in_entry_conditions' : allIntentsUsedInEntryCondition,
-                // 'all_multiline_where_multiple_responses' : allMultilineWhereNeeded,
+                'all_multiline_where_multiple_responses' : allMultilineWhereNeeded,
                 'all_sequential_where_one_response' : allSequentialWhereNeeded,
                 'all_mappings_match_reverse' : intentMappingsAllMatchReverse
             };
