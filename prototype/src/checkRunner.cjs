@@ -32,7 +32,16 @@ class StaticCheckRunner {
         // TODO:
     }
 
-    checkMappingsAllMatchReverse(intentMappings, reverseMapping) {
+    checkMappingsAllMatchReverse(skill) {
+        // check if object has helperfuncs yet and assign if not - in practice may or may not need to add here, 
+        if (!Object.hasOwnProperty(this, 'helperFuncs')) {
+            console.log('did not have helperFuncs property')
+            this.helperFuncs = new Helper(skill);
+        }
+        let intentMappings = this.helperFuncs.retrieveNamedContextVariable(this.intentMapping);
+        let reverseMapping = this.helperFuncs.retrieveNamedContextVariable(this.reverseMapping);
+        console.log(intentMappings);
+        console.log(reverseMapping);
         // here accounting for multiple intent mappings to check against a single reverse mapping
         // TODO: check if multiples of one or the other and check multiple reverse if needed?
         // rather than just checking if all match, adding to array
@@ -47,6 +56,8 @@ class StaticCheckRunner {
         if (intentMappingsMatchArray.length == 0){
         console.log("\x1b[31m%s\x1b[0m", `${this.skillName}: No intent mappings found called ${this.intentMapping}`)
         }
+        // TODO: add error throwing/logging for if reverse not found
+        // TODO: add error throwing if these properties were not passed in original constructor
         else {
             for (let [index, checkResult] of intentMappingsMatchArray.entries()) {
                 checkResult == true ?
@@ -136,7 +147,7 @@ class StaticCheckRunner {
     }
 
     getSkillName(skill) {
-        // TODO: add numbers if already anonymous - need refactoring for that
+        // TODO: add numbers if already anonymous - need refactoring for that but this is probably rare in practice
         return skill.hasOwnProperty('name') ? skill['name'] : 'Anonymous skill';
     }
 
@@ -147,13 +158,10 @@ class StaticCheckRunner {
             this.skillName = this.getSkillName(skill);
             // console.log(`::RESULTS FOR SKILL #${index + 1} - ${skillName}::`)
             // instantiating objects that take in skill as param
-            let helperFuncs = new Helper(skill);
+            this.helperFuncs = new Helper(skill);
             let allSequential = new AllSequential(skill);
 
             let intentList = helperFuncs.getListOfIntents();
-
-            let intentMappings = helperFuncs.retrieveNamedContextVariable(this.intentMapping);
-            let reverseMapping = helperFuncs.retrieveNamedContextVariable(this.reverseMapping);
 
             let allIntentsUsedInEntryCondition = this.checkAllIntentsUsed(skill, intentMappings);
             let intentMappingsAllMatchReverse = this.checkMappingsAllMatchReverse(intentMappings, reverseMapping)   
@@ -185,83 +193,6 @@ class StaticCheckRunner {
     }
 }
 
-let fakeSkill = {"name": "Test Skill", "intents": [{"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
-    {
-    "type": "standard",
-    "title": "A node",
-    "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
-    "context": {"a_context_var" : "a value",
-        "test_var": "value if from another node"},
-    "metadata": {},
-    "conditions": "true",
-    "dialog_node": "Opening"},
-    {
-    "type": "standard",
-    "title": "The node",
-    "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
-    "context": {"test_var" : "value if from this node",
-        "needle": "search complete"},
-    "metadata": {},
-    "conditions": "false",
-    "dialog_node": "Opening"},
-    {
-    "type": "standard",
-    "title": "Node",
-    "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
-    "context": {"placeholder" : null,
-        "test_var": "another value"},
-    "metadata": {},
-    "conditions": "$maybe == true",
-    "dialog_node": "Opening"}]};
-let testSkill = {
-        "name": "Test Skill",
-        "intents": [
-          {
-            "intent": "an_intent",
-            "examples": []
-          },
-          {
-            "intent": "other_intent",
-            "examples": []
-          },
-          {
-            "intent": "intent",
-            "examples": []
-          }
-        ],
-        "dialog_nodes" :
-        [
-            {
-                "type": "standard",
-                "title": "Provide location",
-                "output": {
-                  "text": {
-                    "values": [
-                      "We're located by Union Square on the corner of 13th and Broadway"
-                    ],
-                    "selection_policy": "sequential"
-                  }
-                },
-                "parent": "Directions",
-                "context" : {
-                    "testMapping" : {
-                        "first_intent" : "First Intent",
-                        "second_intent" : "Second Intent",
-                    },
-                    "testReverseMapping" : {
-                        "First Intent" : "first_intent",
-                        "Second Intent" : "second_intent",
-                        "Third Intent" : "third_intent"
-                    }
-                },
-                "metadata": {},
-                "conditions": "true",
-                "dialog_node": "node_3_1522439390442"
-              }
-        ]
-    }
-const testCheckRunner = new StaticCheckRunner([fakeSkill], "test_string", "testMapping", "testReverseMapping", advancedMode = true);
-testCheckRunner.runAllChecks();
 // TODO: write report of test results
 // TODO: look into feasibilty to connect direct with API key etc. 
 

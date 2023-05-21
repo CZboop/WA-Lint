@@ -73,7 +73,140 @@ test('anonymous skill returned if skill doesn\'t have a name', () => {
     expect(checkRunner.getSkillName(testSkill)).toBe('Anonymous skill');
 })
 
-// // // CHECKING MAPPINGS ALL MATCH REVERSE CHECK METHOD // // // 
+// // // CHECKING MAPPINGS ALL MATCH REVERSE METHOD // // // 
+// single mapping node that matches - array return
+test('single mapping node that matches reverse returns array with one true',() => {
+    let testSkill = {"intents": [{"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node",
+            "reverse_map": {
+                "one_" : "one",
+                "two__" : "two",
+                "three___" : "three"
+            }
+        },
+        "metadata": {},
+        "conditions": "true",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "The node",
+        "output": {"text": {"values": ["A response"], "selection_policy": "sequential"}},
+        "context": {"test_var" : "value if from this node",
+            "needle": "search complete"},
+        "metadata": {},
+        "conditions": "false",
+        "dialog_node": "Opening"},
+        {
+        "type": "standard",
+        "title": "Node",
+        "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+        "context": {"placeholder" : null,
+            "test_var": "another value",
+            "intent_map": {
+                "one" : "one_",
+                "two" : "two__",
+                "three" : "three___"
+            }
+        },
+        "metadata": {},
+        "conditions": "$maybe == true",
+        "dialog_node": "Opening"}]};
+    const checkRunner = new StaticCheckRunner(testSkill, intentMapping = 'intent_map', intentMappingReverse = 'reverse_map');
+    expect(checkRunner.checkMappingsAllMatchReverse(testSkill)).toBe([true]);
+})
+
+// single mapping node that matches - console log
+test('', () => {
+    expect().toBe();
+})
+
+// single mapping node that doesn't match - array return
+test('', () => {
+    expect().toBe();
+})
+
+// single mapping node that doesn't match - console log
+test('', () => {
+    expect().toBe();
+})
+
+// multiple mapping nodes that match - array return
+test('', () => {
+    expect().toBe();
+})
+
+// multiple mapping nodes that match - console log
+test('', () => {
+    expect().toBe();
+})
+
+// multiple mapping nodes that don't match - array return
+test('', () => {
+    expect().toBe();
+})
+
+// multiple mapping nodes that don't match - console log
+test('', () => {
+    expect().toBe();
+})
+
+// error logged if not finding the mappings in context
+test('', () => {let testSkill = {"intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+    {
+    "type": "standard",
+    "title": "A node",
+    "output": {"text": {"values": ["Some text", "Some more text"], "selection_policy": "sequential"}},
+    "context": {"a_context_var" : "a value",
+        "test_var": "value if from another node"},
+    "metadata": {},
+    "conditions": "$intent_name==\"first_intent\"",
+    "dialog_node": "just_a_node"},
+    {
+    "type": "standard",
+    "title": "A node",
+    "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+    "context": {"a_context_var" : "a value",
+        "test_var": "value if from another node"},
+    "metadata": {},
+    "conditions": "$intent_name==\"second_intent\"",
+    "dialog_node": "Opening"},
+    {
+    "type": "standard",
+    "title": "A node",
+    "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+    "context": {"a_context_var" : "a value",
+        "test_var": "value if from another node"},
+    "metadata": {},
+    "conditions": "$intent_name==\"third_intent \"",
+    "dialog_node": "Opening"},
+    {
+    "type": "standard",
+    "title": "The node",
+    "output": {"text": {"values": ["A response", "Another response"], "selection_policy": "multiline"}},
+    "context": {"test_var" : "value if from this node",
+        "needle": "search complete"},
+    "metadata": {},
+    "conditions": "true",
+    "dialog_node": "Opening"},
+    {
+    "type": "standard",
+    "title": "Node",
+    "output": {"text": {"values": ["It's a response"], "selection_policy": "sequential"}},
+    "context": {"placeholder" : null,
+        "test_var": "another value"},
+    "metadata": {},
+    "conditions": "$intent_name==\"true_intent\"",
+    "dialog_node": "Opening"}]};
+let consoleSpy = jest.spyOn(console, 'log');
+
+let reverseMatchCheck = new StaticCheckRunner(testSkill, intentMapping = "intent_mapping_context").checkMappingsAllMatchReverse(testSkill);
+expect(consoleSpy.mock.calls[0][1]).toBe('Anonymous skill: No intent mappings found called intent_mapping_context');
+})
 
 // // // CHECK ALL MULTILINE WHERE EXPECTED // // // 
 // testing that returns expected / same as running the check

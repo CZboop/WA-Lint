@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for allMultiline.cjs</title>
+    <title>Code coverage report for noDisabledResponses.cjs</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> allMultiline.cjs</h1>
+        <h1><a href="index.html">All files</a> noDisabledResponses.cjs</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/15</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/11</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -88,56 +88,59 @@
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class AllMultiline {
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class NoDisabledResponses {
     constructor (skill) {
         this.skill = skill;
     }
-    check (){
-        // handle not having the keys getting below
-        let nodesWithMultiResponse = this.skill['dialog_nodes'].filter(node =&gt; {
-            if (Object.keys(node).includes('output') &amp;&amp; Object.keys(node['output']).includes('text') &amp;&amp; Object.keys(node['output']['text']).includes('values')){
-                return node['output']['text']['values'].length &gt; 1; 
-            } 
-            else <span class="missing-if-branch" title="else path not taken" >E</span>{
-<span class="cstat-no" title="statement not covered" >                return false;</span>
-            }
-        });
-        let selectionPolicyMapped = nodesWithMultiResponse.map(node =&gt; node['output']['text']['selection_policy']);
-        let nodesWithMultipleResponsesButSequential = nodesWithMultiResponse.filter(node =&gt; node['output']['text']['selection_policy'] != 'multiline');
-        let problemNodeNames = nodesWithMultipleResponsesButSequential.map(node =&gt; node.hasOwnProperty('dialog_node') ? node['dialog_node']: <span class="branch-1 cbranch-no" title="branch not covered" >node['title'])</span>;
-        const booleanAllMultiline = selectionPolicyMapped.every(element =&gt; element === 'multiline');
-        // returning boolean if all multiple responses have mutliline selection, nodes is those that have multiple responses but aren't multiline selection
-        return {'bool': booleanAllMultiline, 'nodes': problemNodeNames};
+    run(){
+        // get all response type nodes from the skill
+        let allResponsesInSkill = this.skill['dialog_nodes'].filter(node =&gt; node.type === 'response_condition');
+        // if no response type nodes in skill, return true and empty array of node ids, skip further evaluation
+        if (allResponsesInSkill.length === 0){
+            return {'bool' : true, 'nodeIds' : []};
+        }
+        // get response nodes which are disabled
+        let disabledResponses = allResponsesInSkill.filter(response =&gt; response.disabled == true);
+        if (disabledResponses.length === 0) {
+            return {'bool' : true, 'nodeIds' : []};
+        }
+        // if disabled response nodes are disabled, return the node ids
+        else {
+            let responseIds = disabledResponses.map(responses =&gt; responses.dialog_node);
+            return {'bool' : false, 'nodeIds' : responseIds};
+        }
     }
 }
 &nbsp;
 module.exports = {
-    AllMultiline
+    NoDisabledResponses
  }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
