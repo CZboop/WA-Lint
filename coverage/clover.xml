@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1684658498606" clover="3.2.0">
-  <project timestamp="1684658498606" name="All files">
+<coverage generated="1684659323245" clover="3.2.0">
+  <project timestamp="1684659323245" name="All files">
     <metrics statements="200" coveredstatements="163" conditionals="98" coveredconditionals="76" methods="65" coveredmethods="60" elements="363" coveredelements="299" complexity="0" loc="200" ncloc="200" packages="1" files="7" classes="7"/>
     <file name="allIntentsUsed.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\allIntentsUsed.cjs">
       <metrics statements="33" coveredstatements="33" conditionals="14" coveredconditionals="14" methods="17" coveredmethods="17"/>
@@ -212,15 +212,15 @@
     </file>
     <file name="noDisabledResponses.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\noDisabledResponses.cjs">
       <metrics statements="10" coveredstatements="10" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="5"/>
-      <line num="3" count="4" type="stmt"/>
-      <line num="7" count="12" type="stmt"/>
-      <line num="9" count="4" type="cond" truecount="2" falsecount="0"/>
-      <line num="10" count="1" type="stmt"/>
-      <line num="13" count="6" type="stmt"/>
-      <line num="14" count="3" type="cond" truecount="2" falsecount="0"/>
-      <line num="15" count="1" type="stmt"/>
-      <line num="19" count="3" type="stmt"/>
-      <line num="20" count="2" type="stmt"/>
+      <line num="3" count="8" type="stmt"/>
+      <line num="7" count="24" type="stmt"/>
+      <line num="9" count="8" type="cond" truecount="2" falsecount="0"/>
+      <line num="10" count="2" type="stmt"/>
+      <line num="13" count="13" type="stmt"/>
+      <line num="14" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="15" count="2" type="stmt"/>
+      <line num="19" count="7" type="stmt"/>
+      <line num="20" count="4" type="stmt"/>
       <line num="25" count="1" type="stmt"/>
     </file>
   </project>
