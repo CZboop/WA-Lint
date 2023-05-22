@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for noDisabledResponses.cjs</title>
+    <title>Code coverage report for noSingleEquals.cjs</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> noDisabledResponses.cjs</h1>
+        <h1><a href="index.html">All files</a> noSingleEquals.cjs</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -91,56 +91,56 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class NoDisabledResponses {
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class NoSingleEquals {
     constructor (skill) {
         this.skill = skill;
     }
     run(){
-        // get all response type nodes from the skill
-        let allResponsesInSkill = this.skill['dialog_nodes'].filter(node =&gt; node.type === 'response_condition');
-        // if no response type nodes in skill, return true and empty array of node ids, skip further evaluation
-        if (allResponsesInSkill.length === 0){
-            return {'bool' : true, 'nodeIds' : []};
-        }
-        // get response nodes which are disabled
-        let disabledResponses = allResponsesInSkill.filter(response =&gt; response.disabled == true);
-        if (disabledResponses.length === 0) {
-            return {'bool' : true, 'nodeIds' : []};
-        }
-        // if disabled response nodes are disabled, return the node ids
-        else {
-            let responseIds = disabledResponses.map(responses =&gt; responses.dialog_node);
-            return {'bool' : false, 'nodeIds' : responseIds};
-        }
+        let singleEqualsInConditions = this.findSingleEqualsInConditions();
+        return {'bool' : singleEqualsInConditions.length === 0, 'nodes' : [singleEqualsInConditions]};
     }
+    findSingleEqualsInConditions(){
+        // TODO: handle multiple conditions for one node
+        //  &amp;&amp; !node.conditions.includes("==")
+        let singleEqualsInConditions = this.skill['dialog_nodes'].filter(node =&gt; {return node.conditions.includes("=") &amp;&amp; !node.conditions.includes("==")});
+        console.log(singleEqualsInConditions);
+        return singleEqualsInConditions;
+    }
+    // findSingleEqualsInOutput(){
+    //     // TODO: handle multiple outputs for one node
+    //     // TODO: get to the actual output within the node, is this always the same? i.e. always generic? and need to map objects and arrays etc.
+    //     let singleEqualsInOutput = this.this.skill['dialog_nodes'].filter(node =&gt; {node.output.generic.contains("=") &amp;&amp; node.output.generic.contains("==")});
+    //     return singleEqualsInOutput;
+&nbsp;
+    // }
 }
 &nbsp;
 module.exports = {
-    NoDisabledResponses
+    NoSingleEquals
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -148,7 +148,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-05-21T10:30:59.646Z
+                at 2023-05-22T06:47:29.320Z
             </div>
         <script src="prettify.js"></script>
         <script>
