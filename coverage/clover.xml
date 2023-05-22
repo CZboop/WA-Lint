@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1684738049339" clover="3.2.0">
-  <project timestamp="1684738049339" name="All files">
-    <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4" elements="13" coveredelements="13" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1"/>
+<coverage generated="1684738988472" clover="3.2.0">
+  <project timestamp="1684738988472" name="All files">
+    <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="6" elements="15" coveredelements="15" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1"/>
     <file name="noSingleEquals.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\noSingleEquals.cjs">
-      <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
-      <line num="3" count="4" type="stmt"/>
-      <line num="6" count="4" type="stmt"/>
-      <line num="7" count="4" type="stmt"/>
-      <line num="12" count="17" type="cond" truecount="2" falsecount="0"/>
-      <line num="13" count="4" type="stmt"/>
-      <line num="14" count="4" type="stmt"/>
+      <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="6"/>
+      <line num="3" count="8" type="stmt"/>
+      <line num="6" count="8" type="stmt"/>
+      <line num="7" count="8" type="stmt"/>
+      <line num="10" count="8" type="stmt"/>
+      <line num="14" count="34" type="cond" truecount="2" falsecount="0"/>
+      <line num="15" count="8" type="stmt"/>
       <line num="25" count="1" type="stmt"/>
     </file>
   </project>

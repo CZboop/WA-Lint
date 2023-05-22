@@ -4,12 +4,14 @@ class NoSingleEquals {
     }
     run(){
         let singleEqualsInConditions = this.findSingleEqualsInConditions();
-        return {'bool' : singleEqualsInConditions.length === 0, 'nodes' : [singleEqualsInConditions]};
+        return {'bool' : singleEqualsInConditions.length === 0, 'nodeIds' : this.getNodeIds(singleEqualsInConditions)};
+    }
+    getNodeIds(nodeArray){
+        return nodeArray.map(node => node['dialog_node']);
     }
     findSingleEqualsInConditions(){
         // TODO: handle multiple conditions for one node
         let singleEqualsInConditions = this.skill['dialog_nodes'].filter(node => {return node.conditions.includes("=") && !node.conditions.includes("==")});
-        console.log(singleEqualsInConditions);
         return singleEqualsInConditions;
     }
     // findSingleEqualsInOutput(){
