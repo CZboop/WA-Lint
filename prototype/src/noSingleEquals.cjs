@@ -10,8 +10,11 @@ class NoSingleEquals {
         return nodeArray.map(node => node['dialog_node']);
     }
     findSingleEqualsInConditions(){
-        // TODO: handle multiple conditions for one node
-        let singleEqualsInConditions = this.skill['dialog_nodes'].filter(node => {return node.conditions.includes("=") && !node.conditions.includes("==")});
+        // TODO: handle multiple conditions for one node (e.g. split by && or || but they will be one string in conditions)
+        // regex matches single equals but excludes !=, >=, <= which are valid
+        // NOTE: regex uses different lookbehind to lookahead, not sure if syntax would also be valid e.g. =! or =< currently not valid here
+        let invalidEqualsRegex = new RegExp('(?<![><!=])=(?!=)', 'g');
+        let singleEqualsInConditions = this.skill['dialog_nodes'].filter(node => {return node.conditions.match(invalidEqualsRegex)});
         return singleEqualsInConditions;
     }
     // findSingleEqualsInOutput(){
