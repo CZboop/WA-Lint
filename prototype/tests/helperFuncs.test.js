@@ -141,3 +141,131 @@ test('returns difference for arrays that are the same in a different order', () 
     .toEqual([{"same": "the"}, {"same": "quick"}, {"same": "brown"}, {"same": "fox"}, {"same": "jumps"}, {"same": "over"}, {"same": "the"}, {"same": "lazy"}, {"same": 
     "dog"}]);
 })
+
+// ===== TEST CAN GET ALL ENTITY VALUES FROM SKILL ===== //
+
+test('can return all top level names of entities', () => {
+    const testSkill = {"name": "test skill", "intents": [], "entities": [
+        {
+          "entity": "location",
+          "values": [
+            {
+              "type": "synonyms",
+              "value": "country",
+              "synonyms": [
+                "countries",
+                "state",
+                "nation",
+                "territory"
+              ]
+            },
+            {
+              "type": "synonyms",
+              "value": "continent",
+              "synonyms": [
+                "Asia",
+                "Africa",
+                "Europe",
+                "North America",
+                "South America",
+                "Australia"
+              ]
+            }
+          ]
+        },
+        {
+            "entity": "language",
+            "values": [
+              {
+                "type": "synonyms",
+                "value": "human language",
+                "synonyms": [
+                  "english",
+                  "arabic",
+                  "spanish",
+                  "hindi"
+                ]
+              },
+              {
+                "type": "synonyms",
+                "value": "computer language",
+                "synonyms": [
+                  "python",
+                  "java",
+                  "javascript",
+                  "c++",
+                  "ruby",
+                  "rust"
+                ]
+              }
+            ]
+          },
+        {
+          "entity": "sys-currency",
+          "values": []
+        }]};
+    expect(new Helper(testSkill).getEntities().entityNames.sort()).toEqual(["sys-currency", "language", "location"].sort());
+})
+
+test('can return all names and values of entities', () => {
+    const testSkill = {"name": "test skill", "intents": [], "entities": [
+        {
+          "entity": "location",
+          "values": [
+            {
+              "type": "synonyms",
+              "value": "country",
+              "synonyms": [
+                "countries",
+                "state",
+                "nation",
+                "territory"
+              ]
+            },
+            {
+              "type": "synonyms",
+              "value": "continent",
+              "synonyms": [
+                "Asia",
+                "Africa",
+                "Europe",
+                "North America",
+                "South America",
+                "Australia"
+              ]
+            }
+          ]
+        },
+        {
+            "entity": "language",
+            "values": [
+              {
+                "type": "synonyms",
+                "value": "human language",
+                "synonyms": [
+                  "english",
+                  "arabic",
+                  "spanish",
+                  "hindi"
+                ]
+              },
+              {
+                "type": "synonyms",
+                "value": "computer language",
+                "synonyms": [
+                  "python",
+                  "java",
+                  "javascript",
+                  "c++",
+                  "ruby",
+                  "rust"
+                ]
+              }
+            ]
+          },
+        {
+          "entity": "sys-currency",
+          "values": []
+        }]};
+    expect(new Helper(testSkill).getEntities().entitiesWithValues.sort()).toMatchObject([{"location":["country", "continent"]},{"language":["human language", "computer language"]}, {"sys-currency":[]}].sort());
+})

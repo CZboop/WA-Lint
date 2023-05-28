@@ -28,6 +28,10 @@ class CheckVarSyntax{
         let isException = this.exceptions.some(exception => condition.startsWith(exception.name));
         return isException;
     }
+    isNumeric(condition){
+        // TODO: return whether numeric according to rules in settings e.g. decimal or negative count or not
+        // use within isException
+    }
     getOutsideQuotes(string){
         // TODO: take the string as it would be in the value of the key in dialog node, get anything that not inside quotes, split by spaces
         // e.g. of what working with "@sys-something || input.text == \"something\" && @sys-number || input.text == \"that\" || $time == now"

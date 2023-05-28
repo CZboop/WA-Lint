@@ -48,7 +48,14 @@
             {"name" : ">=",
             "enabled" : true},
             {"name" : "!=",
-            "enabled" : true}
+            "enabled" : true},
+            {"name": "numeric",
+            "enabled": true,
+            "details" : {
+                "decimal" : true,
+                "negative" : true
+                }
+            }
         ]
     },
     "noDisabledReponses" : {

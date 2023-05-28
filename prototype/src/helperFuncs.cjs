@@ -7,6 +7,20 @@ class Helper {
         const intentList = this.skill['intents'].map(intent => {return intent.intent});
         return intentList;
     }
+
+    getEntities() {
+        const entitiesList = this.skill['entities'];
+        const topLevelEntities = entitiesList.map(entity => entity.entity);
+        const entitiesAndValues = entitiesList.map(entity => {
+            let entityName = entity["entity"];
+            let entityValues = entity.values.map(value => value.value);
+            
+            let entityNameAndValues = {};
+            entityNameAndValues[entityName] = entityValues;
+            return entityNameAndValues;
+        });
+        return { entityNames : topLevelEntities, entitiesWithValues : entitiesAndValues};
+    }
     
     retrieveNamedContextVariable(contextVar) {
         let hasContext = this.skill['dialog_nodes'].filter(obj => obj['context']!={} && obj['context']!=null );
