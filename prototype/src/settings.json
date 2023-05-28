@@ -1,1 +1,25 @@
 // TODO: end state have each type of check here with ability to switch on / off and read in from these settings to run the checks
+{
+    "allIntentsUsed" : {
+        "active" : true
+    },
+    "allMultiline" : {
+        "active" : true
+    },
+    "allSequential" : {
+        "active" : true
+    },
+    "checkVarSyntax" : {
+        "active" : true,
+        "exceptions" : {
+            "input" : true,
+            "context" : true
+        }
+    },
+    "noDisabledReponses" : {
+        "active" : true
+    },
+    "noSingleEquals" : {
+        "active" : true
+    }
+}

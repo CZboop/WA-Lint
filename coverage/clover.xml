@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1684741582154" clover="3.2.0">
-  <project timestamp="1684741582154" name="All files">
-    <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6" elements="14" coveredelements="14" complexity="0" loc="8" ncloc="8" packages="1" files="1" classes="1"/>
-    <file name="noSingleEquals.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\noSingleEquals.cjs">
-      <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
-      <line num="3" count="14" type="stmt"/>
-      <line num="6" count="14" type="stmt"/>
-      <line num="7" count="14" type="stmt"/>
-      <line num="10" count="14" type="stmt"/>
-      <line num="16" count="14" type="stmt"/>
-      <line num="17" count="64" type="stmt"/>
-      <line num="18" count="14" type="stmt"/>
-      <line num="28" count="1" type="stmt"/>
+<coverage generated="1685262965126" clover="3.2.0">
+  <project timestamp="1685262965126" name="All files">
+    <metrics statements="10" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="4" elements="17" coveredelements="12" complexity="0" loc="10" ncloc="10" packages="1" files="1" classes="1"/>
+    <file name="checkVarSyntax.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\checkVarSyntax.cjs">
+      <metrics statements="10" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="4"/>
+      <line num="7" count="5" type="stmt"/>
+      <line num="14" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="26" count="5" type="stmt"/>
+      <line num="27" count="6" type="stmt"/>
+      <line num="28" count="5" type="stmt"/>
+      <line num="30" count="5" type="stmt"/>
+      <line num="31" count="6" type="stmt"/>
+      <line num="33" count="5" type="stmt"/>
+      <line num="37" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>

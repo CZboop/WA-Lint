@@ -23,6 +23,7 @@ class NoSingleEquals {
     //     let singleEqualsInOutput = this.this.skill['dialog_nodes'].filter(node => {return node.output.generic.contains("=") && !node.output.generic.contains("==")});
     //     return singleEqualsInOutput;
     // }
+    // TODO: add method to check if used in context setting, may be exceptions to consider?
 }
 
 module.exports = {
