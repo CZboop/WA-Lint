@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1685303914971" clover="3.2.0">
-  <project timestamp="1685303914971" name="All files">
-    <metrics statements="69" coveredstatements="23" conditionals="30" coveredconditionals="6" methods="30" coveredmethods="5" elements="129" coveredelements="34" complexity="0" loc="69" ncloc="69" packages="1" files="2" classes="2"/>
+<coverage generated="1685306873790" clover="3.2.0">
+  <project timestamp="1685306873790" name="All files">
+    <metrics statements="81" coveredstatements="44" conditionals="39" coveredconditionals="15" methods="32" coveredmethods="12" elements="152" coveredelements="71" complexity="0" loc="81" ncloc="81" packages="1" files="2" classes="2"/>
     <file name="allEntitiesUsed.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\allEntitiesUsed.cjs">
-      <metrics statements="28" coveredstatements="21" conditionals="8" coveredconditionals="6" methods="11" coveredmethods="4"/>
+      <metrics statements="40" coveredstatements="33" conditionals="17" coveredconditionals="15" methods="13" coveredmethods="7"/>
       <line num="1" count="1" type="stmt"/>
-      <line num="6" count="6" type="stmt"/>
-      <line num="7" count="6" type="stmt"/>
+      <line num="6" count="10" type="stmt"/>
+      <line num="7" count="10" type="stmt"/>
+      <line num="8" count="10" type="stmt"/>
       <line num="29" count="0" type="stmt"/>
       <line num="30" count="0" type="stmt"/>
       <line num="31" count="0" type="stmt"/>
@@ -24,29 +25,40 @@
       <line num="50" count="1" type="stmt"/>
       <line num="51" count="1" type="stmt"/>
       <line num="55" count="1" type="stmt"/>
-      <line num="72" count="12" type="stmt"/>
-      <line num="74" count="3" type="stmt"/>
-      <line num="75" count="3" type="cond" truecount="1" falsecount="1"/>
-      <line num="76" count="3" type="stmt"/>
-      <line num="77" count="3" type="cond" truecount="1" falsecount="1"/>
-      <line num="78" count="0" type="stmt"/>
-      <line num="82" count="3" type="stmt"/>
-      <line num="86" count="1" type="stmt"/>
+      <line num="61" count="4" type="stmt"/>
+      <line num="62" count="4" type="stmt"/>
+      <line num="64" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="65" count="3" type="stmt"/>
+      <line num="69" count="1" type="stmt"/>
+      <line num="71" count="4" type="cond" truecount="4" falsecount="0"/>
+      <line num="72" count="1" type="stmt"/>
+      <line num="75" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="76" count="2" type="stmt"/>
+      <line num="77" count="2" type="stmt"/>
+      <line num="80" count="4" type="stmt"/>
+      <line num="91" count="12" type="stmt"/>
+      <line num="93" count="3" type="stmt"/>
+      <line num="94" count="3" type="cond" truecount="1" falsecount="1"/>
+      <line num="95" count="3" type="stmt"/>
+      <line num="96" count="3" type="cond" truecount="1" falsecount="1"/>
+      <line num="97" count="0" type="stmt"/>
+      <line num="101" count="3" type="stmt"/>
+      <line num="105" count="1" type="stmt"/>
     </file>
     <file name="helperFuncs.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\helperFuncs.cjs">
-      <metrics statements="41" coveredstatements="2" conditionals="22" coveredconditionals="0" methods="19" coveredmethods="1"/>
-      <line num="3" count="6" type="stmt"/>
+      <metrics statements="41" coveredstatements="11" conditionals="22" coveredconditionals="0" methods="19" coveredmethods="5"/>
+      <line num="3" count="10" type="stmt"/>
       <line num="7" count="0" type="stmt"/>
       <line num="8" count="0" type="stmt"/>
-      <line num="12" count="0" type="stmt"/>
-      <line num="13" count="0" type="stmt"/>
-      <line num="14" count="0" type="stmt"/>
-      <line num="15" count="0" type="stmt"/>
-      <line num="16" count="0" type="stmt"/>
-      <line num="18" count="0" type="stmt"/>
-      <line num="19" count="0" type="stmt"/>
-      <line num="20" count="0" type="stmt"/>
-      <line num="22" count="0" type="stmt"/>
+      <line num="12" count="10" type="stmt"/>
+      <line num="13" count="10" type="stmt"/>
+      <line num="14" count="10" type="stmt"/>
+      <line num="15" count="4" type="stmt"/>
+      <line num="16" count="4" type="stmt"/>
+      <line num="18" count="4" type="stmt"/>
+      <line num="19" count="4" type="stmt"/>
+      <line num="20" count="4" type="stmt"/>
+      <line num="22" count="10" type="stmt"/>
       <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
       <line num="27" count="0" type="stmt"/>
       <line num="33" count="0" type="cond" truecount="0" falsecount="4"/>

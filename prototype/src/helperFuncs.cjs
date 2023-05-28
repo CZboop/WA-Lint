@@ -14,7 +14,7 @@ class Helper {
         const entitiesAndValues = entitiesList.map(entity => {
             let entityName = entity["entity"];
             let entityValues = entity.values.map(value => value.value);
-            
+            // entitiesAndValues will be array of objects, object key being entity name and object value being array of string values
             let entityNameAndValues = {};
             entityNameAndValues[entityName] = entityValues;
             return entityNameAndValues;

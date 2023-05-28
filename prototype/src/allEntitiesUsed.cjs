@@ -5,7 +5,7 @@ class AllEntitiesUsed{
     constructor(skill){
         this.skill = skill;
         this.helper = new Helper(this.skill);
-        // let definedEntities = this.helper.getEntities();
+        this.definedEntities = this.helper.getEntities();
     }
     allEntitiesUsed() {
         // in entry conditions
@@ -56,9 +56,28 @@ class AllEntitiesUsed{
         }
     }
 
-    // takes in return value of this.separateEntityAndValue, return if either/both are defined as applicable
-    isDefined(entityAndValue){
-        // 
+    isDefined(entity, value = null){
+        // return boolean for the top level entity being defined and the value being within that entity
+        let entityInDefinedArray = this.definedEntities.entitiesWithValues.filter(element => element.hasOwnProperty(entity));
+        let isEntityInDefinedArray = false;
+        let isEntityValueInValueArray;
+        if (entityInDefinedArray.length != 0) {
+            isEntityInDefinedArray = true;
+        }
+        // assumes only one entity can be present with same name/top level value
+        else {
+            isEntityValueInValueArray = "N/A - parent entity not found";
+        }
+        if (value === null && isEntityValueInValueArray === undefined) {
+            isEntityValueInValueArray = "N/A - no value provided"
+        }
+        else {
+            if (isEntityInDefinedArray) {
+                console.log(entityInDefinedArray[0])
+                isEntityValueInValueArray = entityInDefinedArray[0][entity].filter(element => element == value).length > 0;
+            }
+        }
+        return {"entityDefined": isEntityInDefinedArray, "valueDefined" : isEntityValueInValueArray};
     }
 
     extractEntityFromCondition(condition){
