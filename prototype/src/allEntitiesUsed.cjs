@@ -5,6 +5,7 @@ class AllEntitiesUsed{
     constructor(skill){
         this.skill = skill;
         this.helper = new Helper(this.skill);
+        // let definedEntities = this.helper.getEntities();
     }
     allEntitiesUsed() {
         // in entry conditions
@@ -16,13 +17,48 @@ class AllEntitiesUsed{
 
     noUndefinedEntities() {
         // in entry conditions
-        let entitiesInConditions = this.skill["dialog_nodes"].filter(node => node.conditions.includes("@"));
-        let entitiesInConditionsUndefined = entitiesInConditions.filter(node => node.conditions);
+        
 
         // in context
 
         // in response
+        
 
+    }
+    noUndefinedEntitiesInConditions(){
+        let entitiesInConditions = this.skill["dialog_nodes"].filter(node => node.conditions.includes("@"));
+        entitiesInConditions = entitiesInConditions.map(node => {
+            node["entityInCondition"] = this.extractEntityFromCondition(node.conditions);
+            return node;
+        });
+        let entitiesInConditionsUndefined = entitiesInConditions.filter(node => node.entityInCondition);
+
+        return entitiesInConditions;
+    }
+
+    // takes full entity and gets the top level and value if applicable
+    separateEntityAndValue(entity){
+        if (entity.includes("(")){
+            let entityName = entity.split(":")[0];
+            let entityValue = entity.split(":")[1];
+            let entityParent = entityName.substring(1); 
+            entityValue = entityValue.substring(1, entityValue.length - 1);
+            return {"entity": entityParent, "value": entityValue};
+        }
+        else if (entity.includes(":")) {
+            let entityParent = entity.split(":")[0].substring(1); 
+            let entityValue = entity.split(":")[1];
+            return {"entity": entityParent, "value": entityValue};
+        }
+        else {
+            // return whole thing minus @, no value
+            return {"entity": entity.substring(1), "value": null};
+        }
+    }
+
+    // takes in return value of this.separateEntityAndValue, return if either/both are defined as applicable
+    isDefined(entityAndValue){
+        // 
     }
 
     extractEntityFromCondition(condition){
@@ -43,10 +79,8 @@ class AllEntitiesUsed{
                 }
             }
         }
-
         return entityMatch;
     }
-
 }
 
 module.exports = {
