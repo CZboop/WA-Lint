@@ -1,4 +1,3 @@
-// TODO: end state have each type of check here with ability to switch on / off and read in from these settings to run the checks
 {
     "allIntentsUsed" : {
         "active" : true
@@ -11,10 +10,46 @@
     },
     "checkVarSyntax" : {
         "active" : true,
-        "exceptions" : {
-            "input" : true,
-            "context" : true
-        }
+        "exceptions" : [
+            {"name" : "$",
+            "enabled" : true},
+            {"name" : "input.",
+            "enabled" : true},
+            {"name" : "context",
+            "enabled" : true},
+            {"name" : "true",
+            "enabled" : true},
+            {"name" : "false",
+            "enabled" : true},
+            {"name" : "now",
+            "enabled" : true},
+            {"name" : "digressed_from",
+            "enabled" : true},
+            {"name" : "current_time",
+            "enabled" : true},
+            {"name" : "current_date",
+            "enabled" : true},
+            {"name" : "fallback_reason",
+            "enabled" : true},
+            {"name" : "no_action_matches_count",
+            "enabled" : true},
+            {"name" : "#",
+            "enabled" : true},
+            {"name" : "@",
+            "enabled" : true},
+            {"name" : "output",
+            "enabled" : true},
+            {"name" : "new",
+            "enabled" : true},
+            {"name" : "==",
+            "enabled" : true},
+            {"name" : "<=",
+            "enabled" : true},
+            {"name" : ">=",
+            "enabled" : true},
+            {"name" : "!=",
+            "enabled" : true}
+        ]
     },
     "noDisabledReponses" : {
         "active" : true
