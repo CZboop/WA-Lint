@@ -81,6 +81,37 @@ test('testing one node with issue with no exceptions detected', () => {
         "metadata": {},
         "conditions": "intent_name==\"first_intent\"",
         "dialog_node": "node_999"},
+        ]};
+    let testSyntaxChecker = new CheckVarSyntax(testSkill);
+    expect(testSyntaxChecker.checkEntryConditions().sort()).toEqual(["node_999"].sort());
+})
+
+test('testing one node with no issues but one exception ignored', () => {
+    let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text", "Some more text"], "selection_policy": "multiline"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "true",
+        "dialog_node": "node_999"}]};
+    let testSyntaxChecker = new CheckVarSyntax(testSkill);
+    expect(testSyntaxChecker.checkEntryConditions().sort()).toEqual([].sort());
+})
+
+test('testing multiple nodes with issues detected', () => {
+    let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text", "Some more text"], "selection_policy": "multiline"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "intent_name==\"first_intent\"",
+        "dialog_node": "node_999"},
         {
         "type": "standard",
         "title": "A node",
@@ -88,7 +119,7 @@ test('testing one node with issue with no exceptions detected', () => {
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
-        "conditions": "$intent_name == \"second_intent\"",
+        "conditions": "count_attempts == 1",
         "dialog_node": "node_546"},
         {
         "type": "standard",
@@ -97,7 +128,40 @@ test('testing one node with issue with no exceptions detected', () => {
         "context": {"a_context_var" : "a value",
             "test_var": "value if from another node"},
         "metadata": {},
-        "conditions": "$intent_name==\"third_intent \"",
+        "conditions": "variable == another_variable",
+        "dialog_node": "node_123"}]};
+    let testSyntaxChecker = new CheckVarSyntax(testSkill);
+    expect(testSyntaxChecker.checkEntryConditions().sort()).toEqual(["node_123", "node_546", "node_999"].sort());
+})
+
+test('testing a node with mixture of issues and exceptions detected', () => {
+    let testSkill = {"name": "test skill", "intents": [{"intent": "true_intent", "examples": []}, {"intent": "first_intent", "examples": []}, {"intent": "third_intent", "examples": []}, {"intent": "second_intent", "examples": []}], "dialog_nodes": [
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text", "Some more text"], "selection_policy": "multiline"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "#intent_name",
+        "dialog_node": "node_999"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "$intent_name_var == \"second_intent\"",
+        "dialog_node": "node_546"},
+        {
+        "type": "standard",
+        "title": "A node",
+        "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+        "context": {"a_context_var" : "a value",
+            "test_var": "value if from another node"},
+        "metadata": {},
+        "conditions": "intent_name==\"third_intent \"",
         "dialog_node": "node_123"},
         {
         "type": "standard",
@@ -113,20 +177,8 @@ test('testing one node with issue with no exceptions detected', () => {
         "context": {"placeholder" : null,
             "test_var": "another value"},
         "metadata": {},
-        "conditions": "$intent_name <= \"true_intent\"",
+        "conditions": "count_attempts == 1",
         "dialog_node": "node_888"}]};
     let testSyntaxChecker = new CheckVarSyntax(testSkill);
-    expect(testSyntaxChecker.checkEntryConditions().sort()).toEqual(["node_999"].sort());
-})
-
-test('testing one node with no issues but one exception ignored', () => {
-    expect().toBe();
-})
-
-test('testing multiple nodes with issues detected', () => {
-    expect().toBe();
-})
-
-test('testing a node with mixture of issues and exceptions detected', () => {
-    expect().toBe();
+    expect(testSyntaxChecker.checkEntryConditions().sort()).toEqual(["node_888", "node_123"].sort());
 })

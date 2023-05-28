@@ -24,6 +24,7 @@ class CheckVarSyntax{
     }
     // checking if any of the exceptions match the condition, basic just using startswith currently
     isException(condition){
+        // TODO: add numbers as exceptions (incl. negative? and decimal)
         let isException = this.exceptions.some(exception => condition.startsWith(exception.name));
         return isException;
     }

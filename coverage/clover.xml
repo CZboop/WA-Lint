@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1685266696851" clover="3.2.0">
-  <project timestamp="1685266696852" name="All files">
+<coverage generated="1685267646633" clover="3.2.0">
+  <project timestamp="1685267646633" name="All files">
     <metrics statements="16" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="11" elements="28" coveredelements="26" complexity="0" loc="16" ncloc="16" packages="1" files="1" classes="1"/>
     <file name="checkVarSyntax.cjs" path="C:\Users\zeina\Documents\codin\javascript\jestJsonPrototypin\tests\prototype\src\checkVarSyntax.cjs">
       <metrics statements="16" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="11"/>
       <line num="3" count="1" type="stmt"/>
-      <line num="7" count="10" type="stmt"/>
-      <line num="9" count="190" type="stmt"/>
+      <line num="7" count="13" type="stmt"/>
+      <line num="9" count="247" type="stmt"/>
       <line num="14" count="0" type="stmt"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="22" count="7" type="stmt"/>
-      <line num="24" count="1" type="stmt"/>
-      <line num="28" count="93" type="stmt"/>
-      <line num="29" count="11" type="stmt"/>
-      <line num="34" count="10" type="stmt"/>
-      <line num="35" count="15" type="stmt"/>
-      <line num="36" count="10" type="stmt"/>
-      <line num="38" count="10" type="stmt"/>
-      <line num="39" count="11" type="stmt"/>
-      <line num="41" count="10" type="stmt"/>
+      <line num="20" count="4" type="stmt"/>
+      <line num="21" count="11" type="stmt"/>
+      <line num="23" count="6" type="stmt"/>
+      <line num="28" count="185" type="stmt"/>
+      <line num="29" count="15" type="stmt"/>
+      <line num="34" count="15" type="stmt"/>
+      <line num="35" count="20" type="stmt"/>
+      <line num="36" count="15" type="stmt"/>
+      <line num="38" count="15" type="stmt"/>
+      <line num="39" count="16" type="stmt"/>
+      <line num="41" count="15" type="stmt"/>
       <line num="45" count="1" type="stmt"/>
     </file>
   </project>
