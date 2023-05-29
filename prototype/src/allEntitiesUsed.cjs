@@ -34,25 +34,30 @@ class AllEntitiesUsed{
         // get .extractEntityFromCondition(condition) > .separateEntityAndValue(entity) > .isDefined() > evaluate return from isdefined to see what nodes to return
         // filtering to preserve the whole node so can return node id etc.
         let entitiesInConditionsUndefined = entitiesInConditions.filter(node => {
-            let entityFromNode = this.extractEntityFromCondition(node.conditions);
-            let entityAndValue = this.separateEntityAndValue(entityFromNode);
-            let isNodeEntityAndValueDefined = this.isDefined(entityAndValue.entity, entityAndValue.value);
-            let isNodeEntityDefined = isNodeEntityAndValueDefined.entityDefined;
-            let isNodeEntityValueDefined = isNodeEntityAndValueDefined.valueDefined;
+            let entitiesFromNode = this.extractEntityFromCondition(node.conditions);
+            let entitiesAndValues = entitiesFromNode.map(entity => this.separateEntityAndValue(entity));
+            let isNodeEntityAndValueDefined = entitiesAndValues.map(entityAndValue => {
+                return this.isDefined(entityAndValue.entity, entityAndValue.value);
+            });
+            let allNodeEntitiesDefinedBool = isNodeEntityAndValueDefined.every(element => element.entityDefined == true);
+            let allNodeEntityValuesDefinedBool = isNodeEntityAndValueDefined.every(element => element.valueDefined != false);
+            console.log(isNodeEntityAndValueDefined)
+            // let undefinedEntities = ;
+            // let undefinedEntityValues = ;
 
             // add the node entity and value to the node to return later
-            node["isNodeEntityDefined"] = isNodeEntityDefined;
-            node["isNodeEntityValueDefined"] = isNodeEntityValueDefined;
+            node["undefinedEntities"] = isNodeEntityAndValueDefined.filter(element => element.entityDefined == false).map(element => element.entity);
+            node["undefinedValues"] = isNodeEntityAndValueDefined.filter(element => element.valueDefined == false).map(element => element.value);
 
-            return isNodeEntityDefined == false || isNodeEntityValueDefined == false;
+            return allNodeEntitiesDefinedBool == false || allNodeEntityValuesDefinedBool == false;
         });
         
         // mapping to return relevant info from the node
         let nodesWithUndefinedEntities = entitiesInConditionsUndefined.map(node => {
             let nodeInfo = {};
             nodeInfo["nodeId"] = node.dialog_node;
-            nodeInfo["isNodeEntityDefined"] = node.isNodeEntityDefined;
-            nodeInfo["isNodeEntityValueDefined"] = node.isNodeEntityValueDefined;
+            nodeInfo["undefinedEntities"] = node.undefinedEntities;
+            nodeInfo["undefinedValues"] = node.undefinedValues;
 
             return nodeInfo;
         });
@@ -101,27 +106,27 @@ class AllEntitiesUsed{
                 isEntityValueInValueArray = entityInDefinedArray[0][entity].filter(element => element == value).length > 0;
             }
         }
-        return {"entityDefined": isEntityInDefinedArray, "valueDefined" : isEntityValueInValueArray};
+        return {"entity": entity, "value": value,"entityDefined": isEntityInDefinedArray, "valueDefined" : isEntityValueInValueArray};
     }
 
     extractMultipleEntitiesFromCondition(condition){
         // using lookahead to split before the @ symbols to preserve entities but have one entity per element
         let conditionsArray = condition.split(/(?=@)/);
-        console.log(conditionsArray)
         let extractedEntitiesArray = [];
         for (let i = 0; i < conditionsArray.length; i++){
-            console.log(conditionsArray[i])
-            extractedEntitiesArray.push(this.extractEntityFromCondition(conditionsArray[i]));
+            extractedEntitiesArray.push(this.extractEntityFromCondition(conditionsArray[i])[0]);
         }
         return extractedEntitiesArray;
     }
 
     extractEntityFromCondition(condition){
         // split in case of multiple entities in same condition, if will just find if more than one @
+        // kind of recursive will go back and forth between the two methods
         if (condition.split('@').length > 2){
-            this.extractMultipleEntitiesFromCondition(condition)
+            return this.extractMultipleEntitiesFromCondition(condition);
         }
-        // for entity with colon and brackets
+        else {
+            // for entity with colon and brackets
         // @.*:.*\(.*\w\)
         // for entity with colon no brackets
         // @.*:\w+
@@ -139,7 +144,9 @@ class AllEntitiesUsed{
             }
         }
         // TODO: refactor to an array so can use same operations on this and if multiple conditions in same node
-        return entityMatch;
+        return [entityMatch];
+        }
+        
     }
 }
 

@@ -6,19 +6,25 @@ let {AllEntitiesUsed} = require('../src/allEntitiesUsed.cjs');
 test('entity with @entity basic format can be extracted', () => {
     let testSkill = {"entities": []};
     let testCondition = "@an_entity == \"something\"";
-    expect(new AllEntitiesUsed(testSkill).extractEntityFromCondition(testCondition)).toBe("@an_entity");
+    expect(new AllEntitiesUsed(testSkill).extractEntityFromCondition(testCondition)).toEqual(["@an_entity"]);
 })
 
 test('entity with @entity:value colon then specific value format can be extracted', () => {
     let testSkill = {"entities": []};
     let testCondition = "@an_entity:value == \"something else\"";
-    expect(new AllEntitiesUsed(testSkill).extractEntityFromCondition(testCondition)).toBe("@an_entity:value");
+    expect(new AllEntitiesUsed(testSkill).extractEntityFromCondition(testCondition)).toEqual(["@an_entity:value"]);
 })
 
 test('entity with @entity:(value with space) colon then brackets for specific value with spaces format can be extracted', () => {
     let testSkill = {"entities": []};
     let testCondition = "@an_entity:(value with spaces)== \"another thing\"";
-    expect(new AllEntitiesUsed(testSkill).extractEntityFromCondition(testCondition)).toBe("@an_entity:(value with spaces)");
+    expect(new AllEntitiesUsed(testSkill).extractEntityFromCondition(testCondition)).toEqual(["@an_entity:(value with spaces)"]);
+})
+// testing multiple conditions within one node - calling the .extractMultipleEntitiesFromCondition() method
+test('entity with multiple @entity:(value with space) colon then brackets for specific value with spaces format can be extracted', () => {
+  let testSkill = {"entities": []};
+  let testCondition = "@an_entity:(value with spaces)== \"another thing\" || @another_entity:(another value)";
+  expect(new AllEntitiesUsed(testSkill).extractEntityFromCondition(testCondition)).toEqual(["@an_entity:(value with spaces)", "@another_entity:(another value)"]);
 })
 
 // TESTING SEPARATING ENTITY VALUE - .separateEntityAndValue() method //
@@ -53,7 +59,7 @@ test('defined entity with null value returns true and N/A info', () => {
             ]
           }]}]};
     let testEntity = "an_entity";
-    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity)).toEqual({"entityDefined": true, "valueDefined" : "N/A - no value provided"});
+    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity)).toEqual({"entity": "an_entity", "value": null, "entityDefined": true, "valueDefined" : "N/A - no value provided"});
 })
 
 test('undefined entity with null value returns false and N/A info', () => {
@@ -68,7 +74,7 @@ test('undefined entity with null value returns false and N/A info', () => {
             ]
           }]}]};
     let testEntity = "another_entity";
-    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity)).toEqual({"entityDefined": false, "valueDefined" : "N/A - parent entity not found"});
+    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity)).toEqual({"entity": "another_entity", "value": null,"entityDefined": false, "valueDefined" : "N/A - parent entity not found"});
 })
 
 test('defined entity with valid value returns true and true', () => {
@@ -84,7 +90,7 @@ test('defined entity with valid value returns true and true', () => {
           }]}]};
     let testEntity = "an_entity";
     let testValue = "entity";
-    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity, testValue)).toEqual({"entityDefined": true, "valueDefined" : true});
+    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity, testValue)).toEqual({"entity": "an_entity", "value": "entity", "entityDefined": true, "valueDefined" : true});
 })
 
 test('defined entity with invalid value returns true and false', () => {
@@ -100,7 +106,7 @@ test('defined entity with invalid value returns true and false', () => {
           }]}]};
     let testEntity = "an_entity";
     let testValue = "intent";
-    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity, testValue)).toEqual({"entityDefined": true, "valueDefined" : false});
+    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity, testValue)).toEqual({"entity": "an_entity", "value": "intent", "entityDefined": true, "valueDefined" : false});
 })
 
 // TESTING RETURN OF WHICH NODES HAVE UNDEFINED ENTITIES OR ENTITY VALUES - .noUndefinedEntitiesInConditions() METHOD //
@@ -128,7 +134,7 @@ test('skill with no undefined entities in node conditions used returns empty arr
   expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([]);
 })
 
-test('skill with one undefined entity (no specific value) used in node conditions returns array with one object, with matching node id', () => {
+test('skill with one undefined entity (no specific value) used in node conditions returns array with one object, with matching node id and missing entity info arrays', () => {
   let testSkill = {"entities": [{
     "entity": "an_entity",
     "values": [
@@ -148,7 +154,7 @@ test('skill with one undefined entity (no specific value) used in node condition
       "metadata": {},
       "conditions": "@test_entity",
       "dialog_node": "node_123"}]};
-  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}]);
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "undefinedEntities": ["test_entity"], "undefinedValues": []}]);
 })
 
 test('skill with multiple undefined entities (no specific values) used in node conditions returns array with matching objects', () => {
@@ -191,10 +197,10 @@ test('skill with multiple undefined entities (no specific values) used in node c
       "dialog_node": "node_789"
     }
   ]};
-  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}, {"nodeId": "node_456", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}, {"nodeId": "node_789", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}]);
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "undefinedEntities": ["test_entity"], "undefinedValues": []}, {"nodeId": "node_456", "undefinedEntities": ["testing_entity"], "undefinedValues": []}, {"nodeId": "node_789", "undefinedEntities": ["tested_entity"], "undefinedValues": []}]);
 })
 
-test('skill with one defined entities and undefined value in colon and no brackets format used in node conditions returns array with matching objects', () => {
+test('skill with one defined entity and undefined value in colon and no brackets format used in node conditions returns array with matching objects', () => {
   let testSkill = {"entities": [{
     "entity": "an_entity",
     "values": [
@@ -217,7 +223,7 @@ test('skill with one defined entities and undefined value in colon and no bracke
       "dialog_node": "node_123"
     }
   ]};
-  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": true, "isNodeEntityValueDefined": false}]);
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "undefinedEntities": [], "undefinedValues": ["test"]}]);
 })
 
 test('skill with one defined entities and undefined value in colon and brackets format used in node conditions returns array with matching objects', () => {
@@ -243,7 +249,7 @@ test('skill with one defined entities and undefined value in colon and brackets 
       "dialog_node": "node_123"
     }
   ]};
-  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": true, "isNodeEntityValueDefined": false}]);
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().details).toEqual([{"nodeId": "node_123", "undefinedEntities": [], "undefinedValues": ["test value"]}]);
 })
 
 test('skill with one defined entities and defined value in colon and no brackets format used in node conditions returns empty array', () => {
