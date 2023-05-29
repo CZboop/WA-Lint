@@ -27,7 +27,6 @@ class AllEntitiesUsed{
     }
     // TODO: here or in one of the methods used, add the missing entity as part of return so know the issue e.g. if multiple in one node condition
     // TODO: in general needs to account for multiple conditions, split along operators?
-    // TODO: add boolean return to this or main method to be able to check just boolean or more detail
     noUndefinedEntitiesInConditions(){
         // finding which conditions have @ as starting point for evaluating
         let entitiesInConditions = this.skill["dialog_nodes"].filter(node => node.conditions.includes("@"));
@@ -105,7 +104,23 @@ class AllEntitiesUsed{
         return {"entityDefined": isEntityInDefinedArray, "valueDefined" : isEntityValueInValueArray};
     }
 
+    extractMultipleEntitiesFromCondition(condition){
+        // using lookahead to split before the @ symbols to preserve entities but have one entity per element
+        let conditionsArray = condition.split(/(?=@)/);
+        console.log(conditionsArray)
+        let extractedEntitiesArray = [];
+        for (let i = 0; i < conditionsArray.length; i++){
+            console.log(conditionsArray[i])
+            extractedEntitiesArray.push(this.extractEntityFromCondition(conditionsArray[i]));
+        }
+        return extractedEntitiesArray;
+    }
+
     extractEntityFromCondition(condition){
+        // split in case of multiple entities in same condition, if will just find if more than one @
+        if (condition.split('@').length > 2){
+            this.extractMultipleEntitiesFromCondition(condition)
+        }
         // for entity with colon and brackets
         // @.*:.*\(.*\w\)
         // for entity with colon no brackets
@@ -123,6 +138,7 @@ class AllEntitiesUsed{
                 }
             }
         }
+        // TODO: refactor to an array so can use same operations on this and if multiple conditions in same node
         return entityMatch;
     }
 }

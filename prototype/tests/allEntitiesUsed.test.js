@@ -555,3 +555,23 @@ test('skill with one defined entities and defined value in colon and brackets fo
   ]};
   expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions().bool).toBe(true);
 })
+
+// TESTING EXTRACTING MULTIPLE CONDITIONS FROM ONE NODE - .extractMultipleEntitiesFromCondition() METHOD //
+// note this will be triggered from the extractEntityFromCondition only if there are multiple @s in the condition, so no need to handle single @
+test('entity with two @entity basic format can be extracted', () => {
+  let testSkill = {"entities": []};
+  let testCondition = "@an_entity == \"something\" && @another_entity";
+  expect(new AllEntitiesUsed(testSkill).extractMultipleEntitiesFromCondition(testCondition).sort()).toEqual(["@an_entity", "@another_entity"].sort());
+})
+
+test('entity with three @entity:value colon format can be extracted', () => {
+  let testSkill = {"entities": []};
+  let testCondition = "@an_entity:value1 == \"something\" && @another_entity:value2 || @third_entity:value3";
+  expect(new AllEntitiesUsed(testSkill).extractMultipleEntitiesFromCondition(testCondition).sort()).toEqual(["@an_entity:value1", "@another_entity:value2", "@third_entity:value3"].sort());
+})
+
+test('entity with four @entity:value colon format can be extracted', () => {
+  let testSkill = {"entities": []};
+  let testCondition = "@an_entity:(value one) == \"something\" && @another_entity:(value two) || @third_entity:(value three) || @entity_four:(value four) || input.text == \"ignore this\"";
+  expect(new AllEntitiesUsed(testSkill).extractMultipleEntitiesFromCondition(testCondition).sort()).toEqual(["@an_entity:(value one)", "@another_entity:(value two)", "@third_entity:(value three)", "@entity_four:(value four)"].sort());
+})
