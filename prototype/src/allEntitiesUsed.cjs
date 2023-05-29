@@ -7,7 +7,18 @@ class AllEntitiesUsed{
         this.helper = new Helper(this.skill);
         this.definedEntities = this.helper.getEntities();
     }
-    allEntitiesUsed() {
+    noUnusedEntities() {
+        let allEntitiesUsedInEntryConditions = this.skill['dialog_nodes'].filter(node => node.conditions.includes("@")).map(node => {
+            let rawEntities = this.extractEntityFromCondition(node.conditions);
+            let entities = rawEntities.map(rawEntity => this.separateEntityAndValue(rawEntity).entity);
+            return entities;
+        }).flat();
+        // TODO: get entities from responses and context
+        let unusedEntities = this.definedEntities.entityNames.filter(entity => allEntitiesUsedInEntryConditions.includes(entity) == false);
+
+        return {"bool": unusedEntities.length == 0, "unusedEntities": unusedEntities};
+    }
+    noUnusedEntityValues(){
         // in entry conditions
 
         // in context
@@ -41,9 +52,6 @@ class AllEntitiesUsed{
             });
             let allNodeEntitiesDefinedBool = isNodeEntityAndValueDefined.every(element => element.entityDefined == true);
             let allNodeEntityValuesDefinedBool = isNodeEntityAndValueDefined.every(element => element.valueDefined != false);
-            console.log(isNodeEntityAndValueDefined)
-            // let undefinedEntities = ;
-            // let undefinedEntityValues = ;
 
             // add the node entity and value to the node to return later
             node["undefinedEntities"] = isNodeEntityAndValueDefined.filter(element => element.entityDefined == false).map(element => element.entity);
@@ -102,7 +110,6 @@ class AllEntitiesUsed{
         }
         else {
             if (isEntityInDefinedArray) {
-                console.log(entityInDefinedArray[0])
                 isEntityValueInValueArray = entityInDefinedArray[0][entity].filter(element => element == value).length > 0;
             }
         }
@@ -146,7 +153,6 @@ class AllEntitiesUsed{
         // TODO: refactor to an array so can use same operations on this and if multiple conditions in same node
         return [entityMatch];
         }
-        
     }
 }
 
