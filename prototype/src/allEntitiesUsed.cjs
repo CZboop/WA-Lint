@@ -25,15 +25,39 @@ class AllEntitiesUsed{
         
 
     }
+    // TODO: here or in one of the methods used, add the missing entity as part of return so know the issue e.g. if multiple in one node condition
+    // TODO: add boolean return to this or main method to be able to check just boolean or more detail
     noUndefinedEntitiesInConditions(){
+        // finding which conditions have @ as starting point for evaluating
         let entitiesInConditions = this.skill["dialog_nodes"].filter(node => node.conditions.includes("@"));
-        entitiesInConditions = entitiesInConditions.map(node => {
-            node["entityInCondition"] = this.extractEntityFromCondition(node.conditions);
-            return node;
-        });
-        let entitiesInConditionsUndefined = entitiesInConditions.filter(node => node.entityInCondition);
+        // order to do things: 
+        // get .extractEntityFromCondition(condition) > .separateEntityAndValue(entity) > .isDefined() > evaluate return from isdefined to see what nodes to return
+        // filtering to preserve the whole node so can return node id etc.
+        let entitiesInConditionsUndefined = entitiesInConditions.filter(node => {
+            let entityFromNode = this.extractEntityFromCondition(node.conditions);
+            let entityAndValue = this.separateEntityAndValue(entityFromNode);
+            let isNodeEntityAndValueDefined = this.isDefined(entityAndValue.entity, entityAndValue.value);
+            let isNodeEntityDefined = isNodeEntityAndValueDefined.entityDefined;
+            let isNodeEntityValueDefined = isNodeEntityAndValueDefined.valueDefined;
 
-        return entitiesInConditions;
+            // add the node entity and value to the node to return later
+            node["isNodeEntityDefined"] = isNodeEntityDefined;
+            node["isNodeEntityValueDefined"] = isNodeEntityValueDefined;
+
+            return isNodeEntityDefined == false || isNodeEntityValueDefined == false;
+        });
+        
+        // mapping to return relevant info from the node
+        let nodesWithUndefinedEntities = entitiesInConditionsUndefined.map(node => {
+            let nodeInfo = {};
+            nodeInfo["nodeId"] = node.dialog_node;
+            nodeInfo["isNodeEntityDefined"] = node.isNodeEntityDefined;
+            nodeInfo["isNodeEntityValueDefined"] = node.isNodeEntityValueDefined;
+
+            return nodeInfo;
+        });
+        // retutning an array of objects where each object is a node
+        return nodesWithUndefinedEntities;
     }
 
     // takes full entity and gets the top level and value if applicable

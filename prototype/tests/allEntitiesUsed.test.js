@@ -98,7 +98,233 @@ test('defined entity with invalid value returns true and false', () => {
               "entity"
             ]
           }]}]};
-          let testEntity = "an_entity";
-          let testValue = "intent";
-          expect(new AllEntitiesUsed(testSkill).isDefined(testEntity, testValue)).toEqual({"entityDefined": true, "valueDefined" : false});
+    let testEntity = "an_entity";
+    let testValue = "intent";
+    expect(new AllEntitiesUsed(testSkill).isDefined(testEntity, testValue)).toEqual({"entityDefined": true, "valueDefined" : false});
+})
+
+// TESTING RETURN OF WHICH NODES HAVE UNDEFINED ENTITIES OR ENTITY VALUES - .noUndefinedEntitiesInConditions() METHOD //
+test('skill with no undefined entities in node conditions used returns empty array', () => {
+  let testSkill = {"entities": [{
+    "entity": "an_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      }]}
+    ], "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity",
+      "dialog_node": "node_123"}]};
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions()).toEqual([]);
+})
+
+test('skill with one undefined entity (no specific value) used in node conditions returns array with one object, with matching node id', () => {
+  let testSkill = {"entities": [{
+    "entity": "an_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      }]}
+    ], "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@test_entity",
+      "dialog_node": "node_123"}]};
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions()).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}]);
+})
+
+test('skill with multiple undefined entities (no specific values) used in node conditions returns array with matching objects', () => {
+  let testSkill = {"entities": [{
+    "entity": "an_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      }]}
+    ], "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@test_entity",
+      "dialog_node": "node_123"
+    },
+    {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@testing_entity",
+      "dialog_node": "node_456"
+    },
+    {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@tested_entity",
+      "dialog_node": "node_789"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions()).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}, {"nodeId": "node_456", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}, {"nodeId": "node_789", "isNodeEntityDefined": false, "isNodeEntityValueDefined": "N/A - parent entity not found"}]);
+})
+
+test('skill with one defined entities and undefined value in colon and no brackets format used in node conditions returns array with matching objects', () => {
+  let testSkill = {"entities": [{
+    "entity": "an_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      }]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:test",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions()).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": true, "isNodeEntityValueDefined": false}]);
+})
+
+test('skill with one defined entities and undefined value in colon and brackets format used in node conditions returns array with matching objects', () => {
+  let testSkill = {"entities": [{
+    "entity": "an_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      }]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:(test value)",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions()).toEqual([{"nodeId": "node_123", "isNodeEntityDefined": true, "isNodeEntityValueDefined": false}]);
+})
+
+test('skill with one defined entities and defined value in colon and no brackets format used in node conditions returns empty array', () => {
+  let testSkill = {"entities": [{
+    "entity": "an_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "test",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      ,
+      {
+        "type": "synonyms",
+        "value": "test value",
+        "synonyms": [
+          "entity"
+        ]
+      }
+    ]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:test",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions()).toEqual([]);
+})
+
+test('skill with one defined entities and defined value in colon and brackets format used in node conditions returns empty array ', () => {
+  let testSkill = {"entities": [{
+    "entity": "an_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "test",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      ,
+      {
+        "type": "synonyms",
+        "value": "test value",
+        "synonyms": [
+          "entity"
+        ]
+      }
+    ]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:(test value)",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUndefinedEntitiesInConditions()).toEqual([]);
 })
