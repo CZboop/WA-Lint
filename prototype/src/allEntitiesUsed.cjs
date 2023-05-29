@@ -26,6 +26,7 @@ class AllEntitiesUsed{
 
     }
     // TODO: here or in one of the methods used, add the missing entity as part of return so know the issue e.g. if multiple in one node condition
+    // TODO: in general needs to account for multiple conditions, split along operators?
     // TODO: add boolean return to this or main method to be able to check just boolean or more detail
     noUndefinedEntitiesInConditions(){
         // finding which conditions have @ as starting point for evaluating
@@ -56,8 +57,8 @@ class AllEntitiesUsed{
 
             return nodeInfo;
         });
-        // retutning an array of objects where each object is a node
-        return nodesWithUndefinedEntities;
+        // returning an array of objects where each object is a node
+        return {"bool": nodesWithUndefinedEntities.length == 0, "details" : nodesWithUndefinedEntities};
     }
 
     // takes full entity and gets the top level and value if applicable
