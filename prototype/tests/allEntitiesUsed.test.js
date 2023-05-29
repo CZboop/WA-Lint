@@ -849,3 +849,208 @@ test('if multiple unused entities in entry conditions, unused entity return is a
   ]};
   expect(new AllEntitiesUsed(testSkill).noUnusedEntities().unusedEntities.sort()).toEqual(["another_entity", "unused_entity"].sort());
 })
+
+// TESTING CHECK FOR UNUSED ENTITY VALUES - .noUnusedEntityValues() METHOD //
+test('boolean returns true if no unused values in conditions', () => {
+  let testSkill = {"entities": [{
+    "entity": "another_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "test value",
+        "synonyms": [
+          "entity"
+        ]
+      }
+    ]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@another_entity:an_entity",
+      "dialog_node": "node_123"
+    },
+    {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@another_entity:(test value)",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUnusedEntityValues().bool).toBe(true);
+})
+
+test('boolean returns false if unused values in conditions', () => {
+  let testSkill = {"entities": [{
+    "entity": "another_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "test value",
+        "synonyms": [
+          "entity"
+        ]
+      }
+    ]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:test",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUnusedEntityValues().bool).toBe(false);
+})
+
+test('unused values returns empty array if no unused values in conditions', () => {
+  let testSkill = {"entities": [{
+    "entity": "another_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "test value",
+        "synonyms": [
+          "entity"
+        ]
+      }
+    ]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:(test value)",
+      "dialog_node": "node_123"
+    },
+    {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:an_entity",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUnusedEntityValues().unusedEntityValues.sort()).toEqual([].sort());
+})
+
+test('unused values returns array with entity values and parent entities if unused values in conditions', () => {
+  let testSkill = {"entities": [{
+    "entity": "another_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "test value",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "not used",
+        "synonyms": [
+          "entity"
+        ]
+      }
+    ]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:(test value)",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUnusedEntityValues().unusedEntityValues.sort()).toEqual([{"parent": "another_entity", "value": "an_entity"}, {"parent": "another_entity", "value": "not used"}].sort());
+})
+
+test('returns true and empty array if no entities specify values in conditions', () => {
+  let testSkill = {"entities": [{
+    "entity": "another_entity",
+    "values": [
+      {
+        "type": "synonyms",
+        "value": "an_entity",
+        "synonyms": [
+          "entity"
+        ]
+      },
+      {
+        "type": "synonyms",
+        "value": "test value",
+        "synonyms": [
+          "entity"
+        ]
+      }
+    ]}
+    ], 
+    "dialog_nodes": [
+      {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:(test value)",
+      "dialog_node": "node_123"
+    },
+    {
+      "type": "standard",
+      "title": "A node",
+      "output": {"text": {"values": ["Some text"], "selection_policy": "sequential"}},
+      "context": {},
+      "metadata": {},
+      "conditions": "@an_entity:an_entity",
+      "dialog_node": "node_123"
+    }
+  ]};
+  expect(new AllEntitiesUsed(testSkill).noUnusedEntityValues()).toEqual({"bool": true, "unusedEntityValues": []});
+})

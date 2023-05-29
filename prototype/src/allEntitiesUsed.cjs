@@ -18,12 +18,40 @@ class AllEntitiesUsed{
 
         return {"bool": unusedEntities.length == 0, "unusedEntities": unusedEntities};
     }
+    // note, the below one of the more likely to want to disable e.g. lots of cases where just want to use parent entity and not specify value
     noUnusedEntityValues(){
-        // in entry conditions
+        // in entry conditions - note, entity value needs to match top level entity it's inside
+        let allEntitiesWithValuesUsedInEntryConditions = this.skill['dialog_nodes'].filter(node => node.conditions.includes("@")).map(node => {
+            let rawEntities = this.extractEntityFromCondition(node.conditions);
+            let entities = rawEntities.map(rawEntity => this.separateEntityAndValue(rawEntity));
+            return entities;
+        }).flat().filter(entityObj => entityObj.value != null);
 
-        // in context
+        let allUsedValues = allEntitiesWithValuesUsedInEntryConditions.map(entityObj => entityObj.value);
+        let allDefinedValues = this.definedEntities.entitiesWithValues.map(entity => Object.values(entity).flat()).flat();
+        // for purposes of thischeck, ignoring where the value is used but top level entity is undefined
+        // TODO: check if there is a case where need to check that entity value matches top level, may be handled by the defined check already?
+        let unusedEntityValues = allDefinedValues.filter(entity => {
+            // get whether used
+            // TODO: confirm whether matches with parent entity
+            return allUsedValues.includes(entity) === false; 
+        }).flat();
 
-        // in response
+        // if no unused entities no need to evaluate anything else and can return from here
+        if (unusedEntityValues.length == 0){
+            return {"bool": true, "unusedEntityValues": []};
+        }
+
+        let unusedEntityValuesWithParentEntity = unusedEntityValues.map(value => {
+            let valueObj = {};
+            valueObj["value"] = value;
+            let parent = this.definedEntities.entitiesWithValues.filter(entityObj => Object.values(entityObj)[0].includes(value)).map(entityObj => Object.keys(entityObj)[0])[0];
+            valueObj["parent"] = parent;
+            return valueObj;
+        });
+
+        return {"bool": unusedEntityValues.length == 0, "unusedEntityValues": unusedEntityValuesWithParentEntity};
+        // TODO: similar check but get entities from responses and context
     }
 
     noUndefinedEntities() {
