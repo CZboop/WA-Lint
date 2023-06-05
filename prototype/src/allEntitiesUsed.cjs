@@ -161,7 +161,7 @@ class AllEntitiesUsed{
             return this.extractMultipleEntitiesFromCondition(condition);
         }
         else {
-            // for entity with colon and brackets
+        // for entity with colon and brackets
         // @.*:.*\(.*\w\)
         // for entity with colon no brackets
         // @.*:\w+

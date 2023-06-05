@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for allSequential.cjs</title>
+    <title>Code coverage report for allNodesHaveTitle.cjs</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> allSequential.cjs</h1>
+        <h1><a href="index.html">All files</a> allNodesHaveTitle.cjs</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/15</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/11</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -83,69 +83,54 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">50x</span>
-<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class AllSequential{
-    constructor(skill){
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">class AllNodesHaveTitle {
+    constructor (skill) {
         this.skill = skill;
     }
-    check() {
-        // handle not having the keys getting below
-        let nodesWithSingleResponse = this.skill['dialog_nodes'].filter(node =&gt; {
-            if (Object.keys(node).includes('output') &amp;&amp; Object.keys(node['output']).includes('text') &amp;&amp; Object.keys(node['output']['text']).includes('values')){
-                return node['output']['text']['values'].length === 1; 
-            } 
-            else <span class="missing-if-branch" title="else path not taken" >E</span>{
-<span class="cstat-no" title="statement not covered" >                return false;</span>
-            }
+    check (){
+        // TODO: make sure responses and others that don't expect to have title are excluded (but nothing unnecessary excluded)
+        let standardNodes = this.skill["dialog_nodes"].filter(node =&gt; node.type == "standard");
+        let nodesWithoutTitles = standardNodes.filter(node =&gt; {
+            // TODO: are there other ways a missing title could show? null?
+            return !node.hasOwnProperty("title") || node.title == "";
         });
-        let selectionPolicyMapped = nodesWithSingleResponse.map(node =&gt; node['output']['text']['selection_policy']);
-        let nodesWithOneResponseButMultiline = nodesWithSingleResponse.filter(node =&gt; node['output']['text']['selection_policy'] != 'sequential');
-        let problemNodeNames = nodesWithOneResponseButMultiline.map(node =&gt; node.hasOwnProperty('dialog_node') ? node['dialog_node']: <span class="branch-1 cbranch-no" title="branch not covered" >node['title'])</span>;
-        const booleanAllSequential = selectionPolicyMapped.every(element =&gt; element === 'sequential');
-        // returning boolean if all single responses have sequential selection, nodes is those that have single response but aren't sequential selection
-        return {'bool': booleanAllSequential, 'nodes': problemNodeNames};
+        let allNodesHaveTitlesBool = nodesWithoutTitles.length === 0;
+        let nodesWithoutTitlesIds = nodesWithoutTitles.map(node =&gt; node.dialog_node);
+&nbsp;
+        return {"bool" : allNodesHaveTitlesBool, "nodesWithoutTitles" : nodesWithoutTitlesIds};
     }
 }
 &nbsp;
 module.exports = {
-    AllSequential
-}</pre></td></tr></table></pre>
+    AllNodesHaveTitle
+ }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-06-05T19:06:27.843Z
+                at 2023-06-05T19:18:59.653Z
             </div>
         <script src="prettify.js"></script>
         <script>
