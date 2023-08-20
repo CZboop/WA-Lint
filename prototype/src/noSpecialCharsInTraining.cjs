@@ -7,7 +7,7 @@ class NoSpecialCharsInTraining {
         const intentList = this.skill.intents.map(intent => intent.intent);
         const trainingInSkill = this.skill.intents.map(intent => {return {"intent": intent.intent, "examples": intent.examples.map(example => example.text)}});
         // TODO: more thorough check for it to be non-utf8 rather than specific characters?
-        const disallowedRegexString = /[^a-zA-Z0-9 ?!'\"£$.,]/g
+        const disallowedRegexString = /[^a-zA-Z0-9 ?!'\"£\$.,]/g
         const specialCharsFound = []; // TODO:
         for (const intent of intentList) {
             const currentTraining = trainingInSkill.filter(intentObj => intentObj.intent === intent)[0]["examples"];
@@ -18,7 +18,7 @@ class NoSpecialCharsInTraining {
                 specialCharsFound.push(exampleObj);
             }
         }
-        return specialCharsFound;
+        return specialCharsFound.length === 0; // should return false if any found, true if not since name of test is NO special chars in training
     }
 }
 
