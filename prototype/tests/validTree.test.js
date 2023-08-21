@@ -438,8 +438,275 @@ test('', () => {
 })
 
 // -- TESTING NO REPEATED PREVIOUS SIBLINGS -- //
-test('', () => {
-    expect().toBe();
+// 
+test('no repeated previous siblings returns true in bool and empty details array if there are no repeated previous siblings', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_2",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1",
+            "previous_sibling": "node_333"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1",
+            "previous_sibling": "node_22"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    expect(undertestClass.noRepeatedPreviousSiblings().bool).toBe(true);
+    expect(undertestClass.noRepeatedPreviousSiblings().details).toEqual([]);
+})
+
+// 
+test('no repeated previous siblings returns false in bool and expected details array if there is one repeated previous sibling', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_2",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1",
+            "previous_sibling": "node_22"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1",
+            "previous_sibling": "node_22"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    expect(undertestClass.noRepeatedPreviousSiblings().bool).toBe(false);
+    expect(undertestClass.noRepeatedPreviousSiblings().details).toEqual([{"nodes": ["node_1", "node_1_1"], "sharedSibling": "node_22"}]);
+})
+
+// 
+test('no repeated previous siblings returns false in bool and expected details array if there are multiple repeated previous siblings', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_22",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },{
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_23",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },{
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_24",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1",
+            "previous_sibling": "node_22"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1",
+            "previous_sibling": "node_22"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    const actualDetails = undertestClass.noRepeatedPreviousSiblings().details;
+    const expectedDetails = [{"nodes": ["node_1", "node_1_1"].sort(), "sharedSibling": "node_22"}, {"nodes": ["node_1_22", "node_1_23", "node_1_24"].sort(), "sharedSibling": "node_1_1"}];
+    console.log(actualDetails);
+    expect(undertestClass.noRepeatedPreviousSiblings().bool).toBe(false);
+    expect(expectedDetails.length).toEqual(actualDetails.length);
+    expectedDetails.forEach(item => {
+        expect(actualDetails).toContainEqual(item);
+     });
 })
 
 // -- TESTING NO REPEATED PARENTS FOR NODES WITH NO PREVIOUS SIBLINGS -- //

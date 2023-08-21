@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">65.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/70</span>
+                <span class='fraction'>49/75</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.52% </span>
+                <span class="strong">76% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/23</span>
+                <span class='fraction'>19/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">32.65% </span>
+                <span class="strong">59.61% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/49</span>
+                <span class='fraction'>31/52</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -149,9 +149,11 @@
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -194,20 +196,22 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -279,21 +283,23 @@
         // create and return final object
         return {"bool" : isNoInvalid, "details" : detailsOfInvalid};
     }
-<span class="fstat-no" title="function not covered" >    no</span>RepeatedPreviousSiblings(){
-        const allPreviousSiblings = <span class="cstat-no" title="statement not covered" >this.skill.dialog_nodes.map(<span class="fstat-no" title="function not covered" >no</span>de =&gt; <span class="cstat-no" title="statement not covered" >node.previous_sibling)</span>;</span>
-        const repeatedPreviousSiblings = <span class="cstat-no" title="statement not covered" >allPreviousSiblings.filter(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; <span class="cstat-no" title="statement not covered" >allPreviousSiblings.indexOf(item) != index)</span>;</span>
-        // TODO: return nice readable which can use to return full detail of what issues where
-        const isNoRepeatedPreviousSiblings = <span class="cstat-no" title="statement not covered" >repeatedPreviousSiblings.length === 0;</span>
-        const repeatedPreviousSiblingDetails = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; repeatedPreviousSiblings.length; i++) {</span>
-            let currentPreviousSibling = <span class="cstat-no" title="statement not covered" >repeatedPreviousSiblings[i];</span>
-            let nodesWithCurrentPreviousSiblings = <span class="cstat-no" title="statement not covered" >this.skill.dialog_nodes.filter(<span class="fstat-no" title="function not covered" >no</span>de =&gt; <span class="cstat-no" title="statement not covered" >node.previous_sibling === repeatedPreviousSiblings[i])</span>;</span>
-            let currentDetails = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >            currentDetails["sharedSibling"] = currentPreviousSibling;</span>
-<span class="cstat-no" title="statement not covered" >            currentDetails["nodes"] = nodesWithCurrentPreviousSiblings;</span>
-<span class="cstat-no" title="statement not covered" >            repeatedPreviousSiblingDetails[currentPreviousSibling] = currentDetails;</span>
+    noRepeatedPreviousSiblings(){
+        const allPreviousSiblings = this.skill.dialog_nodes.map(node =&gt; node.previous_sibling);
+        const repeatedPreviousSiblings = allPreviousSiblings.filter((item, index) =&gt; allPreviousSiblings.indexOf(item) != index);
+        const repeatedPreviousSiblingsSet = repeatedPreviousSiblings.filter((item, index) =&gt; repeatedPreviousSiblings.indexOf(item) === index);
+        console.log(repeatedPreviousSiblingsSet);
+        const isNoRepeatedPreviousSiblings = repeatedPreviousSiblings.length === 0;
+        const repeatedPreviousSiblingDetails = [];
+        console.log(repeatedPreviousSiblingDetails)
+        for (let i = 0; i &lt; repeatedPreviousSiblingsSet.length; i++) {
+            let currentPreviousSibling = repeatedPreviousSiblingsSet[i];
+            let nodesWithCurrentPreviousSiblings = this.skill.dialog_nodes.filter(node =&gt; node.previous_sibling === currentPreviousSibling).map(node =&gt; node.dialog_node);
+            let currentDetails = {};
+            currentDetails["sharedSibling"] = currentPreviousSibling;
+            currentDetails["nodes"] = nodesWithCurrentPreviousSiblings.sort();
+            repeatedPreviousSiblingDetails.push(currentDetails);
         }
-<span class="cstat-no" title="statement not covered" >        return {"bool" : isNoRepeatedPreviousSiblings, "details" : repeatedPreviousSiblingDetails};</span>
+        return {"bool" : isNoRepeatedPreviousSiblings, "details" : repeatedPreviousSiblingDetails};
     }
 <span class="fstat-no" title="function not covered" >    no</span>MultipleChildNodesWithNoPreviousSiblings(){
         // i.e. multiple nodes with same parent and no prev sibling trying to be first in the hierarchy
@@ -328,7 +334,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-08-21T19:07:00.146Z
+                at 2023-08-21T19:41:10.700Z
             </div>
         <script src="prettify.js"></script>
         <script>

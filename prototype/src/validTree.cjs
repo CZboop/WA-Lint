@@ -45,16 +45,17 @@ class ValidTree {
     noRepeatedPreviousSiblings(){
         const allPreviousSiblings = this.skill.dialog_nodes.map(node => node.previous_sibling);
         const repeatedPreviousSiblings = allPreviousSiblings.filter((item, index) => allPreviousSiblings.indexOf(item) != index);
-        // TODO: return nice readable which can use to return full detail of what issues where
+        // getting only unique values once we know the previous sibling has been found to be repeated
+        const repeatedPreviousSiblingsSet = repeatedPreviousSiblings.filter((item, index) => repeatedPreviousSiblings.indexOf(item) === index);
         const isNoRepeatedPreviousSiblings = repeatedPreviousSiblings.length === 0;
         const repeatedPreviousSiblingDetails = [];
-        for (let i = 0; i < repeatedPreviousSiblings.length; i++) {
-            let currentPreviousSibling = repeatedPreviousSiblings[i];
-            let nodesWithCurrentPreviousSiblings = this.skill.dialog_nodes.filter(node => node.previous_sibling === repeatedPreviousSiblings[i]);
+        for (let i = 0; i < repeatedPreviousSiblingsSet.length; i++) {
+            let currentPreviousSibling = repeatedPreviousSiblingsSet[i];
+            let nodesWithCurrentPreviousSiblings = this.skill.dialog_nodes.filter(node => node.previous_sibling === currentPreviousSibling).map(node => node.dialog_node);
             let currentDetails = {};
             currentDetails["sharedSibling"] = currentPreviousSibling;
-            currentDetails["nodes"] = nodesWithCurrentPreviousSiblings;
-            repeatedPreviousSiblingDetails[currentPreviousSibling] = currentDetails;
+            currentDetails["nodes"] = nodesWithCurrentPreviousSiblings.sort();
+            repeatedPreviousSiblingDetails.push(currentDetails);
         }
         return {"bool" : isNoRepeatedPreviousSiblings, "details" : repeatedPreviousSiblingDetails};
     }
