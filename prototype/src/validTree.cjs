@@ -19,11 +19,11 @@ class ValidTree {
     noRefsToNonExistentNodes(){
         // possible places to reference - parent, sibling, jump to
         // getting all node ids to use as reference - these are the only valid ones to reference
-        const allValidNodeIds = this.skill.dialogNodes.map(node => node.dialog_node);
+        const allValidNodeIds = this.skill.dialog_nodes.map(node => node.dialog_node);
         // for each of the possible properties to reference other nodes, filter to invalid and map to add a type property so we know which ref is invalid
-        const nodesWithInvalidParent = this.skill.dialogNodes.filter(node => node.hasOwnProperty("parent")).filter(node => !allValidNodeIds.contains(node.parent)).map(node => {return {"type": "parent", "node": node} });
-        const nodesWithInvalidPrevSibling = this.skill.dialogNodes.filter(node => node.hasOwnProperty("previous_sibling")).filter(node => !allValidNodeIds.contains(node.previous_sibling)).map(node => {return {"type": "previous_sibling", "node": node} });
-        const nodesWithInvalidNextStep = this.skill.dialogNodes.filter(node => node.hasOwnProperty("next_step")).filter(node => node.next_step.hasOwnProperty("dialog_node")).filter(node => !allValidNodeIds.contains(node.next_step.dialog_node)).map(node => {return {"type": "next_step", "node": node} });
+        const nodesWithInvalidParent = this.skill.dialog_nodes.filter(node => node.hasOwnProperty("parent")).filter(node => !allValidNodeIds.includes(node.parent)).map(node => {return {"type": "parent", "node": node} });
+        const nodesWithInvalidPrevSibling = this.skill.dialog_nodes.filter(node => node.hasOwnProperty("previous_sibling")).filter(node => !allValidNodeIds.includes(node.previous_sibling)).map(node => {return {"type": "previous_sibling", "node": node} });
+        const nodesWithInvalidNextStep = this.skill.dialog_nodes.filter(node => node.hasOwnProperty("next_step")).filter(node => node.next_step.hasOwnProperty("dialog_node")).filter(node => !allValidNodeIds.includes(node.next_step.dialog_node)).map(node => {return {"type": "next_step", "node": node} });
 
         // combine all the arrays made above
         const nodesWithInvalidRefs = nodesWithInvalidParent.concat(nodesWithInvalidPrevSibling, nodesWithInvalidNextStep);
@@ -34,7 +34,7 @@ class ValidTree {
         // iterate to add meaningful info on each issue to detailsOfInvalid array
         for (let i = 0; i < nodesWithInvalidRefs.length; i++) {
             const type = nodesWithInvalidRefs[i].type;
-            const nodeFrom = nodesWithInvalidRefs[i].dialog_node;
+            const nodeFrom = nodesWithInvalidRefs[i].node.dialog_node;
             const nodeTo = type === "parent" ? nodesWithInvalidRefs[i].node.parent : type === "previous_sibling" ? nodesWithInvalidRefs[i].node.previous_sibling : nodesWithInvalidRefs[i].node.next_step.dialog_node;
             const detailsObj = {"type": type, "nodeFrom": nodeFrom, "nodeTo": nodeTo};
             detailsOfInvalid.push(detailsObj);
@@ -43,14 +43,14 @@ class ValidTree {
         return {"bool" : isNoInvalid, "details" : detailsOfInvalid};
     }
     noRepeatedPreviousSiblings(){
-        const allPreviousSiblings = this.skill.dialogNodes.map(node => node.previous_sibling);
+        const allPreviousSiblings = this.skill.dialog_nodes.map(node => node.previous_sibling);
         const repeatedPreviousSiblings = allPreviousSiblings.filter((item, index) => allPreviousSiblings.indexOf(item) != index);
         // TODO: return nice readable which can use to return full detail of what issues where
         const isNoRepeatedPreviousSiblings = repeatedPreviousSiblings.length === 0;
         const repeatedPreviousSiblingDetails = [];
         for (let i = 0; i < repeatedPreviousSiblings.length; i++) {
             let currentPreviousSibling = repeatedPreviousSiblings[i];
-            let nodesWithCurrentPreviousSiblings = this.skill.dialogNodes.filter(node => node.previous_sibling === repeatedPreviousSiblings[i]);
+            let nodesWithCurrentPreviousSiblings = this.skill.dialog_nodes.filter(node => node.previous_sibling === repeatedPreviousSiblings[i]);
             let currentDetails = {};
             currentDetails["sharedSibling"] = currentPreviousSibling;
             currentDetails["nodes"] = nodesWithCurrentPreviousSiblings;
@@ -61,7 +61,7 @@ class ValidTree {
     noMultipleChildNodesWithNoPreviousSiblings(){
         // i.e. multiple nodes with same parent and no prev sibling trying to be first in the hierarchy
         // getting nodes which had a parent and no previous siblings
-        const nodesWithParentAndNoPrevSibling = this.skill.dialogNodes.filter(node => node.hasOwnProperty("parent") && !node.hasOwnProperty("previous_sibling"));
+        const nodesWithParentAndNoPrevSibling = this.skill.dialog_nodes.filter(node => node.hasOwnProperty("parent") && !node.hasOwnProperty("previous_sibling"));
         const parentsOfNodesWithNoPrevSibling = nodesWithParentAndNoPrevSibling.map(node => node.parent);
         // from above, getting repeated parents
         const repeatedParentNodes = parentsOfNodesWithNoPrevSibling.filter((element, index) => { return parentsOfNodesWithNoPrevSibling.indexOf(element) != index });
