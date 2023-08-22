@@ -66,16 +66,17 @@ class ValidTree {
         const parentsOfNodesWithNoPrevSibling = nodesWithParentAndNoPrevSibling.map(node => node.parent);
         // from above, getting repeated parents
         const repeatedParentNodes = parentsOfNodesWithNoPrevSibling.filter((element, index) => { return parentsOfNodesWithNoPrevSibling.indexOf(element) != index });
+        const repeatedParentNodesSet = repeatedParentNodes.filter((element, index) => {return repeatedParentNodes.indexOf(element) === index});
         // then using parents to get the nodes back
         // const topNodesWithRepeatedParentNodes = nodesWithParentAndNoPrevSibling.filter(node => repeatedParentNodes.includes(node.parent));
-        const isNoMultipleTopChildNodes = topNodesWithRepeatedParentNodes.length === 0;
+        const isNoMultipleTopChildNodes = repeatedParentNodesSet.length === 0;
         const sameParentMultipleTopChildrenDetails = [];
-        for (let i = 0; i < repeatedParentNodes.length; i++) {
+        for (let i = 0; i < repeatedParentNodesSet.length; i++) {
             let currentDetails = {};
-            let parentNode = repeatedParentNodes[i];
-            let competingChildNodes = nodesWithParentAndNoPrevSibling.filter(node => node.parent === repeatedParentNodes[i]);
+            let parentNode = repeatedParentNodesSet[i];
+            let competingChildNodes = nodesWithParentAndNoPrevSibling.filter(node => node.parent === parentNode).map(node => node.dialog_node);
             currentDetails["parentNode"] = parentNode;
-            currentDetails["childNodes"] = competingChildNodes;
+            currentDetails["childNodes"] = competingChildNodes.sort();
 
             sameParentMultipleTopChildrenDetails.push(currentDetails);
         }

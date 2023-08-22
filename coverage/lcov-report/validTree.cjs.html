@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.33% </span>
+                <span class="strong">89.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>49/75</span>
+                <span class='fraction'>68/76</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76% </span>
+                <span class="strong">96.29% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>19/25</span>
+                <span class='fraction'>26/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.61% </span>
+                <span class="strong">84.31% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/52</span>
+                <span class='fraction'>43/51</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -153,7 +153,7 @@
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,9 +198,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -216,24 +215,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -286,11 +286,10 @@
     noRepeatedPreviousSiblings(){
         const allPreviousSiblings = this.skill.dialog_nodes.map(node =&gt; node.previous_sibling);
         const repeatedPreviousSiblings = allPreviousSiblings.filter((item, index) =&gt; allPreviousSiblings.indexOf(item) != index);
+        // getting only unique values once we know the previous sibling has been found to be repeated
         const repeatedPreviousSiblingsSet = repeatedPreviousSiblings.filter((item, index) =&gt; repeatedPreviousSiblings.indexOf(item) === index);
-        console.log(repeatedPreviousSiblingsSet);
         const isNoRepeatedPreviousSiblings = repeatedPreviousSiblings.length === 0;
         const repeatedPreviousSiblingDetails = [];
-        console.log(repeatedPreviousSiblingDetails)
         for (let i = 0; i &lt; repeatedPreviousSiblingsSet.length; i++) {
             let currentPreviousSibling = repeatedPreviousSiblingsSet[i];
             let nodesWithCurrentPreviousSiblings = this.skill.dialog_nodes.filter(node =&gt; node.previous_sibling === currentPreviousSibling).map(node =&gt; node.dialog_node);
@@ -301,27 +300,28 @@
         }
         return {"bool" : isNoRepeatedPreviousSiblings, "details" : repeatedPreviousSiblingDetails};
     }
-<span class="fstat-no" title="function not covered" >    no</span>MultipleChildNodesWithNoPreviousSiblings(){
+    noMultipleChildNodesWithNoPreviousSiblings(){
         // i.e. multiple nodes with same parent and no prev sibling trying to be first in the hierarchy
         // getting nodes which had a parent and no previous siblings
-        const nodesWithParentAndNoPrevSibling = <span class="cstat-no" title="statement not covered" >this.skill.dialog_nodes.filter(<span class="fstat-no" title="function not covered" >no</span>de =&gt; <span class="cstat-no" title="statement not covered" >node.hasOwnProperty("parent") &amp;&amp; !node.hasOwnProperty("previous_sibling"))</span>;</span>
-        const parentsOfNodesWithNoPrevSibling = <span class="cstat-no" title="statement not covered" >nodesWithParentAndNoPrevSibling.map(<span class="fstat-no" title="function not covered" >no</span>de =&gt; <span class="cstat-no" title="statement not covered" >node.parent)</span>;</span>
+        const nodesWithParentAndNoPrevSibling = this.skill.dialog_nodes.filter(node =&gt; node.hasOwnProperty("parent") &amp;&amp; !node.hasOwnProperty("previous_sibling"));
+        const parentsOfNodesWithNoPrevSibling = nodesWithParentAndNoPrevSibling.map(node =&gt; node.parent);
         // from above, getting repeated parents
-        const repeatedParentNodes = <span class="cstat-no" title="statement not covered" >parentsOfNodesWithNoPrevSibling.filter(<span class="fstat-no" title="function not covered" >(e</span>lement, index) =&gt; { <span class="cstat-no" title="statement not covered" >return parentsOfNodesWithNoPrevSibling.indexOf(element) != index </span>});</span>
+        const repeatedParentNodes = parentsOfNodesWithNoPrevSibling.filter((element, index) =&gt; { return parentsOfNodesWithNoPrevSibling.indexOf(element) != index });
+        const repeatedParentNodesSet = repeatedParentNodes.filter((element, index) =&gt; {return repeatedParentNodes.indexOf(element) === index});
         // then using parents to get the nodes back
         // const topNodesWithRepeatedParentNodes = nodesWithParentAndNoPrevSibling.filter(node =&gt; repeatedParentNodes.includes(node.parent));
-        const isNoMultipleTopChildNodes = <span class="cstat-no" title="statement not covered" >topNodesWithRepeatedParentNodes.length === 0;</span>
-        const sameParentMultipleTopChildrenDetails = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; repeatedParentNodes.length; i++) {</span>
-            let currentDetails = <span class="cstat-no" title="statement not covered" >{};</span>
-            let parentNode = <span class="cstat-no" title="statement not covered" >repeatedParentNodes[i];</span>
-            let competingChildNodes = <span class="cstat-no" title="statement not covered" >nodesWithParentAndNoPrevSibling.filter(<span class="fstat-no" title="function not covered" >no</span>de =&gt; <span class="cstat-no" title="statement not covered" >node.parent === repeatedParentNodes[i])</span>;</span>
-<span class="cstat-no" title="statement not covered" >            currentDetails["parentNode"] = parentNode;</span>
-<span class="cstat-no" title="statement not covered" >            currentDetails["childNodes"] = competingChildNodes;</span>
+        const isNoMultipleTopChildNodes = repeatedParentNodesSet.length === 0;
+        const sameParentMultipleTopChildrenDetails = [];
+        for (let i = 0; i &lt; repeatedParentNodesSet.length; i++) {
+            let currentDetails = {};
+            let parentNode = repeatedParentNodesSet[i];
+            let competingChildNodes = nodesWithParentAndNoPrevSibling.filter(node =&gt; node.parent === parentNode).map(node =&gt; node.dialog_node);
+            currentDetails["parentNode"] = parentNode;
+            currentDetails["childNodes"] = competingChildNodes.sort();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            sameParentMultipleTopChildrenDetails.push(currentDetails);</span>
+            sameParentMultipleTopChildrenDetails.push(currentDetails);
         }
-<span class="cstat-no" title="statement not covered" >        return {"bool" : isNoMultipleTopChildNodes, "details" : sameParentMultipleTopChildrenDetails};</span>
+        return {"bool" : isNoMultipleTopChildNodes, "details" : sameParentMultipleTopChildrenDetails};
     }
 }
 &nbsp;
@@ -334,7 +334,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-08-21T19:41:10.700Z
+                at 2023-08-22T07:32:23.448Z
             </div>
         <script src="prettify.js"></script>
         <script>

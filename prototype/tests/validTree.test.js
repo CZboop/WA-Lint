@@ -710,8 +710,288 @@ test('no repeated previous siblings returns false in bool and expected details a
 })
 
 // -- TESTING NO REPEATED PARENTS FOR NODES WITH NO PREVIOUS SIBLINGS -- //
-test('', () => {
-    expect().toBe();
+// 
+test('where no issues, no repeated parents for nodes with no previous siblings returns true and empty details array', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_2",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    expect(undertestClass.noMultipleChildNodesWithNoPreviousSiblings().bool).toBe(true);
+    expect(undertestClass.noMultipleChildNodesWithNoPreviousSiblings().details).toEqual([]);
+})
+
+// 
+test('where one issue, no repeated parents for nodes with no previous siblings returns false and expected details array', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_2",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    const actualDetails = undertestClass.noMultipleChildNodesWithNoPreviousSiblings().details;
+    const expectedDetails = [{"parentNode": "node_1", "childNodes": ["node_1_1", "node_1_2"].sort()}];
+    expect(undertestClass.noMultipleChildNodesWithNoPreviousSiblings().bool).toBe(false);
+    expect(expectedDetails.length).toEqual(actualDetails.length);
+    expectedDetails.forEach(item => {
+        expect(actualDetails).toContainEqual(item);
+     });
+})
+
+// 
+test('where multiple issues, no repeated parents for nodes with no previous siblings returns false and expected details array', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+            {
+            "type": "standard",
+            "output": {
+                "text": {
+                "values": [
+                    "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+                }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_2_1",
+            "digress_out": "allow_all",
+            "parent": "node_2"
+            },
+            {
+            "type": "standard",
+            "output": {
+                "text": {
+                "values": [
+                    "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+                }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_2_2",
+            "digress_out": "allow_all",
+            "parent": "node_2"
+            },
+            {
+            "type": "standard",
+            "output": {
+                "text": {
+                "values": [
+                    "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+                }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_2_3",
+            "digress_out": "allow_all",
+            "parent": "node_2"
+            },
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_2",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    const actualDetails = undertestClass.noMultipleChildNodesWithNoPreviousSiblings().details;
+    const expectedDetails = [{"parentNode": "node_1", "childNodes": ["node_1_1", "node_1_2"].sort()}, {"parentNode": "node_2", "childNodes": ["node_2_1", "node_2_2", "node_2_3"].sort()}];
+    expect(undertestClass.noMultipleChildNodesWithNoPreviousSiblings().bool).toBe(false);
+    expect(expectedDetails.length).toEqual(actualDetails.length);
+    expectedDetails.forEach(item => {
+        expect(actualDetails).toContainEqual(item);
+     });
 })
 
 // -- TESTING RUN METHOD FOR ALL CHECKS -- //
