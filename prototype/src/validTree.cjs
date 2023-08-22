@@ -19,7 +19,7 @@ class ValidTree {
     noRefsToNonExistentNodes(){
         // possible places to reference - parent, sibling, jump to
         // getting all node ids to use as reference - these are the only valid ones to reference
-        const allValidNodeIds = this.skill.dialog_nodes.map(node => node.dialog_node);
+        const allValidNodeIds = this.skill.dialog_nodes.map(node => node.dialog_node).filter(node => !!node); // remove falsy
         // for each of the possible properties to reference other nodes, filter to invalid and map to add a type property so we know which ref is invalid
         const nodesWithInvalidParent = this.skill.dialog_nodes.filter(node => node.hasOwnProperty("parent")).filter(node => !allValidNodeIds.includes(node.parent)).map(node => {return {"type": "parent", "node": node} });
         const nodesWithInvalidPrevSibling = this.skill.dialog_nodes.filter(node => node.hasOwnProperty("previous_sibling")).filter(node => !allValidNodeIds.includes(node.previous_sibling)).map(node => {return {"type": "previous_sibling", "node": node} });
@@ -43,12 +43,13 @@ class ValidTree {
         return {"bool" : isNoInvalid, "details" : detailsOfInvalid};
     }
     noRepeatedPreviousSiblings(){
-        const allPreviousSiblings = this.skill.dialog_nodes.map(node => node.previous_sibling);
+        const allPreviousSiblings = this.skill.dialog_nodes.map(node => node.previous_sibling).filter(sibling => !!sibling); //remove anything falsy
         const repeatedPreviousSiblings = allPreviousSiblings.filter((item, index) => allPreviousSiblings.indexOf(item) != index);
         // getting only unique values once we know the previous sibling has been found to be repeated
         const repeatedPreviousSiblingsSet = repeatedPreviousSiblings.filter((item, index) => repeatedPreviousSiblings.indexOf(item) === index);
         const isNoRepeatedPreviousSiblings = repeatedPreviousSiblings.length === 0;
         const repeatedPreviousSiblingDetails = [];
+        console.log("REPEATED PREV SIBLINGS SET: " + repeatedPreviousSiblingsSet);
         for (let i = 0; i < repeatedPreviousSiblingsSet.length; i++) {
             let currentPreviousSibling = repeatedPreviousSiblingsSet[i];
             let nodesWithCurrentPreviousSiblings = this.skill.dialog_nodes.filter(node => node.previous_sibling === currentPreviousSibling).map(node => node.dialog_node);
@@ -63,7 +64,7 @@ class ValidTree {
         // i.e. multiple nodes with same parent and no prev sibling trying to be first in the hierarchy
         // getting nodes which had a parent and no previous siblings
         const nodesWithParentAndNoPrevSibling = this.skill.dialog_nodes.filter(node => node.hasOwnProperty("parent") && !node.hasOwnProperty("previous_sibling"));
-        const parentsOfNodesWithNoPrevSibling = nodesWithParentAndNoPrevSibling.map(node => node.parent);
+        const parentsOfNodesWithNoPrevSibling = nodesWithParentAndNoPrevSibling.map(node => node.parent).filter(parent => !!parent);
         // from above, getting repeated parents
         const repeatedParentNodes = parentsOfNodesWithNoPrevSibling.filter((element, index) => { return parentsOfNodesWithNoPrevSibling.indexOf(element) != index });
         const repeatedParentNodesSet = repeatedParentNodes.filter((element, index) => {return repeatedParentNodes.indexOf(element) === index});
@@ -83,6 +84,8 @@ class ValidTree {
         return {"bool" : isNoMultipleTopChildNodes, "details" : sameParentMultipleTopChildrenDetails};
     }
 }
+
+// TODO: test for repeated node ids? can this happen?
 
 module.exports = {
     ValidTree

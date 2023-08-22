@@ -995,6 +995,209 @@ test('where multiple issues, no repeated parents for nodes with no previous sibl
 })
 
 // -- TESTING RUN METHOD FOR ALL CHECKS -- //
-test('', () => {
-    expect().toBe();
+// 
+test('no issues returns object with key for each check and true/empty array value for each one', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_2",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    const actualObject = undertestClass.run();
+
+    const expectedObject = {
+        "noRefsToNonExistentNodes" : {"bool": true, "details": []},
+        "noRepeatedPreviousSiblings" : {"bool": true, "details": []},
+        "noMultipleChildNodesWithNoPreviousSiblings" : {"bool": true, "details": []}
+    };
+    expect(actualObject).toEqual(expectedObject);
+})
+
+// 
+test('all issues returns object with key for each check and false/expected array value for each one', () => {
+    const testSkill = {
+        "name": "Test Skill",
+        "intents": [],
+        "entities": [],
+        "description": "Dummy skill for testing",
+        "dialog_nodes": [
+          {
+            "type": "standard",
+            "output": {
+              "text": {
+                "values": [
+                  "I didn't understand can you try again"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "metadata": {},
+            "conditions": "anything_else",
+            "digress_in": "returns",
+            "dialog_node": "node_1_2",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_3",
+            "digress_out": "allow_all",
+            "previous_sibling": "node_1_1",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_8",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_9",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          ,
+          {
+            "type": "standard",
+            "title": "Directions and location",
+            "output": {},
+            "metadata": {},
+            "next_step": {
+              "behavior": "skip_user_input"
+            },
+            "conditions": "#Customer_Care_Store_Location",
+            "digress_in": "returns",
+            "dialog_node": "node_1_1",
+            "digress_out": "allow_all",
+            "parent": "node_1"
+          },
+          {
+            "type": "standard",
+            "title": "Opening",
+            "output": {
+              "text": {
+                "values": [
+                  "Hello, I'm a demo customer care virtual assistant to show you the basics.  I can help with directions to my store, hours of operation and booking an in-store appointment"
+                ],
+                "selection_policy": "sequential"
+              }
+            },
+            "context": {
+              "intent_descriptions": {
+                "Customer_Care_Store_Hours": "checking store hours",
+                "Thanks": "saying thanks",
+                "Customer_Care_Appointments": "making an appointment",
+                "Customer_Care_Store_Location": "checking locations",
+                "Cancel": "cancelling something",
+                "General_Connect_to_Agent": "connecting to an agent",
+                "Goodbye": "saying bye",
+                "General_Greetings": "saying hello",
+                "Help": "getting help"
+              }
+            },
+            "metadata": {},
+            "conditions": "welcome",
+            "dialog_node": "node_1",
+            "parent": "node_1_2_23"
+          }
+        ]
+      };
+    const undertestClass = new ValidTree(testSkill);
+    const actualObject = undertestClass.run();
+
+    const expectedObject = {
+        "noRefsToNonExistentNodes" : {"bool": false, "details": [{"type": "parent", "nodeFrom": "node_1", "nodeTo": "node_1_2_23"}]},
+        "noRepeatedPreviousSiblings" : {"bool": false, "details": [{"nodes": ["node_1_2", "node_1_3"].sort(), "sharedSibling": "node_1_1"}]},
+        "noMultipleChildNodesWithNoPreviousSiblings" : {"bool": false, "details": [{"parentNode": "node_1", "childNodes": ["node_1_1", "node_1_8", "node_1_9"].sort()}]}
+    };
+    expect(actualObject).toEqual(expectedObject);
 })
