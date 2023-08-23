@@ -1,23 +1,49 @@
 // sample watson skill taken and adapted from https://github.com/watson-developer-cloud/assistant-skill-analysis/blob/master/tests/resources/test_workspaces/skill-Customer-Care-Sample.json
 // import { createRequire } from "module";
 // const require = createRequire(import.meta.url);
-const importedTestSkill = require('../dataToTest/data.json');
+const importedTestSkill = require('../test_skills/data.json');
 const { AllIntentsUsed } = require('./allIntentsUsed.cjs');
 const { AllMultiline } = require('./allMultiline.cjs');
 const { AllSequential } = require('./allSequential.cjs');
 const { Helper } = require('./helperFuncs.cjs');
 const { KeyValReverseCheck } = require('./keyValReverseCheck.cjs');
+const {glob} = require("glob");
+const fs = require("fs");
 
 // // // TEST SUITE CLASS TO RUN ON ALL TESTS ON THE GIVEN SKILL OR SKILLS // // //
 // // SHOULD ALSO LOG WHERE THE ISSUES ARE // // 
 
-class StaticCheckRunner {
-    constructor(skills, intentVar = null, intentMapping, intentMappingReverse, advancedMode = false) {
-        this.skills = skills; // all skills TODO: (check formatting of how they get combined if extracted in diff ways)
+class CheckRunner {
+    constructor(intentVar = null, intentMapping = null, intentMappingReverse = null, advancedMode = false, useApiKey = false, apiKey = null, skillsDir = '../skills') {
         this.intentVar = intentVar; // optional variable name used to store the intent
         this.intentMapping = intentMapping; // optional variable name used to store mappings of intent name: description for user
         this.intentMappingReverse = intentMappingReverse; // optional variable name used to store mappings of intent description: intent name
         this.advancedMode = advancedMode;
+        this.skills = [];
+        this.skillsDir = skillsDir;
+        this.apiKey = apiKey;
+        this.useApiKey = useApiKey;
+        if (this.useApiKey === false) {
+            this.loadSkillsFromDirectory();
+        }
+        else {
+            // TODO: call method to get skills from api, (need to make method first...)
+        }
+    }
+
+    async loadSkillsFromDirectory(){
+        // define glob pattern to get skill json files
+        const fileNamePattern = `${this.skillsDir}/*.json`;
+        // get all json file paths in expected directory
+        const skillFiles = await glob(fileNamePattern);
+        // iterate over each file found
+        for (let i = 0; i < skillFiles.length; i++) {
+            let fileName = skillFiles[i];
+            // read file contents and push to this.skills attr
+            let contents = fs.readFileSync(fileName, 'utf8');
+            this.skills.push(JSON.parse(contents)); // TODO: check if this storing properly but feels better than string...
+        }
+        console.log(this.skills);
     }
 
     help() {
@@ -197,5 +223,7 @@ class StaticCheckRunner {
 // TODO: look into feasibilty to connect direct with API key etc. 
 
 module.exports = {
-    StaticCheckRunner
+    CheckRunner
 }
+
+const checkRunnerTest = new CheckRunner();

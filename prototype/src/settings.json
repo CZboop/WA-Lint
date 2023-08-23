@@ -63,5 +63,11 @@
     },
     "noSingleEquals" : {
         "active" : true
+    },
+    "noSpecialCharsInTraining" : {
+        "active" : true
+    },
+    "validTree" : {
+        "active" : true
     }
 }

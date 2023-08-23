@@ -20,5 +20,8 @@
   "homepage": "https://github.com/CZboop/Static-Test-Prototype#readme",
   "devDependencies": {
     "jest": "^29.3.1"
+  },
+  "dependencies": {
+    "glob": "^10.3.3"
   }
 }
