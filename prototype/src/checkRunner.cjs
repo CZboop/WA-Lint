@@ -9,17 +9,20 @@ const { Helper } = require('./helperFuncs.cjs');
 const { KeyValReverseCheck } = require('./keyValReverseCheck.cjs');
 const {glob} = require("glob");
 const fs = require("fs");
+const settings = require('./settings.json');
 
 // // // TEST SUITE CLASS TO RUN ON ALL TESTS ON THE GIVEN SKILL OR SKILLS // // //
 // // SHOULD ALSO LOG WHERE THE ISSUES ARE // // 
 
 class CheckRunner {
-    constructor(intentVar = null, intentMapping = null, intentMappingReverse = null, advancedMode = false, useApiKey = false, apiKey = null, skillsDir = '../skills') {
+    constructor(intentVar = null, intentMapping = null, intentMappingReverse = null, advancedMode = false, useApiKey = false, apiKey = null, skillsDir = '../skills', createReport = true) {
+        this.settings = settings;
         this.intentVar = intentVar; // optional variable name used to store the intent
         this.intentMapping = intentMapping; // optional variable name used to store mappings of intent name: description for user
         this.intentMappingReverse = intentMappingReverse; // optional variable name used to store mappings of intent description: intent name
         this.advancedMode = advancedMode;
         this.skills = [];
+        this.checksToRun = [];
         this.skillsDir = skillsDir;
         this.apiKey = apiKey;
         this.useApiKey = useApiKey;
@@ -28,10 +31,32 @@ class CheckRunner {
         }
         else {
             // TODO: call method to get skills from api, (need to make method first...)
+            this.loadSkillsFromAPI();
         }
+        this.reportDetails = []; // TODO: if createReport set to true, update this each time a check run, then use info to create a file with info
+        this.readSettings();
     }
 
-    async loadSkillsFromDirectory(){
+    readSettings() {
+        // load which checks to run
+        // iterate over each top level key in settings object, check active key value inside it...
+        for (const [key, value] of Object.entries(this.settings)) {
+            if (value.active === true) {
+                let checkObj = {"checkName" : key};
+                // load settings for checks that take them if they will be run
+                if (Object.entries(value).length > 1) {
+                    // save each key other than the active bool
+                    for (const [subkey, subvalue] of Object.entries(this.settings)) {
+                        checkObj[subkey] = subvalue;
+                    }   
+                }
+                this.checksToRun.push(checkObj);
+            }
+        }
+        return this.checksToRun;
+    }
+
+    async loadSkillsFromDirectory() {
         // define glob pattern to get skill json files
         const fileNamePattern = `${this.skillsDir}/*.json`;
         // get all json file paths in expected directory
@@ -43,15 +68,15 @@ class CheckRunner {
             let contents = fs.readFileSync(fileName, 'utf8');
             this.skills.push(JSON.parse(contents)); // TODO: check if this storing properly but feels better than string...
         }
-        console.log(this.skills);
+        return this.skills;
+    }
+
+    loadSkillsFromAPI(){
+        // TODO:... //
     }
 
     help() {
-        // TODO: add instructions and list of what this can do
-    }
-
-    runSomeChecks(toRun = ['some array of different check that can be run']) {
-        // TODO: actually change this to have a settings file and based on what in there the main run all function can run some things?
+        // TODO: add instructions and list of what this can do?
     }
 
     createReport(){
@@ -73,14 +98,15 @@ class CheckRunner {
         // rather than just checking if all match, adding to array
         // so will check if all match in each of potentially multiple mappings
         let intentMappingsMatchArray = [];
+        console.log(this.intentMapping);
         for (let mappingVar of intentMappings) {
             // boolean logic should return true only if all match else false
             let currentMappingMatches = new KeyValReverseCheck(mappingVar, reverseMapping).check().allMatch; // getting just boolean part of return
             intentMappingsMatchArray.push(currentMappingMatches);
         }
         // TODO: get and give node id of where the mappings are coming from
-        if (intentMappingsMatchArray.length == 0){
-        console.log("\x1b[31m%s\x1b[0m", `${this.skillName}: No intent mappings found called ${this.intentMapping}`)
+        if (!intentMappingsMatchArray){
+            console.log("\x1b[31m%s\x1b[0m", `${this.skillName}: No intent mappings found called ${this.intentMapping}`)
         }
         // TODO: add error throwing/logging for if reverse not found
         // TODO: add error throwing if these properties were not passed in original constructor
@@ -177,7 +203,7 @@ class CheckRunner {
         return skill.hasOwnProperty('name') ? skill['name'] : 'Anonymous skill';
     }
 
-    runAllChecks() {
+    run() {
         let resultsMap = [];
         for (let [index, skill] of this.skills.entries()){
             // this will be updating as iterate through skills so can change but easy access in the other methods
@@ -205,8 +231,6 @@ class CheckRunner {
             // logging in colour depending on whether tests failed or passed (blanket fail if failed anywhere for that skill)
             
             // currently the two below are yellow if failed, others red as bigger issues
-            
-
             resultsMap[this.skillName]["all_sequential_where_one_response"] == true ?
             console.log("\x1b[32m%s\x1b[0m", `${this.skillName}: All nodes with one response are sequential`) :
             console.log("\x1b[33m%s\x1b[0m", `${this.skillName}: Not all nodes with one response are sequential`);
@@ -221,6 +245,21 @@ class CheckRunner {
 
 // TODO: write report of test results
 // TODO: look into feasibilty to connect direct with API key etc. 
+
+// METHODS/CHECKS TO ADD:
+// - all entities used
+// - all nodes have titles
+// - var syntax
+// - no disabled responses
+// - no single equals
+// - no special chars/encoding errors
+// - valid tree
+
+// METHODS/CHECKS ADDED
+// - all intents used
+// - all sequential
+// - all multiline
+// - mappings reverse
 
 module.exports = {
     CheckRunner

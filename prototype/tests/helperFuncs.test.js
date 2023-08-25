@@ -1,5 +1,5 @@
 const {Helper} = require('../src/helperFuncs.cjs');
-const sampleSkill = require('../dataToTest/data.json');
+const sampleSkill = require('../skills/data.json');
 
 // // // TESTING FUNCTION FOR GETTING BOOLEAN ARRAY EQUALITY // // //
 
